@@ -1,5 +1,4 @@
-# Matthew Sparkman
-### 2025
+# Matthew Sparkman 2025
 
 
 # Helios Docs
