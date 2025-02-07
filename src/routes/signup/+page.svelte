@@ -7,47 +7,25 @@
     signInWithPopup,
     updateProfile,
   } from "firebase/auth";
-  import { auth } from "$lib/FirebaseConfig";
+  import { doc, setDoc } from "firebase/firestore";
+  import { auth, db } from "$lib/FirebaseConfig";
   import { handleFirebaseAuthError } from "$lib/firebaseAuthErrors";
   import toast from "svelte-french-toast";
+  import { handleGoogleSignIn } from "$lib/googleAuth";
 
-  let username = "";
+  let firstName = "";
+  let lastName = "";
   let email = "";
   let password = "";
 
-  const handleGoogleSignIn = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({
-        prompt: "select_account",
-      });
-
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      if (user) {
-        toast.success("Your Account Has Been Created.", {
-          duration: 5000,
-          style:
-            "border-radius: 40px; padding: 16px; color: #37b84d; background-color: #37b84d; color: #f1f1f1; font-weight: 600",
-          iconTheme: {
-            primary: "#f1f1f1",
-            secondary: "#37b84d",
-          },
-        });
-      }
-    } catch (error) {
-      console.error(error);
-      if (
-        error.code === "auth/popup-closed-by-user" ||
-        error.code === "auth/cancelled-popup-request"
-      ) {
-        console.log("popup closed");
-      } else {
-        handleFirebaseAuthError(error);
-      }
-    }
-  };
+  function generateInitialsAvatar(name) {
+    const initials = name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase();
+    return `https://ui-avatars.com/api/?name=${initials}&background=random&color=101010&size=100`;
+  }
 
   const signUp = async () => {
     try {
@@ -56,20 +34,59 @@
         email,
         password
       );
+      const user = userCredential.user;
 
-      await updateProfile(userCredential.user, { displayName: username });
+      const fullName = `${firstName} ${lastName}`;
+      const profilePicture = generateInitialsAvatar(fullName);
+
+      await updateProfile(user, {
+        displayName: fullName,
+        photoURL: profilePicture,
+      });
+
+      await user.reload();
+
+      try {
+        await setDoc(
+          doc(db, "users", user.uid),
+          {
+            uid: user.uid,
+            name: fullName,
+            email: user.email,
+            photoURL: profilePicture,
+            createdAt: new Date().toISOString(),
+            lastUpdated: new Date().toISOString(),
+          },
+          { merge: true }
+        );
+      } catch (firestoreError) {
+        console.error("Firestore write failed:", firestoreError);
+        toast.error(
+          "Account created but profile sync failed. Please try again later.",
+          {
+            duration: 7500,
+            style:
+              "border-radius: 40px; padding: 16px; color: #c61a34; background-color: #c61a34; color: #f1f1f1; font-weight: 600; font-size: 14px",
+            iconTheme: {
+              primary: "#F1f1f1",
+              secondary: "#c61a34",
+            },
+          }
+        );
+        return;
+      }
 
       toast.success("Your Account Has Been Created.", {
         duration: 5000,
         style:
-          "border-radius: 40px; padding: 16px; color: #37b84d; background-color: #37b84d; color: #f1f1f1; font-weight: 600",
+          "border-radius: 40px; padding: 16px; color: #37b84d;background-color: #37b84d; color: #f1f1f1; font-weight: 600",
         iconTheme: {
           primary: "#f1f1f1",
           secondary: "#37b84d",
         },
       });
     } catch (error) {
-      console.error(error);
+      console.error("Sign up failed:", error);
       handleFirebaseAuthError(error);
     }
   };
@@ -88,7 +105,11 @@
     <h1><span>Sign Up</span></h1>
     <div class="user-login-input">
       <i class="fa-solid fa-user-tie"></i>
-      <input type="text" bind:value={username} placeholder="Username" />
+      <input type="text" bind:value={firstName} placeholder="First Name" />
+    </div>
+    <div class="user-login-input">
+      <i class="fa-solid fa-user-tie"></i>
+      <input type="text" bind:value={lastName} placeholder="Last Name" />
     </div>
     <div class="user-login-input">
       <i class="fa-solid fa-envelope"></i>

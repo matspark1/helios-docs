@@ -8,8 +8,11 @@
   });
 </script>
 
-{#if currentUser}
-  <h1>Welcome, {currentUser.displayName}!</h1>
-{:else}
-  <h1>Loading...</h1>
-{/if}
+<div class="app-container">
+  <Header />
+  {#if currentUser}
+    <h1 style="display: none">Welcome, {currentUser.displayName}!</h1>
+  {:else}
+    <h1>Loading...</h1>
+  {/if}
+</div>

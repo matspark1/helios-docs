@@ -9,43 +9,10 @@
   import { auth } from "$lib/FirebaseConfig";
   import { handleFirebaseAuthError } from "$lib/firebaseAuthErrors";
   import toast from "svelte-french-toast";
+  import { handleGoogleSignIn } from "$lib/googleAuth";
 
   let email = "";
   let password = "";
-
-  const handleGoogleSignIn = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({
-        prompt: "select_account",
-      });
-
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      if (user) {
-        toast.success("Successfully Signed In!", {
-          duration: 5000,
-          style:
-            "border-radius: 40px; padding: 16px; color: #37b84d; background-color: #37b84d; color: #f1f1f1; font-weight: 600",
-          iconTheme: {
-            primary: "#f1f1f1",
-            secondary: "#37b84d",
-          },
-        });
-      }
-    } catch (error) {
-      console.error(error);
-      if (
-        error.code == "auth/popup-closed-by-user" ||
-        "auth/cancelled-popup-request"
-      ) {
-        console.log("popup closed");
-      } else {
-        handleFirebaseAuthError(error);
-      }
-    }
-  };
 
   const signIn = async () => {
     try {

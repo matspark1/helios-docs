@@ -13,6 +13,17 @@ export function handleFirebaseAuthError(error) {
         },
       });
       break;
+    case "auth/email-already-in-use":
+      toast.error("The email address is already in use by another account.", {
+        duration: 7500,
+        style:
+          "border-radius: 40px; padding: 16px; color: #c61a34; background-color: #c61a34; color: #f1f1f1; font-weight: 600; font-size: 14px",
+        iconTheme: {
+          primary: "#F1f1f1",
+          secondary: "#c61a34",
+        },
+      });
+      break;
     case "auth/invalid-email":
       toast.error(
         "The email address is not valid. Please enter a correct email format.",
