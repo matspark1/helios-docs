@@ -38,6 +38,19 @@ h6 {
   width: 100%;
 }
 
+.wrapper {
+  margin-left: 90px;
+  margin-top: 0;
+  width: calc(100vw - 90px);
+}
+@media screen and (max-width: 900px) {
+  .wrapper {
+    margin-left: 0px;
+    margin-top: 70px;
+    width: 100vw;
+  }
+}
+
 a {
   font-family: $readex;
 }

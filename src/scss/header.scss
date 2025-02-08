@@ -1,3 +1,8 @@
+nav {
+  position: fixed;
+  height: 100vh;
+}
+
 .desktop-nav {
   display: flex;
   align-items: left;
@@ -5,15 +10,15 @@
   height: 100%;
   width: 80px;
   flex-direction: column;
-  background-color: $primary;
+  background-color: $light-black;
 }
 
 .navlogo {
   text-decoration: none;
   margin: 16px auto 0px auto;
   svg {
-    height: 50px;
-    width: 50px;
+    height: 46px;
+    width: 46px;
     margin-bottom: 10px;
   }
 }
@@ -90,6 +95,7 @@
         font-size: 34px;
       }
     }
+
     .groups {
       svg {
         height: 32px;
@@ -206,7 +212,7 @@ a[data-tooltip][data-position="right"]:after {
 }
 
 .mobile-menu {
-  background-color: $primary;
+  background-color: $light-black;
   height: 100%;
   width: 280px;
   padding: 60px 0 40px 0;
@@ -235,19 +241,28 @@ a[data-tooltip][data-position="right"]:after {
         text-align: center;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: left;
         width: 100%;
         font-weight: $reg;
         font-size: 18px;
         letter-spacing: 1px;
+        margin-left: 68px;
         i {
-          font-size: 34px;
+          font-size: 28px;
           margin-right: 12px;
+        }
+      }
+      .mb-home {
+        svg {
+          height: 40px;
+          margin-bottom: 4px;
+          margin-right: 4px;
+          margin-left: -7px;
         }
       }
       .groups {
         svg {
-          height: 32px;
+          height: 28px;
           margin-right: 12px;
         }
       }
@@ -344,7 +359,7 @@ a[data-tooltip][data-position="right"]:after {
   background-color: $white;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 900px) {
   .desktop-nav {
     display: none;
   }

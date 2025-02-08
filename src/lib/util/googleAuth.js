@@ -4,7 +4,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { auth, db } from "./FirebaseConfig";
+import { auth, db } from "../FirebaseConfig";
 import toast from "svelte-french-toast";
 
 export const handleGoogleSignIn = async () => {

@@ -7,9 +7,9 @@
     signInWithPopup,
   } from "firebase/auth";
   import { auth } from "$lib/FirebaseConfig";
-  import { handleFirebaseAuthError } from "$lib/firebaseAuthErrors";
+  import { handleFirebaseAuthError } from "$lib/util/firebaseAuthErrors";
   import toast from "svelte-french-toast";
-  import { handleGoogleSignIn } from "$lib/googleAuth";
+  import { handleGoogleSignIn } from "$lib/util/googleAuth";
 
   let email = "";
   let password = "";

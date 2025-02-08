@@ -9,9 +9,9 @@
   } from "firebase/auth";
   import { doc, setDoc } from "firebase/firestore";
   import { auth, db } from "$lib/FirebaseConfig";
-  import { handleFirebaseAuthError } from "$lib/firebaseAuthErrors";
+  import { handleFirebaseAuthError } from "$lib/util/firebaseAuthErrors";
   import toast from "svelte-french-toast";
-  import { handleGoogleSignIn } from "$lib/googleAuth";
+  import { handleGoogleSignIn } from "$lib/util/googleAuth";
 
   let firstName = "";
   let lastName = "";

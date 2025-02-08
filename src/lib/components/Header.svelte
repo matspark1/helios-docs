@@ -1,10 +1,9 @@
 <script>
   import logo from "$lib/images/helios.png";
   import pfp from "$lib/images/pfp.png";
-  import { user } from "../stores/authStore";
+  import { user } from "../../stores/authStore";
   import { auth } from "$lib/FirebaseConfig";
-  import { doc, setDoc, getDoc } from "firebase/firestore";
-  import { getFirestore } from "firebase/firestore";
+  import { doc, setDoc, getDoc, getFirestore } from "firebase/firestore";
   import { onMount } from "svelte";
   let currentUser;
   let profilePic = pfp;
@@ -125,7 +124,7 @@
       href="/profile"
       class="nav-profile-picture"
       aria-label="profilebtn"
-      data-tooltip={currentUser.displayName}
+      data-tooltip={currentUser ? currentUser.displayName : "Profile"}
       data-position="right"
     >
       <img src={profilePic} alt="pfp" />
@@ -141,10 +140,37 @@
     <div class="mobile-menu">
       <div class="mobile-nav-links">
         <div class="link-wrap">
+          <a href="/home" aria-label="Home" class="mb-home">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0" />
+
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M9 20H7C5.89543 20 5 19.1046 5 18V10.9199C5 10.336 5.25513 9.78132 5.69842 9.40136L10.6984 5.11564C11.4474 4.47366 12.5526 4.47366 13.3016 5.11564L18.3016 9.40136C18.7449 9.78132 19 10.336 19 10.9199V18C19 19.1046 18.1046 20 17 20H15M9 20V14C9 13.4477 9.44772 13 10 13H14C14.5523 13 15 13.4477 15 14V20M9 20H15"
+                  stroke="#f1f1f1"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+            </svg>Home
+          </a>
+        </div>
+        <div class="link-wrap">
           <a href="/" aria-label="Docs"
             ><i class="fa-regular fa-file"></i>Documents</a
           >
         </div>
+
         <div class="link-wrap">
           <a href="/" aria-label="Groups" class="groups">
             <svg
