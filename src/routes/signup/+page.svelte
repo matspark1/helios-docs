@@ -24,7 +24,7 @@
       .map((part) => part[0])
       .join("")
       .toUpperCase();
-    return `https://ui-avatars.com/api/?name=${initials}&background=random&color=101010&size=100`;
+    return `https://ui-avatars.com/api/?name=${initials}&background=random&color=101010&size=300`;
   }
 
   const signUp = async () => {

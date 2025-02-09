@@ -1,11 +1,9 @@
 <script>
   import { onMount } from "svelte";
-  import { auth } from "$lib/FirebaseConfig";
   let canvas;
   let typedElement;
   let mouse = null;
 
-  // typing effect strings
   const strings = [
     "Your Team. Your Documents. One Platform. ",
     "Chat, Share, and Get Things Done. ",
@@ -15,26 +13,18 @@
   let currentStringIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
-  let typingSpeed = 80;
-  let backSpeed = 34;
-  let backDelay = 3000;
-  let loop = true;
-  let cursorChar = "";
+  const typingSpeed = 80;
+  const backSpeed = 34;
+  const backDelay = 3000;
+  const cursorChar = "";
 
   function typeEffect() {
     if (!typedElement) return;
 
-    let currentString = strings[currentStringIndex];
-    if (isDeleting) {
-      typedElement.innerHTML =
-        currentString.substring(0, charIndex) + cursorChar;
-      charIndex--;
-    } else {
-      typedElement.innerHTML =
-        currentString.substring(0, charIndex) + cursorChar;
-      charIndex++;
-    }
+    const currentString = strings[currentStringIndex];
+    typedElement.innerHTML = currentString.substring(0, charIndex) + cursorChar;
 
+    charIndex += isDeleting ? -1 : 1;
     let timeout = isDeleting ? backSpeed : typingSpeed;
 
     if (!isDeleting && charIndex === currentString.length) {
@@ -50,18 +40,15 @@
 
   onMount(() => {
     let canvasColor = "";
-
     const savedTheme = localStorage.getItem("user-theme") || "system";
 
     const applySystemTheme = () => {
       const prefersDark = window.matchMedia(
         "(prefers-color-scheme: dark)"
       ).matches;
-      if (prefersDark) {
-        canvasColor = "rgba(255, 255, 255, 0.16)";
-      } else {
-        canvasColor = "rgba(0, 0, 0, 0.16)";
-      }
+      canvasColor = prefersDark
+        ? "rgba(255, 255, 255, 0.16)"
+        : "rgba(0, 0, 0, 0.16)";
     };
 
     const applySavedTheme = () => {
@@ -69,7 +56,7 @@
         canvasColor = "rgba(255, 255, 255, 0.16)";
       } else if (savedTheme === "light") {
         canvasColor = "rgba(0, 0, 0, 0.16)";
-      } else if (savedTheme === "system") {
+      } else {
         applySystemTheme();
       }
     };
@@ -77,16 +64,14 @@
     applySavedTheme();
 
     const ctx = canvas.getContext("2d");
-
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    // grid config
-    let grid = [];
     const gridSpacing = 50;
-    let cols, rows;
     const warpRadius = 500;
     const warpAmplitude = 12;
+    let grid = [];
+    let cols, rows;
 
     function initGrid() {
       grid = [];
@@ -95,8 +80,8 @@
       for (let i = 0; i < cols; i++) {
         grid[i] = [];
         for (let j = 0; j < rows; j++) {
-          let x = (i - 1) * gridSpacing;
-          let y = (j - 1) * gridSpacing;
+          const x = (i - 1) * gridSpacing;
+          const y = (j - 1) * gridSpacing;
           grid[i][j] = { origX: x, origY: y, x, y };
         }
       }
@@ -120,15 +105,15 @@
       const scaleX = canvas.width / canvas.clientWidth;
       const scaleY = canvas.height / canvas.clientHeight;
 
-      for (let i = 0; i < cols; i++) {
-        for (let j = 0; j < rows; j++) {
-          const pt = grid[i][j];
+      grid.forEach((col) => {
+        col.forEach((pt) => {
           if (mouse) {
             const adjustedMouseX = mouse.x * scaleX;
             const adjustedMouseY = mouse.y * scaleY;
             const dx = adjustedMouseX - pt.origX;
             const dy = adjustedMouseY - pt.origY;
             const dist = Math.hypot(dx, dy);
+
             if (dist < warpRadius) {
               const warp = (1 - dist / warpRadius) * warpAmplitude;
               const angle = Math.atan2(dy, dx);
@@ -142,34 +127,25 @@
             pt.x = pt.origX;
             pt.y = pt.origY;
           }
-        }
-      }
+        });
+      });
 
       ctx.strokeStyle = canvasColor;
       ctx.lineWidth = 1;
 
-      for (let j = 0; j < rows; j++) {
+      grid.forEach((col, i) => {
         ctx.beginPath();
-        for (let i = 0; i < cols; i++) {
-          const pt = grid[i][j];
-          if (i === 0) {
-            ctx.moveTo(pt.x, pt.y);
-          } else {
-            ctx.lineTo(pt.x, pt.y);
-          }
-        }
+        col.forEach((pt, j) => {
+          j === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y);
+        });
         ctx.stroke();
-      }
+      });
 
-      for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < grid[0].length; j++) {
         ctx.beginPath();
-        for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < grid.length; i++) {
           const pt = grid[i][j];
-          if (j === 0) {
-            ctx.moveTo(pt.x, pt.y);
-          } else {
-            ctx.lineTo(pt.x, pt.y);
-          }
+          i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y);
         }
         ctx.stroke();
       }
@@ -199,6 +175,5 @@
       <a href="/signin">Get Started <i class="fa-solid fa-arrow-right"></i></a>
     </div>
   </div>
-
   <canvas class="startpage-background" bind:this={canvas}></canvas>
 </div>

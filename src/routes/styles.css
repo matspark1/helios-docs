@@ -15,6 +15,10 @@
   --red-font: #e32a45;
   --icon-color: #f1f1f1;
   --black-rgb: 241, 241, 241;
+  --black-rgb2: 0, 0, 0;
+  --bg-color: #212020;
+  --hover: #333333;
+  --green: #25813d;
 }
 
 .light-theme {
@@ -33,6 +37,10 @@
   --red-font: #c61a34;
   --icon-color: #1b1b1b;
   --black-rgb: 44, 42, 42;
+  --black-rgb2: 0, 0, 0;
+  --bg-color: #ebebeb;
+  --hover: #d6d6d6;
+  --green: #27af4b;
 }
 
 * {
@@ -48,6 +56,7 @@ body {
   background-color: var(--white);
   font-family: "Readex Pro", sans-serif;
   color: var(--black);
+  overflow-x: hidden;
 }
 
 p {
@@ -81,7 +90,7 @@ h6 {
   margin-left: 48px;
   margin-top: 0;
   width: calc(100vw - 48px);
-  padding: 10px;
+  padding: 12px 10px;
   background-color: var(--light-black);
 }
 
@@ -624,7 +633,7 @@ a[data-tooltip][data-position=right]:after {
 }
 
 .mobile-nav.open {
-  animation: slide-right 0.15s ease-in-out;
+  animation: slide-right 0.2s ease-in-out;
   transform: translate(0, 0);
 }
 
@@ -788,7 +797,7 @@ a[data-tooltip][data-position=right]:after {
   font-family: "Readex Pro", sans-serif;
   font-weight: 300;
   border-radius: 40px;
-  background-color: var(--btn-white);
+  background-color: var(--bg-color);
   box-shadow: inset 0 0 var(--light-black);
   transition: all 0.3s ease-out;
   margin-top: 30px;
@@ -811,45 +820,248 @@ a[data-tooltip][data-position=right]:after {
   color: var(--btn-white-white);
 }
 
+.pf-editbtn {
+  border: 1px solid var(--btn-black);
+  padding: 14px;
+  width: 200px;
+  font-family: "Readex Pro", sans-serif;
+  font-weight: 300;
+  border-radius: 40px;
+  background-color: var(--bg-color);
+  box-shadow: inset 0 0 var(--light-black);
+  transition: all 0.3s ease-out;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--black);
+}
+.pf-editbtn i {
+  margin: 2px 18px 0 0;
+}
+.pf-editbtn p {
+  margin: 0;
+  margin-right: 18px;
+}
+.pf-editbtn:hover {
+  box-shadow: inset 30em 0 var(--green);
+  border: 1px solid var(--green);
+  cursor: pointer;
+  color: var(--btn-white-white);
+}
+
+.pf-savebtn {
+  border: 1px solid var(--btn-black);
+  padding: 14px;
+  width: 200px;
+  font-family: "Readex Pro", sans-serif;
+  font-weight: 300;
+  border-radius: 40px;
+  background-color: var(--bg-color);
+  box-shadow: inset 0 0 var(--light-black);
+  transition: all 0.3s ease-out;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--black);
+}
+.pf-savebtn i {
+  margin: 2px 18px 0 -10px;
+}
+.pf-savebtn p {
+  margin: 0;
+  margin-right: 18px;
+  margin-left: -10px;
+}
+.pf-savebtn:hover {
+  box-shadow: inset 30em 0 var(--green);
+  border: 1px solid var(--green);
+  cursor: pointer;
+  color: var(--btn-white-white);
+}
+
+.pf-cancelbtn {
+  border: 1px solid var(--btn-black);
+  padding: 14px;
+  width: 200px;
+  font-family: "Readex Pro", sans-serif;
+  font-weight: 300;
+  border-radius: 40px;
+  background-color: var(--bg-color);
+  box-shadow: inset 0 0 var(--light-black);
+  transition: all 0.3s ease-out;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--black);
+}
+.pf-cancelbtn i {
+  margin: 2px 18px 0 -10px;
+}
+.pf-cancelbtn p {
+  margin: 0;
+  margin-right: 18px;
+  margin-left: -10px;
+}
+.pf-cancelbtn:hover {
+  box-shadow: inset 30em 0 var(--primary-btn);
+  border: 1px solid var(--primary-btn);
+  cursor: pointer;
+  color: var(--btn-white-white);
+}
+
 .profile-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  height: 750px;
+  width: 500px;
+  background-color: var(--bg-color);
+  border-radius: 40px;
+  position: relative;
+  z-index: 5;
+  margin-right: 18px;
+}
+.profile-wrapper .fa-xmark {
+  position: absolute;
+  right: 20px;
+  top: 18px;
+  font-size: 20px;
+  color: var(--black);
+  padding: 10px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: ease 0.3s;
+}
+.profile-wrapper .fa-xmark:hover {
+  background-color: var(--hover);
+}
+
+.pf-close {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(var(--black-rgb2), 0.2);
+  backdrop-filter: blur(2px);
+  position: absolute;
+  left: 0;
+  z-index: 1;
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100%;
+  width: 100%;
+  margin-left: -50px;
+  position: absolute;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-top: 1px solid rgba(var(--black-rgb), 0.1);
+  border-bottom: none;
+}
+.profile-info p {
+  margin: 0;
+}
+.profile-info:last-child {
+  border-bottom: 1px solid rgba(var(--black-rgb), 0.1);
+}
+.profile-info input {
+  background-color: var(--bg-color);
+  font-family: "Readex Pro", sans-serif;
+  padding: 7px;
+  border: 1px solid var(--black);
+  border-radius: 40px;
+  width: 200px;
+  color: var(--black);
+}
+.profile-info input:focus {
+  outline: none;
+  border: 1px solid var(--black);
+  box-shadow: none;
+  background-color: var(--start-page-bg);
+}
+.profile-info .pf-color {
+  width: 26px;
+  height: 26px;
+  margin-right: 6px;
+  padding: 0;
+  border: none;
+}
+.profile-info .pf-color:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+  background-color: none;
 }
 
 .profile-user-info {
   display: flex;
-  align-items: center;
+  align-items: left;
   justify-content: center;
   flex-direction: column;
+  width: 100%;
 }
 .profile-user-info .profile-pfp {
   border-radius: 150px;
-  height: 170px;
-  width: 170px;
-  margin-bottom: 60px;
+  height: 130px;
+  width: 130px;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  border: 2px solid var(--black);
 }
 
 .theme {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid rgba(var(--black-rgb), 0.1);
+  width: 100%;
 }
 .theme p {
   margin: 0;
-  margin-right: 20px;
-  font-weight: 600;
 }
 .theme select {
-  background-color: var(--white);
+  background-color: var(--bg-color);
   color: var(--black);
   font-family: "Readex Pro", sans-serif;
-  padding: 10px;
-  border: 1px solid var(--black);
+  padding: 10px 0px 10px 10px;
   border-radius: 10px;
   font-size: 14px;
+  border: none;
+}
+.theme select:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+.theme select:hover {
+  background-color: var(--light-black);
+}
+
+@media screen and (max-width: 900px) {
+  .profile-container {
+    margin-left: 0;
+  }
+  .profile-wrapper {
+    width: 345px;
+    margin: 0;
+  }
+  .profile-wrapper .profile-user-info .profile-info p {
+    font-size: 14px;
+  }
+  .profile-wrapper .theme {
+    display: none;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */

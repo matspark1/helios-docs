@@ -5,15 +5,6 @@ $med: 500;
 $semib: 600;
 $bold: 700;
 
-// $primary: #c61a34;
-// $white: #f1f1f1;
-// $black: #101010;
-// $light-black: #1f1f1f;
-// $grey: #b0b0b0;
-// $dark-grey: #a7a7a7;
-// $startpage-btn: #cb1a35;
-// $primary-btn: #da1c39;
-
 @mixin theme-variables($theme) {
   --primary: map-get($theme, primary);
   --white: map-get($theme, white);
@@ -41,6 +32,10 @@ $bold: 700;
   --red-font: #e32a45;
   --icon-color: #f1f1f1;
   --black-rgb: 241, 241, 241;
+  --black-rgb2: 0, 0, 0;
+  --bg-color: #212020;
+  --hover: #333333;
+  --green: #25813d;
 }
 
 .light-theme {
@@ -59,4 +54,8 @@ $bold: 700;
   --red-font: #c61a34;
   --icon-color: #1b1b1b;
   --black-rgb: 44, 42, 42;
+  --black-rgb2: 0, 0, 0;
+  --bg-color: #ebebeb;
+  --hover: #d6d6d6;
+  --green: #27af4b;
 }

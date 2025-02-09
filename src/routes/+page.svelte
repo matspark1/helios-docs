@@ -24,3 +24,12 @@
     });
   });
 </script>
+
+<svelte:head>
+  <title>Helios Docs</title>
+  <meta
+    name="description"
+    content="Helios Docs: Online Document Editor and Collaboration Tool for Teams."
+  />
+  <meta property="og:type" content="website" />
+</svelte:head>
