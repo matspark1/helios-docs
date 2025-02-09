@@ -5,11 +5,58 @@ $med: 500;
 $semib: 600;
 $bold: 700;
 
-$primary: #c61a34;
-$white: #f1f1f1;
-$black: #101010;
-$light-black: #1f1f1f;
-$grey: #b0b0b0;
-$dark-grey: #a7a7a7;
-$startpage-btn: #cb1a35;
-$primary-btn: #da1c39;
+// $primary: #c61a34;
+// $white: #f1f1f1;
+// $black: #101010;
+// $light-black: #1f1f1f;
+// $grey: #b0b0b0;
+// $dark-grey: #a7a7a7;
+// $startpage-btn: #cb1a35;
+// $primary-btn: #da1c39;
+
+@mixin theme-variables($theme) {
+  --primary: map-get($theme, primary);
+  --white: map-get($theme, white);
+  --black: map-get($theme, black);
+  --light-black: map-get($theme, light-black);
+  --grey: map-get($theme, grey);
+  --dark-grey: map-get($theme, dark-grey);
+  --startpage-btn: map-get($theme, startpage-btn);
+  --primary-btn: map-get($theme, primary-btn);
+}
+
+.dark-theme {
+  --primary: #c61a34;
+  --white: #2b2a2a;
+  --black: #f1f1f1;
+  --light-black: #242222;
+  --grey: #b0b0b0;
+  --dark-grey: #a7a7a7;
+  --startpage-btn: #cb1a35;
+  --primary-btn: #da1c39;
+  --btn-white: #2c2a2b;
+  --btn-black: #f1f1f1;
+  --btn-white-white: #f1f1f1;
+  --start-page-bg: #222222;
+  --red-font: #e32a45;
+  --icon-color: #f1f1f1;
+  --black-rgb: 241, 241, 241;
+}
+
+.light-theme {
+  --primary: #da1c39;
+  --white: #f1f1f1;
+  --black: #2c2a2a;
+  --light-black: #d6d6d6;
+  --grey: #808080;
+  --dark-grey: #606060;
+  --startpage-btn: #cb1a35;
+  --primary-btn: #da1c39;
+  --btn-white: #f1f1f1;
+  --btn-black: #2c2a2a;
+  --btn-white-white: #f1f1f1;
+  --start-page-bg: #f1f1f1;
+  --red-font: #c61a34;
+  --icon-color: #1b1b1b;
+  --black-rgb: 44, 42, 42;
+}

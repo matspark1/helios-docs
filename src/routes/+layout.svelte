@@ -1,6 +1,5 @@
 <script>
   import { onMount } from "svelte";
-  import Header from "../lib/components/Header.svelte";
   import "./styles.css";
   import toast, { Toaster } from "svelte-french-toast";
   import { user } from "../stores/authStore";
@@ -10,6 +9,7 @@
   import { firebaseConfig, auth } from "$lib/FirebaseConfig";
   import { page } from "$app/stores";
   import { get } from "svelte/store";
+  import { doc } from "firebase/firestore";
 
   let currentUser;
   let profilePic;
@@ -19,6 +19,41 @@
   });
 
   onMount(() => {
+    const signInTheme = document.querySelector(".login");
+    const savedTheme = localStorage.getItem("user-theme") || "system";
+
+    const applySystemTheme = () => {
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      if (prefersDark) {
+        document.body.classList.add("dark-theme");
+        document.body.classList.remove("light-theme");
+      } else {
+        document.body.classList.add("light-theme");
+        document.body.classList.remove("dark-theme");
+      }
+    };
+
+    const applySavedTheme = () => {
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark-theme");
+        document.body.classList.remove("light-theme");
+      } else if (savedTheme === "light") {
+        document.body.classList.add("light-theme");
+        document.body.classList.remove("dark-theme");
+      } else if (savedTheme === "system") {
+        applySystemTheme();
+      }
+    };
+
+    applySavedTheme();
+
+    if (savedTheme === "system") {
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", applySystemTheme);
+    }
     onAuthStateChanged(auth, (firebaseUser) => {
       const currentPath = get(page).url.pathname;
 
@@ -45,7 +80,7 @@
   });
 </script>
 
-<div class="site-wrapper">
+<div class="site-wrapper" style="background-color: #101010;">
   <Toaster />
   <div class="app">
     <slot />

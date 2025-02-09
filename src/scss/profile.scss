@@ -1,17 +1,18 @@
 .signoutbtn {
-  border: 1px solid $black;
+  border: 1px solid var(--btn-black);
   padding: 14px;
   width: 200px;
   font-family: $readex;
   font-weight: $reg;
   border-radius: 40px;
-  background-color: $white;
-  box-shadow: inset 0 0 $light-black;
+  background-color: var(--btn-white);
+  box-shadow: inset 0 0 var(--light-black);
   transition: all 0.3s ease-out;
   margin-top: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--black);
   i {
     margin: 2px 18px 0 0;
   }
@@ -20,10 +21,10 @@
     margin-right: 18px;
   }
   &:hover {
-    box-shadow: inset 30em 0 $primary-btn;
-    border: 1px solid $primary-btn;
+    box-shadow: inset 30em 0 var(--primary-btn);
+    border: 1px solid var(--primary-btn);
     cursor: pointer;
-    color: $white;
+    color: var(--btn-white-white);
   }
 }
 
@@ -45,5 +46,25 @@
     height: 170px;
     width: 170px;
     margin-bottom: 60px;
+  }
+}
+
+.theme {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  p {
+    margin: 0;
+    margin-right: 20px;
+    font-weight: $semib;
+  }
+  select {
+    background-color: var(--white);
+    color: var(--black);
+    font-family: $readex;
+    padding: 10px;
+    border: 1px solid var(--black);
+    border-radius: 10px;
+    font-size: 14px;
   }
 }

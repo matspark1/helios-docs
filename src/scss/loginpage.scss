@@ -4,6 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--start-page-bg);
 }
 
 .login {
@@ -11,49 +12,74 @@
   justify-content: center;
   flex-direction: column;
   h1 {
-    color: $white;
+    color: var(--white);
     font-size: 40px;
     span {
-      color: $primary;
+      color: var(--primary);
     }
   }
   input {
     border: none;
-    border-bottom: 2px solid $primary;
-    background-color: $white;
+    border-bottom: 2px solid var(--primary);
+    background-color: var(--start-page-bg);
     width: 100%;
     height: 100%;
     font-family: $readex;
     font-size: 20px;
     padding: 10px 0 4px 34px;
-    color: $black;
+    color: var(--black);
     &:focus {
       outline: none;
-      border-bottom: 2px solid $primary;
+      border-bottom: 2px solid var(--primary);
       box-shadow: none;
     }
   }
+
   .loginbtn {
-    border: 1px solid $black;
+    border: 1px solid var(--btn-black);
     padding: 14px;
     width: 280px;
     font-family: $readex;
     font-weight: $reg;
     border-radius: 40px;
     position: relative;
-    background-color: $white;
-    box-shadow: inset 0 0 $primary-btn;
+    background-color: var(--start-page-bg);
+    box-shadow: inset 0 0 var(--primary-btn);
     transition: all 0.3s ease-out;
     margin-top: 30px;
+    color: var(--btn-black);
     i {
       position: absolute;
       right: 20px;
       top: 16px;
     }
     &:hover {
-      box-shadow: inset 30em 0 $light-black;
+      box-shadow: inset 30em 0 var(--btn-black);
       cursor: pointer;
-      color: $white;
+      color: var(--btn-white);
+    }
+  }
+}
+
+.login.light {
+  input {
+    border-bottom: 2px solid var(--black);
+    background-color: var(--start-page-bg);
+    width: 100%;
+    height: 100%;
+    font-family: $readex;
+    font-size: 20px;
+    padding: 10px 0 4px 34px;
+    color: var(--black);
+    &:focus {
+      outline: none;
+      border-bottom: 2px solid var(--primary);
+      box-shadow: none;
+    }
+  }
+  h1 {
+    span {
+      color: var(--black);
     }
   }
 }
@@ -67,7 +93,7 @@
     position: absolute;
     bottom: 12px;
     left: 4px;
-    color: $grey;
+    color: var(--grey);
     font-size: 16px;
   }
 }
@@ -81,20 +107,22 @@
 }
 
 .googlebtn {
-  border: 1px solid $black;
+  border: 1px solid var(--btn-black);
   padding: 14px 16px;
   font-family: $readex;
   font-weight: $reg;
   border-radius: 40px;
   position: relative;
-  box-shadow: inset 0 0 $primary-btn;
+  box-shadow: inset 0 0 var(--primary-btn);
   transition: all 0.3s ease-out;
   margin-top: 28px;
-  background-color: $white;
+  background-color: var(--start-page-bg);
+  color: var(--btn-black);
+
   &:hover {
-    box-shadow: inset 30em 0 $light-black;
+    box-shadow: inset 30em 0 var(--btn-black);
     cursor: pointer;
-    color: $white;
+    color: var(--btn-white);
   }
 }
 
@@ -106,15 +134,27 @@
   p {
     font-size: 14px;
     margin: 0;
+    color: var(--black);
   }
   a {
     text-decoration: none;
     font-size: 14px;
-    color: $primary;
+    color: var(--red-font);
     margin-left: 8px;
     transition: ease 0.2s;
     &:hover {
-      color: $black;
+      color: var(--black);
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .user-login-input {
+    width: 310px;
+  }
+  .login {
+    .loginbtn {
+      width: 230px;
     }
   }
 }

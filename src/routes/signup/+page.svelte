@@ -64,7 +64,7 @@
         toast.error(
           "Account created but profile sync failed. Please try again later.",
           {
-            duration: 7500,
+            duration: 5500,
             style:
               "border-radius: 40px; padding: 16px; color: #c61a34; background-color: #c61a34; color: #f1f1f1; font-weight: 600; font-size: 14px",
             iconTheme: {
@@ -77,7 +77,7 @@
       }
 
       toast.success("Your Account Has Been Created.", {
-        duration: 5000,
+        duration: 3000,
         style:
           "border-radius: 40px; padding: 16px; color: #37b84d;background-color: #37b84d; color: #f1f1f1; font-weight: 600",
         iconTheme: {
@@ -90,6 +90,34 @@
       handleFirebaseAuthError(error);
     }
   };
+
+  onMount(() => {
+    const signInTheme = document.querySelector(".login");
+    const savedTheme = localStorage.getItem("user-theme") || "system";
+
+    const applySystemTheme = () => {
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      if (prefersDark) {
+        signInTheme.classList.add("light");
+      } else {
+        signInTheme.classList.remove("light");
+      }
+    };
+
+    const applySavedTheme = () => {
+      if (savedTheme === "dark") {
+        signInTheme.classList.add("light");
+      } else if (savedTheme === "light") {
+        signInTheme.classList.remove("light");
+      } else if (savedTheme === "system") {
+        applySystemTheme();
+      }
+    };
+
+    applySavedTheme();
+  });
 </script>
 
 <svelte:head>

@@ -10,12 +10,14 @@
 
 <div class="app-container">
   <Header />
-  <div class="wrapper">
-    {#if currentUser}
-      <h1 style="display: none">Welcome, {currentUser.displayName}!</h1>
-    {:else}
-      <h1>Loading...</h1>
-    {/if}
-    <p>HELLO WORLD</p>
+  <div class="bg-wrapper">
+    <div class="content-wrapper">
+      {#if currentUser}
+        <h1>Welcome, {currentUser.displayName}!</h1>
+      {:else}
+        <h1>Loading...</h1>
+      {/if}
+      <p>HELLO WORLD</p>
+    </div>
   </div>
 </div>

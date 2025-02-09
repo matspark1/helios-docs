@@ -49,6 +49,33 @@
   }
 
   onMount(() => {
+    let canvasColor = "";
+
+    const savedTheme = localStorage.getItem("user-theme") || "system";
+
+    const applySystemTheme = () => {
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      if (prefersDark) {
+        canvasColor = "rgba(255, 255, 255, 0.16)";
+      } else {
+        canvasColor = "rgba(0, 0, 0, 0.16)";
+      }
+    };
+
+    const applySavedTheme = () => {
+      if (savedTheme === "dark") {
+        canvasColor = "rgba(255, 255, 255, 0.16)";
+      } else if (savedTheme === "light") {
+        canvasColor = "rgba(0, 0, 0, 0.16)";
+      } else if (savedTheme === "system") {
+        applySystemTheme();
+      }
+    };
+
+    applySavedTheme();
+
     const ctx = canvas.getContext("2d");
 
     let width = (canvas.width = window.innerWidth);
@@ -118,7 +145,7 @@
         }
       }
 
-      ctx.strokeStyle = "rgba(0, 0, 0, 0.16)";
+      ctx.strokeStyle = canvasColor;
       ctx.lineWidth = 1;
 
       for (let j = 0; j < rows; j++) {
