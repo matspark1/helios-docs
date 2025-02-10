@@ -20,12 +20,18 @@
       {#if $profileModalVisible}
         <Profile on:close={closeProfileModal} />
       {/if}
-      {#if currentUser}
-        <h1>Welcome, {currentUser.displayName}!</h1>
-      {:else}
-        <h1>Loading...</h1>
-      {/if}
-      <p>HELLO WORLD</p>
+      <div class="home-wrapper">
+        <div class="home-content">
+          <div class="home-box">
+            <h2>Recent <span>Documents</span></h2>
+            <div class="home-docs"></div>
+          </div>
+          <div class="home-box">
+            <h2>Recent <span>Chats</span></h2>
+            <div class="home-chats"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
