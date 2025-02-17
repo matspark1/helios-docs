@@ -130,7 +130,7 @@
   background-color: var(--bg-color);
   border-radius: 40px;
   position: relative;
-  z-index: 5;
+  z-index: 999999;
   margin-right: 18px;
   .fa-xmark {
     position: absolute;
@@ -151,11 +151,10 @@
 .pf-close {
   width: calc(100vw);
   height: 100vh;
-  background-color: rgba(var(--black-rgb2), 0.2);
-  backdrop-filter: blur(2px);
+  background-color: rgba(var(--black-rgb2), 0.45);
   position: absolute;
   left: 0;
-  z-index: 1;
+  z-index: 999998;
 }
 
 .profile-container {

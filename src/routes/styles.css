@@ -400,6 +400,8 @@ a {
 nav {
   position: fixed;
   height: 100vh;
+  z-index: 1000;
+  width: 58px;
 }
 
 .desktop-nav {
@@ -421,34 +423,6 @@ nav {
   height: 32px;
   width: 32px;
   margin-bottom: 10px;
-}
-
-.nav-search {
-  position: relative;
-  width: 600px;
-  height: 48px;
-}
-.nav-search i {
-  position: absolute;
-  bottom: 16px;
-  left: 14px;
-}
-
-.nav-search-input {
-  background-color: var(--white);
-  border: none;
-  font-family: "Readex Pro", sans-serif;
-  border: 2px solid var(--black);
-  height: 100%;
-  width: 100%;
-  border-radius: 40px;
-  padding: 16px 10px 16px 38px;
-  font-size: 16px;
-}
-.nav-search-input:focus {
-  outline: none;
-  border: 1px solid var(--black);
-  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 
 .nav-profile-picture {
@@ -614,7 +588,7 @@ a[data-tooltip][data-position=right]:after {
   display: none;
   top: -100vh;
   position: relative;
-  z-index: 1;
+  z-index: 7;
 }
 
 .mobile-close.open {
@@ -646,6 +620,8 @@ a[data-tooltip][data-position=right]:after {
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
+  position: relative;
+  z-index: 10;
 }
 .mobile-menu .mobile-nav-links {
   display: flex;
@@ -922,7 +898,7 @@ a[data-tooltip][data-position=right]:after {
   background-color: var(--bg-color);
   border-radius: 40px;
   position: relative;
-  z-index: 5;
+  z-index: 999999;
   margin-right: 18px;
 }
 .profile-wrapper .fa-xmark {
@@ -943,11 +919,10 @@ a[data-tooltip][data-position=right]:after {
 .pf-close {
   width: 100vw;
   height: 100vh;
-  background-color: rgba(var(--black-rgb2), 0.2);
-  backdrop-filter: blur(2px);
+  background-color: rgba(var(--black-rgb2), 0.45);
   position: absolute;
   left: 0;
-  z-index: 1;
+  z-index: 999998;
 }
 
 .profile-container {
@@ -1091,7 +1066,7 @@ a[data-tooltip][data-position=right]:after {
   margin-left: 6px;
 }
 .home-box h2 span {
-  color: var(--primary);
+  color: var(--red-font);
 }
 
 .home-docs {
@@ -1112,6 +1087,252 @@ a[data-tooltip][data-position=right]:after {
   .home-box h2 {
     margin: 16px 0;
     text-align: center;
+  }
+}
+.doc-preview-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--light-black);
+  padding: 28px 28px 28px 28px;
+  border-radius: 30px;
+  width: 310px;
+  height: 160px;
+  z-index: 1;
+  position: relative;
+  transition: ease 0.2s;
+  border: 2px solid var(--light-black);
+}
+.doc-preview-box:hover {
+  box-shadow: 0px 4px 10px rgba(var(--black-rgb), 0.05);
+  border: 2px solid rgba(var(--black-rgb), 0.3);
+}
+.doc-preview-box .doc-info {
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
+}
+.doc-preview-box h1 {
+  font-size: 20px;
+  max-height: 70px;
+  overflow-y: hidden;
+}
+.doc-preview-box .doc-user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.doc-preview-box .doc-user-info img {
+  width: 30px;
+  height: 30px;
+  border-radius: 20px;
+}
+.doc-preview-box .doc-user-info p {
+  margin: 0;
+  font-size: 14px;
+  margin-left: 10px;
+}
+.doc-preview-box .doc-user-info i {
+  margin-left: 10px;
+  font-size: 4px;
+  color: var(--black);
+}
+.doc-preview-box .doc-preview-btn-wrapper {
+  height: 100%;
+  width: 0%;
+}
+.doc-preview-box .doc-preview-btn {
+  height: 26px;
+  width: 26px;
+  top: 14px;
+  right: 14px;
+  position: absolute;
+  z-index: 1;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--black);
+  transition: ease 0.1s;
+  border-radius: 20px;
+}
+.doc-preview-box .doc-preview-btn:hover {
+  background-color: rgba(var(--black-rgb), 0.15);
+}
+.doc-preview-box .doc-preview-options {
+  position: absolute;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  row-gap: 10px;
+  background-color: var(--light-black);
+  box-shadow: 0px 4px 10px rgba(var(--black-rgb), 0.05);
+  border: 2px solid var(--white);
+  padding: 10px;
+  border-radius: 16px;
+  position: absolute;
+  right: -120px;
+  top: 44px;
+}
+.doc-preview-box .doc-preview-options .doc-preview-delete {
+  color: var(--red-font);
+}
+.doc-preview-box .doc-preview-options .doc-preview-delete:hover {
+  background-color: var(--red-font);
+  color: var(--btn-white-white);
+}
+.doc-preview-box .doc-preview-options button {
+  width: 140px;
+  height: 40px;
+  font-size: 16px;
+  font-family: "Readex Pro", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: ease 0.12s;
+  color: var(--black);
+}
+.doc-preview-box .doc-preview-options button i {
+  margin-right: 18px;
+}
+.doc-preview-box .doc-preview-options button:hover {
+  background-color: var(--white);
+}
+.doc-preview-box .doc-preview-options.open {
+  display: flex;
+}
+
+@media screen and (max-width: 900px) {
+  .doc-preview-box .doc-preview-options {
+    right: 0px;
+  }
+}
+.docs-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.docs-boxes-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.docs-boxes {
+  height: 700px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  column-gap: 30px;
+  row-gap: 30px;
+  margin: 0 auto;
+}
+
+.docs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 20px;
+}
+.docs-header h2 {
+  margin: 0;
+  position: absolute;
+  top: 50px;
+  display: none;
+}
+.docs-header h2 span {
+  color: var(--red-font);
+}
+.docs-header .new-docs-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--red-font);
+  font-size: 36px;
+  padding: 20px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(var(--black-rgb), 0.6);
+  box-shadow: 0 0 2px 2px rgba(var(--black-rgb), 0.1);
+  transition: ease 0.2s;
+  position: absolute;
+  left: 80px;
+  top: 30px;
+  z-index: 2;
+  background-color: var(--white);
+  cursor: pointer;
+}
+.docs-header .new-docs-btn:hover {
+  border: 1px solid rgba(var(--black-rgb), 0.82);
+  box-shadow: 0 0 2px 2px rgba(var(--black-rgb), 0.18);
+}
+
+.docs-search {
+  position: relative;
+  width: 600px;
+  height: 48px;
+  margin-top: 10px;
+}
+.docs-search i {
+  position: absolute;
+  bottom: 16px;
+  left: 14px;
+}
+
+.docs-search-input {
+  background-color: var(--white);
+  border: none;
+  font-family: "Readex Pro", sans-serif;
+  border: 2px solid var(--black);
+  height: 100%;
+  width: 100%;
+  border-radius: 40px;
+  padding: 16px 10px 16px 38px;
+  font-size: 16px;
+  color: var(--black);
+}
+.docs-search-input:focus {
+  outline: none;
+  border: 1px solid var(--black);
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 900px) {
+  .docs-header h2 {
+    display: flex;
+    column-gap: 8px;
+  }
+  .docs-header .new-docs-btn {
+    left: 30px;
+    top: 80px;
+    display: none;
+  }
+  .docs-header .docs-search {
+    margin-top: 63px;
+    padding: 0 20px;
+    max-width: 700px;
+  }
+  .docs-header .docs-search i {
+    left: 36px;
+  }
+  .doc-boxes-wrapper {
+    overflow: auto;
   }
 }
 

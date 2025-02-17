@@ -13,6 +13,11 @@
   });
 </script>
 
+<svelte:head>
+  <title>Helios Docs</title>
+  <meta name="description" content="Home | Helios Docs" />
+</svelte:head>
+
 <div class="app-container">
   <Header />
   <div class="bg-wrapper">

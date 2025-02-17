@@ -1,0 +1,132 @@
+.doc-preview-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--light-black);
+  padding: 28px 28px 28px 28px;
+  border-radius: 30px;
+  width: 310px;
+  height: 160px;
+  z-index: 1;
+  position: relative;
+  transition: ease 0.2s;
+  border: 2px solid var(--light-black);
+  &:hover {
+    box-shadow: 0px 4px 10px rgba(var(--black-rgb), 0.05);
+    border: 2px solid rgba(var(--black-rgb), 0.3);
+  }
+  .doc-info {
+    width: 95%;
+    display: flex;
+
+    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+  }
+  h1 {
+    font-size: 20px;
+    max-height: 70px;
+    overflow-y: hidden;
+  }
+  .doc-user-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 30px;
+      height: 30px;
+      border-radius: 20px;
+    }
+    p {
+      margin: 0;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+    i {
+      margin-left: 10px;
+      font-size: 4px;
+      color: var(--black);
+    }
+  }
+  .doc-preview-btn-wrapper {
+    height: 100%;
+    width: 0%;
+  }
+  .doc-preview-btn {
+    height: 26px;
+    width: 26px;
+    top: 14px;
+    right: 14px;
+    position: absolute;
+    z-index: 1;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black);
+    transition: ease 0.1s;
+    border-radius: 20px;
+    &:hover {
+      background-color: rgba(var(--black-rgb), 0.15);
+    }
+  }
+  .doc-preview-options {
+    position: absolute;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 10px;
+    background-color: var(--light-black);
+    box-shadow: 0px 4px 10px rgba(var(--black-rgb), 0.05);
+    border: 2px solid var(--white);
+    padding: 10px;
+    border-radius: 16px;
+    position: absolute;
+    right: -120px;
+    top: 44px;
+    .doc-preview-delete {
+      color: var(--red-font);
+      &:hover {
+        background-color: var(--red-font);
+        color: var(--btn-white-white);
+      }
+    }
+    button {
+      width: 140px;
+      height: 40px;
+      font-size: 16px;
+      font-family: $readex;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: ease 0.12s;
+      color: var(--black);
+      i {
+        margin-right: 18px;
+      }
+      &:hover {
+        background-color: var(--white);
+      }
+    }
+  }
+  .doc-preview-options.open {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .doc-preview-box {
+    .doc-preview-options {
+      right: 0px;
+    }
+  }
+}

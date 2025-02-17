@@ -1,0 +1,121 @@
+.docs-wrapper {
+  height: 100%;
+  width: 100%;
+}
+.docs-boxes-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto;
+}
+.docs-boxes {
+  height: 700px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  column-gap: 30px;
+  row-gap: 30px;
+  margin: 0 auto;
+}
+
+.docs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 20px;
+
+  h2 {
+    margin: 0;
+    position: absolute;
+    top: 50px;
+    display: none;
+    span {
+      color: var(--red-font);
+    }
+  }
+
+  .new-docs-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--red-font);
+    font-size: 36px;
+    padding: 20px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(var(--black-rgb), 0.6);
+    box-shadow: 0 0 2px 2px rgba(var(--black-rgb), 0.1);
+    transition: ease 0.2s;
+    position: absolute;
+    left: 80px;
+    top: 30px;
+    z-index: 2;
+    background-color: var(--white);
+    cursor: pointer;
+    &:hover {
+      border: 1px solid rgba(var(--black-rgb), 0.82);
+      box-shadow: 0 0 2px 2px rgba(var(--black-rgb), 0.18);
+      //   background-color: var(--black);
+      //   color: var(--white);
+    }
+  }
+}
+
+.docs-search {
+  position: relative;
+  width: 600px;
+  height: 48px;
+  margin-top: 10px;
+  i {
+    position: absolute;
+    bottom: 16px;
+    left: 14px;
+  }
+}
+.docs-search-input {
+  background-color: var(--white);
+  border: none;
+  font-family: $readex;
+  border: 2px solid var(--black);
+  height: 100%;
+  width: 100%;
+  border-radius: 40px;
+  padding: 16px 10px 16px 38px;
+  font-size: 16px;
+  color: var(--black);
+  &:focus {
+    outline: none;
+    border: 1px solid var(--black);
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .docs-header {
+    h2 {
+      display: flex;
+      column-gap: 8px;
+    }
+    .new-docs-btn {
+      left: 30px;
+      top: 80px;
+      display: none;
+    }
+    .docs-search {
+      margin-top: 63px;
+      padding: 0 20px;
+      max-width: 700px;
+      i {
+        left: 36px;
+      }
+    }
+  }
+  .doc-boxes-wrapper {
+    overflow: auto;
+  }
+}
