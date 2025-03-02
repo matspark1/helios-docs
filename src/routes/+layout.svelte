@@ -70,7 +70,7 @@
   });
 </script>
 
-<div class="site-wrapper" style="background-color: #101010;">
+<div class="site-wrapper">
   <Toaster />
   <div class="app">
     <slot />

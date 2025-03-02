@@ -33,6 +33,7 @@ h6 {
 .site-wrapper {
   height: 100%;
   width: 100%;
+  background-color: var(--light-black);
 }
 
 .app {
@@ -64,6 +65,24 @@ h6 {
   width: 100%;
   background-color: var(--white);
   border-radius: 10px;
+}
+
+.nothing {
+  height: 100%;
+  width: 100%;
+  background-color: var(--light-black);
+}
+
+.content-wrapper-v2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: var(--light-black);
+  border-radius: 10px;
+  overflow-x: hidden;
 }
 
 a {

@@ -19,6 +19,12 @@
   --bg-color: #212020;
   --hover: #333333;
   --green: #25813d;
+  --editor-bg: #f9fbfd;
+  --editor-black: #141414;
+  --blue: #2d6de3;
+  --editor-white: #393939;
+  --editor-grey: #1c1b1b;
+  --editor-grey2: #2a2828;
 }
 
 .light-theme {
@@ -41,6 +47,12 @@
   --bg-color: #ebebeb;
   --hover: #d6d6d6;
   --green: #27af4b;
+  --editor-bg: #f9fbfd;
+  --editor-black: #141414;
+  --blue: #2d6de3;
+  --editor-white: #fff;
+  --editor-grey: #b0b0b0;
+  --editor-grey2: #d8d8d8;
 }
 
 * {
@@ -79,6 +91,7 @@ h6 {
 .site-wrapper {
   height: 100%;
   width: 100%;
+  background-color: var(--light-black);
 }
 
 .app {
@@ -110,6 +123,24 @@ h6 {
   width: 100%;
   background-color: var(--white);
   border-radius: 10px;
+}
+
+.nothing {
+  height: 100%;
+  width: 100%;
+  background-color: var(--light-black);
+}
+
+.content-wrapper-v2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: var(--light-black);
+  border-radius: 10px;
+  overflow-x: hidden;
 }
 
 a {
@@ -1333,6 +1364,395 @@ a[data-tooltip][data-position=right]:after {
   }
   .doc-boxes-wrapper {
     overflow: auto;
+  }
+}
+.doc-editor-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chat-container {
+  background-color: var(--white);
+  border-radius: 10px;
+  height: 100%;
+  width: 360px;
+}
+
+.swapy-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.swapy-item-slot {
+  height: 100%;
+  border-radius: 10px;
+}
+
+.swapy-drag {
+  cursor: grab;
+  position: absolute;
+  width: 360px;
+  border-radius: 10px 10px 0 0;
+  background-color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.swapy-drag svg {
+  height: 20px;
+  color: var(--black);
+}
+
+.editor-container {
+  height: 100%;
+  width: calc(100vw - 442px);
+  background-color: var(--white);
+  border-radius: 10px;
+  color: var(--black);
+  overflow-y: scroll;
+}
+
+.editor-wrapper {
+  border-radius: 10px;
+  position: relative;
+}
+
+.docseditor-container {
+  height: 100%;
+  width: 816px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  margin: 0 auto;
+}
+
+.editor-tools {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  height: 30px;
+  padding: 0px;
+  width: calc(100vw - 442px);
+  border-radius: 10px 10px 0 0;
+  background-color: var(--editor-grey);
+  position: fixed;
+  z-index: 3;
+}
+.editor-tools button {
+  height: 100%;
+}
+.editor-tools button:first-child {
+  border-radius: 10px 0 0 0;
+}
+
+.element {
+  outline: none;
+  background-color: var(--editor-white);
+  border: 1px solid var(--grey);
+  display: flex;
+  flex-direction: column;
+  min-height: 1054px;
+  width: 816px;
+  padding-top: 10px;
+  padding-right: 14px;
+  padding-bottom: 10px;
+  cursor: text;
+}
+
+.editor {
+  background-color: var(--white);
+}
+
+.tiptap > *:first-child {
+  margin-top: 0;
+}
+
+/* List styles */
+.tiptap {
+  font-size: 12px;
+  /* Task list specific styles */
+  /* Heading styles */
+  /* Table-specific styling */
+  /* TipTap Image Styling */
+  /* Character count */
+}
+.tiptap ul,
+.tiptap ol {
+  padding: 0 1rem;
+  margin: 1.25rem 1rem 1.25rem 0.4rem;
+}
+.tiptap ul li p,
+.tiptap ol li p {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+.tiptap ul li {
+  list-style-type: disc;
+}
+.tiptap ul li p {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+.tiptap ol li {
+  list-style-type: decimal;
+}
+.tiptap ol li p {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+.tiptap ul[data-type=taskList] {
+  list-style: none;
+  margin-left: 0;
+  padding: 0;
+}
+.tiptap ul[data-type=taskList] li {
+  align-items: flex-start;
+  display: flex;
+  margin-top: 4px;
+}
+.tiptap ul[data-type=taskList] li > label {
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+  user-select: none;
+}
+.tiptap ul[data-type=taskList] li > div {
+  flex: 1 1 auto;
+  margin-top: -6px;
+}
+.tiptap ul[data-type=taskList] input[type=checkbox] {
+  cursor: pointer;
+}
+.tiptap ul[data-type=taskList] ul[data-type=taskList] {
+  margin: 0;
+}
+.tiptap h1,
+.tiptap h2,
+.tiptap h3,
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  line-height: 1.1;
+  margin-top: 2.5rem;
+  text-wrap: pretty;
+}
+.tiptap h1,
+.tiptap h2 {
+  margin-top: 3.5rem;
+  margin-bottom: 1.5rem;
+}
+.tiptap h1 {
+  font-size: 1.4rem;
+  text-align: start;
+}
+.tiptap h2 {
+  font-size: 1.2rem;
+}
+.tiptap h3 {
+  font-size: 1.1rem;
+}
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  font-size: 1rem;
+}
+.tiptap table {
+  border-collapse: collapse;
+  margin: 0;
+  overflow: hidden;
+  table-layout: fixed;
+  width: 100%;
+  border-radius: 4px;
+}
+.tiptap table td,
+.tiptap table th {
+  border: 1px solid var(--black);
+  box-sizing: border-box;
+  min-width: 1em;
+  padding: 8px;
+  position: relative;
+  vertical-align: top;
+}
+.tiptap table td > *,
+.tiptap table th > * {
+  margin-bottom: 0;
+}
+.tiptap table td p,
+.tiptap table th p {
+  color: var(--black);
+}
+.tiptap table th {
+  background-color: var(--editor-grey2);
+  font-weight: bold;
+  text-align: left;
+}
+.tiptap table .selectedCell:after {
+  background: rgba(45, 109, 227, 0.3);
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+.tiptap table .column-resize-handle {
+  background-color: var(--blue);
+  bottom: -2px;
+  pointer-events: none;
+  position: absolute;
+  right: -2px;
+  top: 0;
+  width: 4px;
+}
+.tiptap .tableWrapper {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+.tiptap.resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
+}
+.tiptap img {
+  display: block;
+  height: auto;
+  margin: 1.5rem 0;
+  max-width: 100%;
+}
+.tiptap img.ProseMirror-selectednode {
+  outline: 3px solid var(--blue);
+}
+.tiptap .character-count {
+  align-items: center;
+  color: var(--grey);
+  display: flex;
+  font-size: 0.75rem;
+  gap: 0.5rem;
+  margin: 1.5rem;
+}
+.tiptap .character-count svg {
+  color: var(--primary);
+}
+.tiptap .character-count--warning, .tiptap .character-count--warning svg {
+  color: var(--black);
+}
+
+.character-counter {
+  position: absolute;
+  color: var(--grey);
+  display: flex;
+  gap: 40px;
+}
+
+@media print {
+  * {
+    visibility: hidden;
+    overflow: visible !important;
+    color: inherit !important;
+  }
+  .docseditor-container,
+  .element,
+  .element * {
+    visibility: visible;
+    position: relative;
+  }
+  .element {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto;
+    padding: 10px !important;
+    margin: 0 auto !important;
+    border: none !important;
+    min-height: 0;
+    box-sizing: border-box;
+    transform: translateX(0) !important;
+  }
+  table {
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: fixed;
+    margin: 1em auto !important;
+    border-collapse: collapse;
+    left: 0 !important;
+    right: 0 !important;
+  }
+  th,
+  td,
+  tr {
+    border: 1px solid black !important;
+    padding: 8px !important;
+    width: auto !important;
+  }
+  th {
+    background-color: #d8d8d8;
+  }
+  .editor-tools,
+  .chat-container,
+  nav,
+  .swapy-drag,
+  button,
+  .swapy-container > *:not([data-swapy-slot=a]) {
+    display: none !important;
+  }
+  .editor-wrapper,
+  .editor-container,
+  .docseditor-container {
+    padding: 0 !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    position: static !important;
+    background-color: white !important;
+    left: 0 !important;
+    right: 0 !important;
+    transform: translateX(0) !important;
+  }
+  @page {
+    size: auto;
+    margin: 10mm 10mm;
+  }
+  .tiptap {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    text-align: left !important;
+  }
+  .docseditor-container {
+    width: 90% !important;
+    max-width: 90% !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+  body,
+  html {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    text-align: center !important;
+  }
+  .content-wrapper-v2,
+  .bg-wrapper,
+  .app-container {
+    transform: none !important;
+    position: static !important;
+    margin: 0 auto !important;
+    width: 100% !important;
   }
 }
 

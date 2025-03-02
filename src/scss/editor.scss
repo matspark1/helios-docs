@@ -1,0 +1,51 @@
+.doc-editor-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chat-container {
+  background-color: var(--white);
+  border-radius: 10px;
+  height: 100%;
+  width: 360px;
+}
+
+// SWAPY STUFF
+// SWAPY STUFF
+// SWAPY STUFF
+
+.swapy-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.swapy-item-slot {
+  height: 100%;
+  border-radius: 10px;
+}
+
+.swapy-drag {
+  cursor: grab;
+  position: absolute;
+  width: 360px;
+  border-radius: 10px 10px 0 0;
+  background-color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  svg {
+    height: 20px;
+    color: var(--black);
+  }
+}
+
+// SWAPY STUFF
+// SWAPY STUFF
+// SWAPY STUFF
