@@ -8,7 +8,7 @@
   } from "firebase/auth";
   import { auth } from "$lib/FirebaseConfig";
   import { handleFirebaseAuthError } from "$lib/util/firebaseAuthErrors";
-  import toast from "svelte-french-toast";
+  import toast from "svelte-5-french-toast";
   import { handleGoogleSignIn } from "$lib/util/googleAuth";
 
   let email = "";

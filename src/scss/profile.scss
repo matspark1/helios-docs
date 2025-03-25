@@ -152,9 +152,10 @@
   width: calc(100vw);
   height: 100vh;
   background-color: rgba(var(--black-rgb2), 0.45);
+  backdrop-filter: blur(2px);
   position: absolute;
   left: 0;
-  z-index: 999998;
+  z-index: 9998;
 }
 
 .profile-container {

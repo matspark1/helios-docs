@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import "./styles.css";
-  import toast, { Toaster } from "svelte-french-toast";
+  import toast, { Toaster } from "svelte-5-french-toast";
   import { user } from "../stores/authStore";
   import { getAuth, onAuthStateChanged } from "firebase/auth";
   import { goto } from "$app/navigation";

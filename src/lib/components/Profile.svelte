@@ -6,7 +6,7 @@
   import { fetchUserProfilePic } from "$lib/util/getProfilePicture";
   import pfp from "$lib/images/pfp.png";
   import { monthNames, getUserData } from "$lib/util/getUserDate";
-  import toast from "svelte-french-toast";
+  import toast from "svelte-5-french-toast";
 
   const dispatch = createEventDispatcher();
 
@@ -79,44 +79,56 @@
     const firebaseUser = auth.currentUser;
     if (!firebaseUser) return;
 
-    try {
-      // Define newDisplayName first
-      const newDisplayName = `${firstName} ${lastName}`;
+    const updatePromise = new Promise(async (resolve, reject) => {
+      try {
+        const newDisplayName = `${firstName} ${lastName}`;
+        const newProfilePicUrl = generateInitialsAvatar(
+          newDisplayName,
+          avatarBgColor
+        );
 
-      // Now generate the profile picture URL using the newDisplayName
-      const newProfilePicUrl = generateInitialsAvatar(
-        newDisplayName,
-        avatarBgColor
-      );
+        await updateProfile(firebaseUser, {
+          displayName: newDisplayName,
+          photoURL: newProfilePicUrl,
+        });
 
-      await updateProfile(firebaseUser, {
-        displayName: newDisplayName,
-        photoURL: newProfilePicUrl,
-      });
+        if (email !== firebaseUser.email) {
+          await updateEmail(firebaseUser, email);
+        }
 
-      if (email !== firebaseUser.email) {
-        await updateEmail(firebaseUser, email);
+        const userDocRef = doc(firestore, "users", firebaseUser.uid);
+        await updateDoc(userDocRef, {
+          name: newDisplayName,
+          email: email,
+          photoURL: newProfilePicUrl,
+        });
+
+        await firebaseUser.reload();
+        currentUser = auth.currentUser;
+        user.set(currentUser);
+        profilePic = newProfilePicUrl;
+        isEditing = false;
+
+        resolve();
+      } catch (error) {
+        console.error("Error updating profile:", error);
+        reject(error);
       }
+    });
 
-      const userDocRef = doc(firestore, "users", firebaseUser.uid);
-      await updateDoc(userDocRef, {
-        name: newDisplayName,
-        email: email,
-        photoURL: newProfilePicUrl,
-      });
+    toast.promise(
+      updatePromise,
+      {
+        loading: "Updating profile...",
+        success: "Profile updated successfully",
+        error: "Error updating profile",
+      },
+      {
+        style: "z-index: 99999;",
+      }
+    );
 
-      await firebaseUser.reload();
-      currentUser = auth.currentUser;
-      user.set(currentUser);
-
-      profilePic = newProfilePicUrl;
-
-      toast.success("Profile updated successfully");
-      isEditing = false;
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      toast.error("Error updating profile");
-    }
+    await updatePromise;
   };
 
   $: if (currentUser?.uid) {

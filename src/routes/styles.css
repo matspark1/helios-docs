@@ -951,9 +951,10 @@ a[data-tooltip][data-position=right]:after {
   width: 100vw;
   height: 100vh;
   background-color: rgba(var(--black-rgb2), 0.45);
+  backdrop-filter: blur(2px);
   position: absolute;
   left: 0;
-  z-index: 999998;
+  z-index: 9998;
 }
 
 .profile-container {
@@ -1120,6 +1121,125 @@ a[data-tooltip][data-position=right]:after {
     text-align: center;
   }
 }
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+  margin-right: 0.2rem;
+  padding: 4px 6px 5px 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tooltip-container:hover {
+  background-color: rgba(var(--black-rgb), 0.12);
+}
+.tooltip-container button {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  color: var(--black);
+  font-family: "Readex Pro", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tooltip-container button i {
+  font-size: 16px;
+  padding: 0;
+  height: 16px;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 105%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #2c2a2a;
+  color: #f1f1f1;
+  padding: 6px 10px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(var(--black-rgb), 0.1);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+  z-index: 10;
+  border: 1px solid #f1f1f1;
+}
+
+.tooltip-container:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+#font-size-input {
+  width: 48px;
+  padding: 2px 8px;
+  border: 1px solid var(--editor-grey2);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-family: "Readex Pro", sans-serif;
+  background-color: var(--editor-bg);
+  color: var(--editor-black);
+  box-shadow: 0 1px 2px rgba(var(--black-rgb2), 0.05);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+#font-size-input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px rgba(45, 109, 227, 0.3);
+}
+
+#font-select {
+  padding: 2px 10px;
+  border: 1px solid var(--editor-grey2);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-family: "Readex Pro", sans-serif;
+  background-color: var(--editor-bg);
+  color: var(--editor-black);
+  box-shadow: 0 1px 2px rgba(var(--black-rgb2), 0.05);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+#font-select:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px rgba(45, 109, 227, 0.3);
+}
+
+.table-picker {
+  position: absolute;
+  top: 26px;
+  left: 0px;
+  background: var(--light-black);
+  border: 1px solid var(--black);
+  padding: 8px;
+  z-index: 999;
+  border-radius: 10px;
+}
+.table-picker p {
+  font-size: 12px;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  width: 16px;
+  height: 16px;
+  margin: 2px;
+  cursor: pointer;
+}
+
 .doc-preview-box {
   display: flex;
   align-items: center;
@@ -1410,47 +1530,105 @@ a[data-tooltip][data-position=right]:after {
   color: var(--black);
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--grey);
+  border-radius: 10px;
+}
+
 .editor-container {
   height: 100%;
   width: calc(100vw - 442px);
   background-color: var(--white);
   border-radius: 10px;
   color: var(--black);
-  overflow-y: scroll;
+  overflow: hidden;
 }
 
 .editor-wrapper {
   border-radius: 10px;
   position: relative;
+  height: 100%;
+}
+
+.scroll-wrapper {
+  overflow-y: auto; /* Change to auto instead of scroll for better behavior */
+  position: absolute; /* Position it absolutely */
+  top: 110px; /* Position it directly below the fixed header */
+  bottom: 0;
+  width: calc(100vw - 442px);
+  padding: 0; /* Remove all padding */
+  margin: 0; /* Remove all margins */
 }
 
 .docseditor-container {
-  height: 100%;
   width: 816px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 0;
-  margin: 0 auto;
+  flex-direction: column;
+  margin: 20px auto 40px auto; /* Keep some margin for spacing */
+  padding: 0; /* Remove the padding that's causing issues */
+}
+
+.editor-tools-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 110px;
+  padding: 0px;
+  width: calc(100vw - 442px);
+  border-radius: 10px 10px 0 0;
+  background-color: var(--editor-grey);
+  z-index: 3;
+  position: fixed;
+  top: 12px;
 }
 
 .editor-tools {
   display: flex;
   align-items: center;
   justify-content: start;
-  height: 30px;
-  padding: 0px;
-  width: calc(100vw - 442px);
-  border-radius: 10px 10px 0 0;
-  background-color: var(--editor-grey);
-  position: fixed;
-  z-index: 3;
+  width: 96%;
+  height: 40px;
+  margin: 6px auto 6px auto;
+  background-color: var(--editor-grey2);
+  border-radius: 40px;
 }
-.editor-tools button {
+.editor-tools .tools {
+  width: 100%;
+  padding: 0px 10px;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
 }
-.editor-tools button:first-child {
-  border-radius: 10px 0 0 0;
+
+.editor-tools-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  width: 100%;
+  padding: 0 20px 0 0;
+}
+
+.character-counter {
+  color: var(--black);
+  display: flex;
+  flex-direction: column;
+}
+.character-counter p {
+  margin: 0;
+  font-size: 12px;
 }
 
 .element {
@@ -1459,12 +1637,11 @@ a[data-tooltip][data-position=right]:after {
   border: 1px solid var(--grey);
   display: flex;
   flex-direction: column;
-  min-height: 1054px;
+  min-height: 1056px;
   width: 816px;
-  padding-top: 10px;
-  padding-right: 14px;
-  padding-bottom: 10px;
+  padding: 10px 14px;
   cursor: text;
+  margin-bottom: 40px;
 }
 
 .editor {
@@ -1475,9 +1652,9 @@ a[data-tooltip][data-position=right]:after {
   margin-top: 0;
 }
 
-/* List styles */
 .tiptap {
   font-size: 12px;
+  /* List styles */
   /* Task list specific styles */
   /* Heading styles */
   /* Table-specific styling */
@@ -1525,7 +1702,7 @@ a[data-tooltip][data-position=right]:after {
 }
 .tiptap ul[data-type=taskList] li > div {
   flex: 1 1 auto;
-  margin-top: -6px;
+  margin-top: -4px;
 }
 .tiptap ul[data-type=taskList] input[type=checkbox] {
   cursor: pointer;
@@ -1643,13 +1820,6 @@ a[data-tooltip][data-position=right]:after {
 }
 .tiptap .character-count--warning, .tiptap .character-count--warning svg {
   color: var(--black);
-}
-
-.character-counter {
-  position: absolute;
-  color: var(--grey);
-  display: flex;
-  gap: 40px;
 }
 
 @media print {

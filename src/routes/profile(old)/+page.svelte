@@ -7,7 +7,7 @@
   import { fetchUserProfilePic } from "$lib/util/getProfilePicture";
   import pfp from "$lib/images/pfp.png";
   import { monthNames, getUserData } from "$lib/util/getUserDate";
-  import toast from "svelte-french-toast";
+  import toast from "svelte-5-french-toast";
 
   let currentUser;
   let profilePic = pfp;

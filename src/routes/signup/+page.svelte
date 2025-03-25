@@ -10,7 +10,7 @@
   import { doc, setDoc } from "firebase/firestore";
   import { auth, db } from "$lib/FirebaseConfig";
   import { handleFirebaseAuthError } from "$lib/util/firebaseAuthErrors";
-  import toast from "svelte-french-toast";
+  import toast from "svelte-5-french-toast";
   import { handleGoogleSignIn } from "$lib/util/googleAuth";
 
   let firstName = "";
@@ -125,7 +125,7 @@
   <meta name="description" content="Sign Up Helios Docs" />
 </svelte:head>
 
-<a href="/onboarding" class="backbtn" aria-label="Back">
+<a href="/signin" class="backbtn" aria-label="Back">
   <i class="fa-solid fa-arrow-left"></i>
 </a>
 <div class="login-wrapper">
@@ -161,7 +161,7 @@
       </button>
     </div>
     <div class="login-bottom">
-      <p>Have an exsisting Account?</p>
+      <p>Have an existing Account?</p>
       <a href="/signin">Sign In</a>
     </div>
   </div>

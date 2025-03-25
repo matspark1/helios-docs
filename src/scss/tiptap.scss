@@ -1,43 +1,102 @@
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--grey);
+  border-radius: 10px;
+}
+
 .editor-container {
   height: 100%;
   width: calc(100vw - 442px);
   background-color: var(--white);
   border-radius: 10px;
   color: var(--black);
-  overflow-y: scroll;
+  overflow: hidden;
 }
 
 .editor-wrapper {
   border-radius: 10px;
   position: relative;
+  height: 100%;
+}
+
+.scroll-wrapper {
+  overflow-y: auto; /* Change to auto instead of scroll for better behavior */
+  position: absolute; /* Position it absolutely */
+  top: 110px; /* Position it directly below the fixed header */
+  bottom: 0;
+  width: calc(100vw - 442px);
+  padding: 0; /* Remove all padding */
+  margin: 0; /* Remove all margins */
 }
 
 .docseditor-container {
-  height: 100%;
   width: 816px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 0;
-  margin: 0 auto;
+  flex-direction: column;
+  margin: 20px auto 40px auto; /* Keep some margin for spacing */
+  padding: 0; /* Remove the padding that's causing issues */
+}
+
+.editor-tools-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 110px;
+  padding: 0px;
+  width: calc(100vw - 442px);
+  border-radius: 10px 10px 0 0;
+  background-color: var(--editor-grey);
+  z-index: 3;
+  position: fixed;
+  top: 12px;
 }
 
 .editor-tools {
   display: flex;
   align-items: center;
   justify-content: start;
-  height: 30px;
-  padding: 0px;
-  width: calc(100vw - 442px);
-  border-radius: 10px 10px 0 0;
-  background-color: var(--editor-grey);
-  position: fixed;
-  z-index: 3;
-  button {
+  width: 96%;
+  height: 40px;
+  margin: 6px auto 6px auto;
+  background-color: var(--editor-grey2);
+  border-radius: 40px;
+  .tools {
+    width: 100%;
+    padding: 0px 10px;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
   }
-  button:first-child {
-    border-radius: 10px 0 0 0;
+}
+
+.editor-tools-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  width: 100%;
+  padding: 0 20px 0 0;
+  //max-height: 50%;
+}
+
+.character-counter {
+  color: var(--black);
+  display: flex;
+  flex-direction: column;
+  p {
+    margin: 0;
+    font-size: 12px;
   }
 }
 
@@ -47,12 +106,11 @@
   border: 1px solid var(--grey);
   display: flex;
   flex-direction: column;
-  min-height: 1054px;
+  min-height: 1056px;
   width: 816px;
-  padding-top: 10px;
-  padding-right: 14px;
-  padding-bottom: 10px;
+  padding: 10px 14px;
   cursor: text;
+  margin-bottom: 40px;
 }
 
 .editor {
@@ -65,6 +123,7 @@
 
 .tiptap {
   font-size: 12px;
+
   /* List styles */
   ul,
   ol {
@@ -114,7 +173,7 @@
 
       > div {
         flex: 1 1 auto;
-        margin-top: -6px;
+        margin-top: -4px;
       }
     }
 
@@ -259,13 +318,6 @@
       color: var(--black);
     }
   }
-}
-
-.character-counter {
-  position: absolute;
-  color: var(--grey);
-  display: flex;
-  gap: 40px;
 }
 
 @media print {
