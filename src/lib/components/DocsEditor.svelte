@@ -1,6 +1,12 @@
 <script>
   import { onMount, onDestroy } from "svelte";
   import InsertTable from "$lib/components/InsertTable.svelte";
+  import HighlightColorPicker from "$lib/components/HighlightColorPicker.svelte";
+  import TextColorPicker from "$lib/components/TextColorPicker.svelte";
+  import AlignMenu from "$lib/components/AlignMenu.svelte";
+  import LineSpacingMenu from "$lib/components/LineSpacingMenu.svelte";
+  import TabIndent from "$lib/util/TabIndent.js";
+  import LineSpacing from "$lib/util/LineSpacing.js";
   import { Editor } from "@tiptap/core";
   import StarterKit from "@tiptap/starter-kit";
   import TaskItem from "@tiptap/extension-task-item";
@@ -22,12 +28,14 @@
   import TextStyle from "@tiptap/extension-text-style";
   import { Color } from "@tiptap/extension-color";
   import Underline from "@tiptap/extension-underline";
+  import TextAlign from "@tiptap/extension-text-align";
+  import Typography from "@tiptap/extension-typography";
 
   let element;
   let editor;
 
   let currentFontFamily = "";
-  let currentFontSize = "12px";
+  let currentFontSize = "16px";
 
   $: displayFontSize = currentFontSize.replace("px", "");
 
@@ -109,26 +117,27 @@
       },
       extensions: [
         StarterKit,
-        Blockquote,
-        Bold,
         Subscript,
         Superscript,
+        Typography,
         Color,
+        TabIndent,
+        LineSpacing,
         CustomTextStyle,
+        TextAlign.configure({
+          types: ["heading", "paragraph"],
+        }),
         Highlight.configure({ multicolor: true }),
         TaskItem.configure({
           nested: true,
         }),
         TaskList,
-        CodeBlock,
-        Code,
         Table.configure({
           resizable: true,
         }),
         TableRow,
         TableHeader,
         TableCell,
-        Image,
         ImageResize,
         CharacterCount.configure({
           wordCounter: (text) =>
@@ -149,8 +158,8 @@
       },
     });
 
-    // Set initial font size and family
-    editor.commands.setFontSize("12px");
+    //initial font size and family
+    editor.commands.setFontSize("16px");
     editor.commands.setFontFamily("Readex Pro");
     currentFontFamily = "Readex Pro";
   });
@@ -196,7 +205,16 @@
 <div class="editor-wrapper">
   <div class="editor-tools-wrapper">
     <div class="editor-tools-info">
-      <button>File</button>
+      <div class="tooltip-container4">
+        <input
+          type="text"
+          class="document-title"
+          placeholder="Untitled Document"
+          value=""
+        />
+        <div class="tooltip2">Document Title</div>
+      </div>
+
       {#if editor?.storage?.characterCount}
         <div class="character-counter">
           <p>{editor.storage.characterCount.characters()} characters</p>
@@ -208,7 +226,7 @@
       <div class="tools">
         {#if editor}
           <!-- Font Family and Font Size Controls -->
-          <div class="tooltip-container">
+          <div class="tooltip-container3">
             <label for="font-select" class="sr-only">Font Family</label>
             <select
               id="font-select"
@@ -259,7 +277,7 @@
             <div class="tooltip">Decrease Font Size</div>
           </div>
 
-          <div class="tooltip-container">
+          <div class="tooltip-container3">
             <input
               type="text"
               id="font-size-input"
@@ -280,18 +298,49 @@
             </button>
             <div class="tooltip">Increase Font Size</div>
           </div>
-
           <div class="tooltip-container">
             <button
-              on:click={() =>
-                editor.chain().focus().toggleHeading({ level: 1 }).run()}
-              class:active={editor.isActive("heading", { level: 1 })}
-              aria-label="Heading 1"
+              on:click={() => editor.chain().focus().toggleBold().run()}
+              class:active={editor.isActive("bold")}
+              aria-label="Bold"
             >
-              H1
+              <i class="fi fi-rs-bold"></i>
             </button>
-            <div class="tooltip">Heading 1</div>
+            <div class="tooltip">Bold</div>
           </div>
+          <div class="tooltip-container">
+            <button
+              on:click={() => editor.chain().focus().toggleItalic().run()}
+              class:active={editor.isActive("bold")}
+              aria-label="Bold"
+            >
+              <i class="fi fi-bs-italic"></i>
+            </button>
+            <div class="tooltip">Italic</div>
+          </div>
+          <div class="tooltip-container">
+            <button
+              on:click={() => editor.chain().focus().toggleUnderline().run()}
+              class:active={editor.isActive("underline")}
+              aria-label="Underline"
+            >
+              <i class="fi fi-bs-underline"></i>
+            </button>
+            <div class="tooltip">Underline</div>
+          </div>
+          <div class="tooltip-container">
+            <HighlightColorPicker {editor} />
+          </div>
+          <div class="tooltip-container">
+            <TextColorPicker {editor} />
+          </div>
+          <div class="tooltip-container2">
+            <AlignMenu {editor} />
+          </div>
+          <div class="tooltip-container2">
+            <LineSpacingMenu {editor} />
+          </div>
+
           <div class="tooltip-container">
             <button
               on:click={() => editor.chain().focus().toggleBulletList().run()}
@@ -322,33 +371,14 @@
             </button>
             <div class="tooltip">Numbered List</div>
           </div>
-          <div class="tooltip-container">
-            <button
-              on:click={() => editor.chain().focus().toggleBold().run()}
-              class:active={editor.isActive("bold")}
-              aria-label="Bold"
-            >
-              <i class="fa-solid fa-bold"></i>
-            </button>
-            <div class="tooltip">Bold</div>
-          </div>
-          <div class="tooltip-container">
-            <button
-              on:click={() => editor.chain().focus().toggleUnderline().run()}
-              class:active={editor.isActive("underline")}
-              aria-label="Underline"
-            >
-              <i class="fa-solid fa-underline"></i>
-            </button>
-            <div class="tooltip">Underline</div>
-          </div>
+
           <div class="tooltip-container">
             <button
               on:click={() => editor.chain().focus().toggleBlockquote().run()}
               class:active={editor.isActive("blockquote")}
               aria-label="Blockquote"
             >
-              <i class="fa-solid fa-quote-right"></i>
+              <i class="fi fi-sr-block-quote"></i>
             </button>
             <div class="tooltip">Blockquote</div>
           </div>
@@ -368,7 +398,7 @@
               class:active={editor.isActive("codeBlock")}
               aria-label="Code Block"
             >
-              <i class="fa-solid fa-file-code"></i>
+              <i class="fi fi-rs-rectangle-code"></i>
             </button>
             <div class="tooltip">Code Block</div>
           </div>
@@ -378,7 +408,7 @@
               class:active={editor.isActive("subscript")}
               aria-label="Subscript"
             >
-              <i class="fa-solid fa-subscript"></i>
+              <i class="fi fi-bs-subscript" style="margin-top: 4px;"></i>
             </button>
             <div class="tooltip">Subscript</div>
           </div>
@@ -388,19 +418,9 @@
               class:active={editor.isActive("superscript")}
               aria-label="Superscript"
             >
-              <i class="fa-solid fa-superscript"></i>
+              <i class="fi fi-bs-superscript" style="margin-bottom: 4px;"></i>
             </button>
             <div class="tooltip">Superscript</div>
-          </div>
-          <div class="tooltip-container">
-            <button
-              on:click={() => editor.chain().focus().toggleHighlight().run()}
-              class:active={editor.isActive("highlight")}
-              aria-label="Highlight"
-            >
-              <i class="fa-solid fa-highlighter"></i>
-            </button>
-            <div class="tooltip">Highlight</div>
           </div>
 
           <div class="tooltip-container">
@@ -425,18 +445,6 @@
               <i class="fa-solid fa-image"></i>
             </button>
             <div class="tooltip">Image</div>
-          </div>
-          <div class="tooltip-container">
-            <label for="text-color-picker" class="sr-only">Text Color</label>
-            <input
-              type="color"
-              id="text-color-picker"
-              on:change={(e) =>
-                editor.chain().focus().setColor(e.target.value).run()}
-              value="#000000"
-              aria-label="Text Color"
-            />
-            <div class="tooltip">Text Color</div>
           </div>
         {/if}
       </div>

@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte";
+  import { clickOutside } from "$lib/util/clickOutside";
 
   export let maxRows = 10;
   export let maxCols = 10;
@@ -13,6 +14,10 @@
 
   function togglePicker() {
     showPicker = !showPicker;
+  }
+
+  function closeDropdown() {
+    showPicker = false;
   }
 
   function handleHover(r, c) {
@@ -31,7 +36,7 @@
 </button>
 
 {#if showPicker}
-  <div class="table-picker">
+  <div class="table-picker" use:clickOutside on:outclick={closeDropdown}>
     <div class="grid">
       {#each Array(maxRows) as _, row}
         <div class="row">

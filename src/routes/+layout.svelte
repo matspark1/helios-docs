@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import "./styles.css";
+  import "@melloware/coloris/dist/coloris.css";
   import toast, { Toaster } from "svelte-5-french-toast";
   import { user } from "../stores/authStore";
   import { getAuth, onAuthStateChanged } from "firebase/auth";
