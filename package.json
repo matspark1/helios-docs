@@ -30,6 +30,7 @@
 		"@tiptap/extension-color": "^2.11.5",
 		"@tiptap/extension-highlight": "^2.11.5",
 		"@tiptap/extension-image": "^2.11.5",
+		"@tiptap/extension-link": "^2.11.6",
 		"@tiptap/extension-list-item": "^2.11.5",
 		"@tiptap/extension-subscript": "^2.11.5",
 		"@tiptap/extension-superscript": "^2.11.5",
@@ -49,6 +50,7 @@
 		"highlight.js": "^11.11.1",
 		"jquery": "^3.7.1",
 		"lowlight": "^3.3.0",
+		"pagedjs": "^0.4.3",
 		"svelte-5-french-toast": "^2.0.4",
 		"swapy": "^1.0.5",
 		"tiptap-extension-resize-image": "^1.2.1"
