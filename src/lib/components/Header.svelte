@@ -189,7 +189,7 @@
         aria-label="profilebtn"
         on:click={handleProfileClick}
       >
-        <img src={profilePic} alt="Profile Picture" /> My Profile
+        <img src={profilePic} alt="Profile Picture" /> Profile
       </a>
     </div>
   </div>
