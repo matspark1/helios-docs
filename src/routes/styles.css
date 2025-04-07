@@ -1070,6 +1070,11 @@ a[data-tooltip][data-position=right]:after {
     display: none;
   }
 }
+@media (max-height: 780px) {
+  .profile-wrapper {
+    height: 660px;
+  }
+}
 .home-wrapper {
   height: 100%;
   width: 100%;

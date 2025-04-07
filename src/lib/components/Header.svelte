@@ -107,8 +107,8 @@
         <div class="link-wrap">
           <a
             href="/"
-            aria-label="Your Chats"
-            data-tooltip="Your Chats"
+            aria-label="Chats"
+            data-tooltip="Chats"
             data-position="right"
           >
             <i class="fa-regular fa-comment"></i>
@@ -119,7 +119,7 @@
     <a
       class="nav-profile-picture"
       aria-label="profilebtn"
-      data-tooltip="My Profile"
+      data-tooltip="Profile"
       data-position="right"
       on:click={handleProfileClick}
     >
@@ -154,7 +154,7 @@
           </a>
         </div>
         <div class="link-wrap">
-          <a href="/" aria-label="Docs">
+          <a href="/docs" aria-label="Docs">
             <i class="fa-regular fa-file"></i> Documents
           </a>
         </div>
@@ -179,7 +179,7 @@
           </a>
         </div>
         <div class="link-wrap">
-          <a href="/" aria-label="Your Chats">
+          <a href="/" aria-label="Chats">
             <i class="fa-regular fa-comment"></i> Your Chats
           </a>
         </div>
