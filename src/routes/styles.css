@@ -1208,7 +1208,7 @@ a[data-tooltip][data-position=right]:after {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
-  z-index: 10;
+  z-index: 100;
   border: 1px solid #f1f1f1;
 }
 
@@ -1218,6 +1218,63 @@ a[data-tooltip][data-position=right]:after {
   left: 124%;
   transform: translateX(-70%);
   background-color: #2c2a2a;
+  color: #f1f1f1;
+  padding: 6px 10px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(var(--black-rgb), 0.1);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+  z-index: 10;
+  border: 1px solid #f1f1f1;
+}
+
+.tooltip3 {
+  position: absolute;
+  top: -16%;
+  left: -144%;
+  transform: translateX(-70%);
+  background-color: #2c2a2a;
+  color: #f1f1f1;
+  padding: 6px 10px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(var(--black-rgb), 0.1);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+  z-index: 10;
+  border: 1px solid #f1f1f1;
+}
+
+.tooltip4 {
+  position: absolute;
+  top: -16%;
+  left: -108%;
+  transform: translateX(-70%);
+  background-color: #2c2a2a;
+  color: #f1f1f1;
+  padding: 6px 10px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(var(--black-rgb), 0.1);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+  z-index: 10;
+  border: 1px solid #f1f1f1;
+}
+
+.tooltip5 {
+  position: absolute;
+  top: -16%;
+  left: -198%;
+  transform: translateX(-70%);
+  background-color: var(--primary);
   color: #f1f1f1;
   padding: 6px 10px;
   border-radius: 0.5rem;
@@ -1247,6 +1304,21 @@ a[data-tooltip][data-position=right]:after {
 }
 
 .tooltip-container4:hover .tooltip2 {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0px);
+}
+
+.tooltip-container5:hover .tooltip3 {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0px);
+}
+
+.tooltip-container5:hover .tooltip4 {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0px);
+}
+
+.tooltip-container5:hover .tooltip5 {
   opacity: 1;
   transform: translateX(-50%) translateY(0px);
 }
@@ -1425,6 +1497,16 @@ a[data-tooltip][data-position=right]:after {
   align-items: center;
   justify-content: center;
   height: 25px;
+}
+
+.tooltip-container5 {
+  position: relative;
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 25px;
+  margin: 4px auto;
 }
 
 .link-dropdown {
@@ -1754,6 +1836,92 @@ a[data-tooltip][data-position=right]:after {
   width: 360px;
 }
 
+.doc-file-container {
+  position: relative;
+}
+
+.doc-file-btn {
+  z-index: 99;
+  position: absolute;
+  top: 134px;
+  right: 34px;
+  border: 1px solid var(--white);
+  padding: 14px 14px;
+  font-family: "Readex Pro", sans-serif;
+  font-weight: 300;
+  border-radius: 40px;
+  font-size: 20px;
+  box-shadow: inset 0 0 var(--primary);
+  transition: all 0.4s ease-out;
+  background-color: var(--black);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.doc-file-btn:hover, .doc-file-btn.active {
+  box-shadow: inset 30em 0 var(--light-black);
+  border: 1px solid var(--btn-black);
+  cursor: pointer;
+  color: var(--black);
+}
+.doc-file-btn i {
+  width: 20px;
+  height: 20px;
+}
+
+.file-btn-options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  row-gap: 10px;
+  background-color: var(--light-black);
+  box-shadow: 0px 4px 10px rgba(var(--black-rgb), 0.05);
+  border: 2px solid var(--white);
+  padding: 10px;
+  border-radius: 16px;
+  position: absolute;
+  top: 190px;
+  right: 28px;
+  z-index: 30;
+}
+.file-btn-options .file-btn-delete {
+  color: var(--red-font);
+}
+.file-btn-options .file-btn-delete:hover {
+  background-color: var(--red-font);
+  color: var(--btn-white-white);
+}
+.file-btn-options button {
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+  font-family: "Readex Pro", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: ease 0.12s;
+  color: var(--black);
+}
+.file-btn-options button:hover {
+  background-color: var(--white);
+}
+
+@media screen and (max-width: 1490px) {
+  .doc-file-container .doc-file-btn {
+    right: 15px;
+    top: 124px;
+  }
+  .doc-file-container .file-btn-options {
+    right: 10px;
+  }
+}
 .swapy-container {
   height: 100%;
   width: 100%;
@@ -1803,6 +1971,7 @@ a[data-tooltip][data-position=right]:after {
   border-radius: 10px;
   color: var(--black);
   overflow: hidden;
+  position: relative;
 }
 
 .editor-wrapper {

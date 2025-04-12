@@ -5,6 +5,7 @@
   import { user } from "../../../stores/authStore";
   import Header from "$lib/components/Header.svelte";
   import Profile from "$lib/components/Profile.svelte";
+  import FileButton from "$lib/components/FileButton.svelte";
   import {
     profileModalVisible,
     closeProfileModal,
@@ -19,12 +20,6 @@
 
   onMount(() => {
     console.log(data);
-
-    // const container = document.querySelector(".swapy-container");
-    // const swapy = createSwapy(container, {
-    //   animation: "dynamic",
-    //   dragAxis: "x",
-    // });
   });
 </script>
 
@@ -42,6 +37,7 @@
       {/if}
       <div class="doc-editor-wrapper">
         <div class="editor-container">
+          <FileButton />
           <DocsEditor />
         </div>
         <div class="chat-container">

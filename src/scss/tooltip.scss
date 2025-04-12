@@ -80,7 +80,7 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
-  z-index: 10;
+  z-index: 100;
   border: 1px solid #f1f1f1;
 }
 
@@ -90,6 +90,62 @@
   left: 124%;
   transform: translateX(-70%);
   background-color: #2c2a2a;
+  color: #f1f1f1;
+  padding: 6px 10px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(var(--black-rgb), 0.1);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+  z-index: 10;
+  border: 1px solid #f1f1f1;
+}
+
+.tooltip3 {
+  position: absolute;
+  top: -16%;
+  left: -144%;
+  transform: translateX(-70%);
+  background-color: #2c2a2a;
+  color: #f1f1f1;
+  padding: 6px 10px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(var(--black-rgb), 0.1);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+  z-index: 10;
+  border: 1px solid #f1f1f1;
+}
+.tooltip4 {
+  position: absolute;
+  top: -16%;
+  left: -108%;
+  transform: translateX(-70%);
+  background-color: #2c2a2a;
+  color: #f1f1f1;
+  padding: 6px 10px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(var(--black-rgb), 0.1);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+  z-index: 10;
+  border: 1px solid #f1f1f1;
+}
+
+.tooltip5 {
+  position: absolute;
+  top: -16%;
+  left: -198%;
+  transform: translateX(-70%);
+  background-color: var(--primary);
   color: #f1f1f1;
   padding: 6px 10px;
   border-radius: 0.5rem;
@@ -117,6 +173,21 @@
 }
 
 .tooltip-container4:hover .tooltip2 {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0px);
+}
+
+.tooltip-container5:hover .tooltip3 {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0px);
+}
+
+.tooltip-container5:hover .tooltip4 {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0px);
+}
+
+.tooltip-container5:hover .tooltip5 {
   opacity: 1;
   transform: translateX(-50%) translateY(0px);
 }
@@ -304,6 +375,16 @@
   align-items: center;
   justify-content: center;
   height: 25px;
+}
+
+.tooltip-container5 {
+  position: relative;
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 25px;
+  margin: 4px auto;
 }
 
 .link-dropdown {
