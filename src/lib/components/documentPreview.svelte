@@ -16,12 +16,10 @@
   function toggleOptions(event) {
     event.stopPropagation();
     showOptions = !showOptions;
-    console.log("toggle!");
   }
 
   function closeOptions() {
     showOptions = false;
-    console.log("closed");
   }
 
   function handleClickOutside(event) {
@@ -65,12 +63,9 @@
         const userData = userSnap.data();
         ownerProfilePic = userData.photoURL || pfp;
 
-        // Update the component-level ownerUID
         ownerUID = userData.uid || false;
         ownerName = userData.name || "Unknown User";
-        console.log(`Document owned by: ${ownerName}`);
       } else {
-        console.log("No user data found for owner");
         ownerProfilePic = pfp;
       }
     } catch (error) {
@@ -114,10 +109,6 @@
   }
 
   onMount(() => {
-    console.log("Current User IS: " + JSON.stringify(currentUser));
-    // ownerUID is now accessible here
-    console.log(ownerUID);
-
     if (document.createdAt) {
       formattedDate = formatDate(document.createdAt);
     }

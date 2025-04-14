@@ -53,16 +53,12 @@
 
     try {
       const allDocs = await getUserDocuments();
-      console.log("All user documents:", allDocs);
 
       userDocuments = allDocs.filter((doc) => doc.ownerId === currentUser.uid);
 
       hasSharedDocuments = allDocs.some(
         (doc) => doc.ownerId !== currentUser.uid
       );
-
-      console.log("Owned documents:", userDocuments);
-      console.log("Has shared documents:", hasSharedDocuments);
     } catch (error) {
       console.error("Error loading user documents:", error);
     } finally {
