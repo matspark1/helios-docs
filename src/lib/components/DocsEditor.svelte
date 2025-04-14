@@ -38,8 +38,6 @@
   import Underline from "@tiptap/extension-underline";
   import TextAlign from "@tiptap/extension-text-align";
   import Typography from "@tiptap/extension-typography";
-
-  // Add collaborative extensions
   import Collaboration from "@tiptap/extension-collaboration";
   import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
   import * as Y from "yjs";

@@ -2340,7 +2340,7 @@ img[data-tooltip][data-position=bottom]:after {
   margin-left: 8px;
 }
 .shared-user-item .user-info .user-role.owner {
-  background-color: #efd15c;
+  background-color: var(--blue);
 }
 .shared-user-item .remove-user-button {
   background: none;
