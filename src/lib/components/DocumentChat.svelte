@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from "svelte";
   import { auth } from "$lib/FirebaseConfig";
   import { subscribeToChat, sendChatMessage } from "$lib/services/chatService";
+  import ShareDocChat from "$lib/components/ShareDocChat.svelte";
 
   export let documentId;
 
@@ -52,6 +53,9 @@
 <div class="chat-wrapper">
   <div class="chat-header">
     <h3>Chat</h3>
+    <div class="share-btn-chat">
+      <ShareDocChat {documentId} />
+    </div>
   </div>
 
   <div class="chat-messages" bind:this={chatContainer}>

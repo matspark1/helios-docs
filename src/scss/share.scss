@@ -4,11 +4,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 1000000000;
 
   .modal-content {
     background-color: var(--white);
@@ -17,14 +17,14 @@
     max-width: 500px;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 20px rgba(var(--black-rgb), 0.25);
 
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 16px 20px;
-      border-bottom: 1px solid var(--light-black);
+      border-bottom: 1px solid var(--light-grey2);
 
       h2 {
         margin: 0;
@@ -44,6 +44,7 @@
         align-items: center;
         justify-content: center;
         transition: ease 0.12s;
+        margin-right: -5px;
 
         &:hover {
           background-color: rgba(var(--black-rgb), 0.2);
@@ -59,12 +60,11 @@
       padding: 16px 20px;
       display: flex;
       justify-content: flex-end;
-      border-top: 1px solid var(--black);
+      border-top: 1px solid var(--light-grey2);
     }
   }
 }
 
-// Form Styles
 .share-input-group {
   display: flex;
   margin-bottom: 24px;
@@ -103,7 +103,6 @@
   }
 }
 
-// Shared Users List Styles
 .shared-users-section {
   margin-top: 16px;
 
@@ -170,16 +169,12 @@
   .remove-user-button {
     background: none;
     border: none;
-    color: var(--primary);
+    background-color: var(--primary);
+    color: var(--btn-white-white);
     cursor: pointer;
     padding: 6px;
     border-radius: 4px;
     transition: background-color 0.2s;
-
-    &:hover {
-      background-color: var(--primary);
-      color: var(--btn-white-white);
-    }
 
     &:disabled {
       color: var(--light-grey2);
@@ -188,7 +183,6 @@
   }
 }
 
-// Message Styles
 .error-message,
 .success-message {
   padding: 12px;
@@ -216,7 +210,6 @@
   padding: 12px 0;
 }
 
-// Button Styles
 .cancel-button {
   background-color: var(--light-black);
   border: none;
@@ -227,4 +220,7 @@
   transition: background-color 0.2s;
   color: var(--black);
   font-weight: 600;
+}
+
+.share-btn-chat {
 }

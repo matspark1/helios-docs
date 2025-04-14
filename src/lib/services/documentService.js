@@ -85,6 +85,21 @@ export async function shareDocument(documentId, userEmail, role = "editor") {
 
     const userId = querySnapshot.docs[0].id;
     const docRef = doc(db, "documents", documentId);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      throw new Error("Document not found");
+    }
+
+    const docData = docSnap.data();
+    if (docData.sharedWith && Array.isArray(docData.sharedWith)) {
+      const isAlreadyShared = docData.sharedWith.some(
+        (share) => share.userId === userId
+      );
+      if (isAlreadyShared) {
+        throw new Error("This user already has access to the document");
+      }
+    }
 
     await updateDoc(docRef, {
       sharedWith: arrayUnion({ userId, role }),
@@ -100,7 +115,6 @@ export async function shareDocument(documentId, userEmail, role = "editor") {
     throw error;
   }
 }
-
 export async function removeSharedUser(documentId, userId) {
   try {
     const docRef = doc(db, "documents", documentId);

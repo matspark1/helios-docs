@@ -148,7 +148,7 @@
 </script>
 
 <button
-  class="share-button fileBtn"
+  class="share-button chatFileBtn"
   on:click={openShareModal}
   aria-label="Share Document"
 >

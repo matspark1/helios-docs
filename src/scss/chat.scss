@@ -11,6 +11,33 @@
   background-color: var(--primary);
   color: var(--btn-white-white);
   border-bottom: 1px solid var(--white);
+  position: relative;
+}
+
+.share-btn-chat {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  .chatFileBtn {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    font-family: $readex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: ease 0.12s;
+    color: var(--btn-white-white);
+    &:hover {
+      background-color: var(--btn-white-white);
+      color: var(--primary);
+    }
+  }
 }
 
 .chat-header h3 {
