@@ -4,16 +4,14 @@
 }
 .docs-boxes-wrapper {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin: 0 auto;
+  padding: 0 40px;
+  margin: 50px auto 100px auto;
 }
 .docs-boxes {
-  height: 700px;
+  height: 300px;
   width: 100%;
-  display: flex;
+  display: inline-grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;

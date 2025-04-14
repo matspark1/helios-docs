@@ -19,6 +19,9 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@hocuspocus/extension-database": "^2.15.2",
+		"@hocuspocus/extension-logger": "^2.15.2",
+		"@hocuspocus/server": "^2.15.2",
 		"@melloware/coloris": "^0.24.0",
 		"@tiptap/core": "^2.11.5",
 		"@tiptap/extension-blockquote": "^2.11.5",
@@ -27,6 +30,8 @@
 		"@tiptap/extension-code": "^2.11.5",
 		"@tiptap/extension-code-block": "^2.11.5",
 		"@tiptap/extension-code-block-lowlight": "^2.11.5",
+		"@tiptap/extension-collaboration": "^2.11.7",
+		"@tiptap/extension-collaboration-cursor": "^2.11.7",
 		"@tiptap/extension-color": "^2.11.5",
 		"@tiptap/extension-highlight": "^2.11.5",
 		"@tiptap/extension-image": "^2.11.5",
@@ -47,12 +52,17 @@
 		"@tiptap/pm": "^2.11.5",
 		"@tiptap/starter-kit": "^2.11.5",
 		"firebase": "^11.2.0",
+		"firebase-admin": "^13.2.0",
 		"highlight.js": "^11.11.1",
 		"jquery": "^3.7.1",
 		"lowlight": "^3.3.0",
 		"pagedjs": "^0.4.3",
 		"svelte-5-french-toast": "^2.0.4",
 		"swapy": "^1.0.5",
-		"tiptap-extension-resize-image": "^1.2.1"
+		"tiptap-extension-resize-image": "^1.2.1",
+		"uuid": "^11.1.0",
+		"y-indexeddb": "^9.0.12",
+		"y-websocket": "^3.0.0",
+		"yjs": "^13.6.24"
 	}
 }

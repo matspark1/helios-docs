@@ -1,5 +1,11 @@
 <script>
   import { onMount, onDestroy } from "svelte";
+  import {
+    updateDocumentTitle,
+    getDocument,
+  } from "$lib/services/documentService";
+  import { auth } from "$lib/FirebaseConfig";
+  import { FirebaseProvider } from "$lib/collaboration/FirebaseProvider";
   import InsertTable from "$lib/components/InsertTable.svelte";
   import HighlightColorPicker from "$lib/components/HighlightColorPicker.svelte";
   import TextColorPicker from "$lib/components/TextColorPicker.svelte";
@@ -33,13 +39,41 @@
   import TextAlign from "@tiptap/extension-text-align";
   import Typography from "@tiptap/extension-typography";
 
+  // Add collaborative extensions
+  import Collaboration from "@tiptap/extension-collaboration";
+  import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
+  import * as Y from "yjs";
+  import { IndexeddbPersistence } from "y-indexeddb";
+  import toast from "svelte-5-french-toast";
+
+  export let documentId;
   let element;
   let editor;
-
+  let documentTitle = "Untitled Document";
   let currentFontFamily = "";
   let currentFontSize = "16px";
+  let ydoc;
+  let firebaseProvider;
+  let indexDbProvider;
+  let isLoading = true;
+  let cleanupInterval;
 
   $: displayFontSize = currentFontSize.replace("px", "");
+
+  async function loadDocument() {
+    try {
+      const doc = await getDocument(documentId);
+      if (doc) {
+        documentTitle = doc.title || "Untitled Document";
+      }
+      isLoading = false;
+    } catch (error) {
+      console.error("Error loading document:", error);
+      isLoading = false;
+    }
+  }
+
+  console.log("Editor initializing with document ID:", documentId);
 
   function handleInsertTable(event) {
     const { rows, cols } = event.detail;
@@ -64,7 +98,36 @@
     }
   }
 
-  onMount(() => {
+  async function saveTitle() {
+    try {
+      await updateDocumentTitle(documentId, documentTitle);
+    } catch (error) {
+      console.error("Error saving title:", error);
+      toast.error("Error saving document title.");
+    }
+  }
+
+  onMount(async () => {
+    await loadDocument();
+
+    ydoc = new Y.Doc();
+
+    indexDbProvider = new IndexeddbPersistence(
+      `helios-docs-${documentId}`,
+      ydoc
+    );
+
+    firebaseProvider = new FirebaseProvider(documentId, ydoc);
+
+    cleanupInterval = setInterval(
+      () => {
+        if (firebaseProvider) {
+          firebaseProvider.cleanupOldUpdates();
+        }
+      },
+      5 * 60 * 1000
+    );
+
     const CustomTextStyle = TextStyle.extend({
       addAttributes() {
         return {
@@ -118,7 +181,9 @@
         },
       },
       extensions: [
-        StarterKit,
+        StarterKit.configure({
+          history: false,
+        }),
         Subscript,
         Superscript,
         Typography,
@@ -153,17 +218,14 @@
           protocols: ["http", "https"],
           isAllowedUri: (url, ctx) => {
             try {
-              // construct URL
               const parsedUrl = url.includes(":")
                 ? new URL(url)
                 : new URL(`${ctx.defaultProtocol}://${url}`);
 
-              // use default validation
               if (!ctx.defaultValidate(parsedUrl.href)) {
                 return false;
               }
 
-              // disallowed protocols
               const disallowedProtocols = ["ftp", "file", "mailto"];
               const protocol = parsedUrl.protocol.replace(":", "");
 
@@ -171,7 +233,6 @@
                 return false;
               }
 
-              // only allow protocols specified in ctx.protocols
               const allowedProtocols = ctx.protocols.map((p) =>
                 typeof p === "string" ? p : p.scheme
               );
@@ -180,7 +241,6 @@
                 return false;
               }
 
-              // disallowed domains
               const disallowedDomains = [
                 "example-phishing.com",
                 "malicious-site.net",
@@ -191,7 +251,6 @@
                 return false;
               }
 
-              // all checks have passed
               return true;
             } catch {
               return false;
@@ -199,12 +258,10 @@
           },
           shouldAutoLink: (url) => {
             try {
-              // construct URL
               const parsedUrl = url.includes(":")
                 ? new URL(url)
                 : new URL(`https://${url}`);
 
-              // only auto-link if the domain is not in the disallowed list
               const disallowedDomains = [
                 "example-no-autolink.com",
                 "another-no-autolink.com",
@@ -217,8 +274,17 @@
             }
           },
         }),
+        Collaboration.configure({
+          document: ydoc,
+        }),
+        // CollaborationCursor.configure({
+        //   provider: firebaseProvider,
+        //   user: {
+        //     name: auth.currentUser?.displayName || "Anonymous",
+        //     color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+        //   },
+        // }),
       ],
-      content: ``,
       onTransaction: () => {
         editor = editor;
         updateSelectionFormat();
@@ -231,7 +297,6 @@
       },
     });
 
-    //initial font size and family
     editor.commands.setFontSize("16px");
     editor.commands.setFontFamily("Readex Pro");
     currentFontFamily = "Readex Pro";
@@ -241,14 +306,26 @@
     if (editor) {
       editor.destroy();
     }
+
+    if (firebaseProvider) {
+      firebaseProvider.destroy();
+    }
+    if (indexDbProvider) {
+      indexDbProvider.destroy();
+    }
+    if (ydoc) {
+      ydoc.destroy();
+    }
+
+    if (cleanupInterval) {
+      clearInterval(cleanupInterval);
+    }
   });
 
-  // Font size input
   function handleFontSizeInput(e) {
     let size = parseInt(e.target.value);
     if (isNaN(size) || size < 1) return;
 
-    // Minimum font size
     size = Math.max(size, 4);
     const sizeWithUnit = `${size}px`;
 
@@ -259,7 +336,6 @@
     }
   }
 
-  // Font size adjustment
   function handleFontSizeAdjust(change) {
     if (!editor) return;
 
@@ -283,7 +359,9 @@
           type="text"
           class="document-title"
           placeholder="Untitled Document"
-          value=""
+          bind:value={documentTitle}
+          on:blur={saveTitle}
+          on:keydown={(e) => e.key === "Enter" && saveTitle()}
         />
         <div class="tooltip2">Document Title</div>
       </div>
@@ -298,7 +376,6 @@
     <div class="editor-tools">
       <div class="tools">
         {#if editor}
-          <!-- Font Family and Font Size Controls -->
           <div class="tooltip-container3">
             <label for="font-select" class="sr-only">Font Family</label>
             <select
@@ -526,9 +603,15 @@
     </div>
   </div>
 
-  <div class="scroll-wrapper">
-    <div class="docseditor-container">
-      <div bind:this={element} class="editor"></div>
+  {#if isLoading}
+    <div class="loading-indicator">
+      <p>Loading document...</p>
     </div>
-  </div>
+  {:else}
+    <div class="scroll-wrapper">
+      <div class="docseditor-container">
+        <div bind:this={element} class="editor"></div>
+      </div>
+    </div>
+  {/if}
 </div>

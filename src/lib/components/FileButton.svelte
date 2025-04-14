@@ -2,6 +2,9 @@
   import { fade, fly } from "svelte/transition";
   import { quintOut } from "svelte/easing";
   import { onMount, onDestroy } from "svelte";
+  import ShareDocument from "$lib/components/ShareDocument.svelte";
+
+  export let documentId;
 
   let isOpen = false;
   let buttonElement;
@@ -49,31 +52,29 @@
       transition:fly={{ y: -50, duration: 400, easing: quintOut }}
     >
       <div class="tooltip-container5">
-        <button class="file-btn-dwnld" aria-label="file-btn-dwnld">
+        <button class="file-btn-dwnld fileBtn" aria-label="file-btn-dwnld">
           <i class="fa-regular fa-circle-down"></i>
         </button>
         <div class="tooltip3">Download</div>
       </div>
       <div class="tooltip-container5">
-        <button class="file-btn-rename" aria-label="file-btn-rename">
+        <button class="file-btn-rename fileBtn" aria-label="file-btn-rename">
           <i class="fi fi-rr-print"></i>
-          <div class="tooltip4">Print</div>
         </button>
+        <div class="tooltip4">Print</div>
       </div>
       <div class="tooltip-container5">
-        <button class="file-btn-rename" aria-label="file-btn-rename">
-          <i class="fa-solid fa-share"></i>
-        </button>
+        <ShareDocument {documentId} />
         <div class="tooltip4">Share</div>
       </div>
       <div class="tooltip-container5">
-        <button class="file-btn-rename" aria-label="file-btn-rename">
+        <button class="file-btn-rename fileBtn" aria-label="file-btn-rename">
           <i class="fi fi-br-interrogation"></i>
         </button>
         <div class="tooltip4">Details</div>
       </div>
       <div class="tooltip-container5">
-        <button class="file-btn-delete" aria-label="file-btn-delete">
+        <button class="file-btn-delete fileBtn" aria-label="file-btn-delete">
           <i class="fa-solid fa-trash"></i>
         </button>
         <div class="tooltip5">Delete Document</div>

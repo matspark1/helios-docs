@@ -79,10 +79,10 @@
         </div>
         <div class="link-wrap">
           <a
-            href="/"
-            aria-label="Groups"
+            href="/shared"
+            aria-label="Shared"
             class="groups"
-            data-tooltip="Groups"
+            data-tooltip="Shared with me"
             data-position="right"
           >
             <svg
@@ -159,7 +159,7 @@
           </a>
         </div>
         <div class="link-wrap">
-          <a href="/" aria-label="Groups" class="groups">
+          <a href="/shared" aria-label="Groups" class="groups">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
