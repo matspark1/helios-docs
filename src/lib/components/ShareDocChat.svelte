@@ -217,7 +217,7 @@
                       <span class="user-name">{ownerUser.name}</span>
                       <span class="user-email">{ownerUser.email}</span>
                     </div>
-                    <span class="user-role">{ownerUser.role}</span>
+                    <span class="user-role owner">{ownerUser.role}</span>
                   </div>
                 </li>
               {/if}

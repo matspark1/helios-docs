@@ -2339,6 +2339,9 @@ img[data-tooltip][data-position=bottom]:after {
   border-radius: 4px;
   margin-left: 8px;
 }
+.shared-user-item .user-info .user-role.owner {
+  background-color: #efd15c;
+}
 .shared-user-item .remove-user-button {
   background: none;
   border: none;

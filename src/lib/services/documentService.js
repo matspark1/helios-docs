@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import { ref, set, get } from "firebase/database";
 import { auth, db, rtdb } from "../FirebaseConfig";
+import toast from "svelte-5-french-toast";
 
 export async function getDocument(documentId) {
   try {

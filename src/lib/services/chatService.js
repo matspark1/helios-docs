@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../FirebaseConfig";
 import { fetchUserProfilePic } from "../util/getProfilePicture";
+import toast from "svelte-5-french-toast";
 
 export async function sendChatMessage(documentId, message) {
   try {

@@ -10,6 +10,9 @@
   let docOptionsBtn;
   let docOptions;
 
+  // Declare ownerUID at the component level
+  let ownerUID = false;
+
   function toggleOptions(event) {
     event.stopPropagation();
     showOptions = !showOptions;
@@ -62,7 +65,9 @@
         const userData = userSnap.data();
         ownerProfilePic = userData.photoURL || pfp;
 
-        const ownerName = userData.name || "Unknown User";
+        // Update the component-level ownerUID
+        ownerUID = userData.uid || false;
+        ownerName = userData.name || "Unknown User";
         console.log(`Document owned by: ${ownerName}`);
       } else {
         console.log("No user data found for owner");
@@ -101,7 +106,6 @@
     try {
       const db = getFirestore();
       await deleteDoc(doc(db, "documents", document.id));
-
       window.location.reload();
     } catch (error) {
       console.error("Error deleting document:", error);
@@ -110,6 +114,10 @@
   }
 
   onMount(() => {
+    console.log("Current User IS: " + JSON.stringify(currentUser));
+    // ownerUID is now accessible here
+    console.log(ownerUID);
+
     if (document.createdAt) {
       formattedDate = formatDate(document.createdAt);
     }
@@ -167,16 +175,18 @@
       <button class="doc-preview-dwnld" aria-label="doc-preview-dwnld">
         <i class="fa-regular fa-circle-down"></i> Download
       </button>
-      <button class="doc-preview-rename" aria-label="doc-preview-rename">
-        <i class="fa-solid fa-pen-to-square"></i> Rename
-      </button>
-      <button
-        class="doc-preview-delete"
-        on:click|stopPropagation={deleteDocument}
-        aria-label="doc-preview-delete"
-      >
-        <i class="fa-solid fa-trash"></i> Delete
-      </button>
+      {#if ownerUID === currentUser.uid}
+        <button class="doc-preview-rename" aria-label="doc-preview-rename">
+          <i class="fa-solid fa-pen-to-square"></i> Rename
+        </button>
+        <button
+          class="doc-preview-delete"
+          on:click|stopPropagation={deleteDocument}
+          aria-label="doc-preview-delete"
+        >
+          <i class="fa-solid fa-trash"></i> Delete
+        </button>
+      {/if}
     </div>
   {/if}
 </div>

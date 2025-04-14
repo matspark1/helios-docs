@@ -3,6 +3,7 @@ import { ref, onValue, set, onDisconnect, get } from "firebase/database";
 import { doc, getDoc } from "firebase/firestore";
 import { db, rtdb, auth } from "$lib/FirebaseConfig";
 import { v4 as uuidv4 } from "uuid";
+import toast from "svelte-5-french-toast";
 
 export class FirebaseProvider {
   constructor(documentId, ydoc) {
