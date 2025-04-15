@@ -67,7 +67,7 @@
         <div class="docs-boxes-wrapper">
           {#if isLoading}
             <div class="loading-documents">
-              <p>Loading shared documents...</p>
+              <span class="loader"></span>
             </div>
           {:else if sharedDocuments && sharedDocuments.length > 0}
             <div class="docs-boxes">

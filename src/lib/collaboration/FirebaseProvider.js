@@ -7,7 +7,6 @@ import toast from "svelte-5-french-toast";
 
 export class FirebaseProvider {
   constructor(documentId, ydoc) {
-    console.log("Initializing collaboration with document:", documentId);
     this.documentId = documentId;
     this.ydoc = ydoc;
     this.clientId = auth.currentUser?.uid || uuidv4();
@@ -53,7 +52,6 @@ export class FirebaseProvider {
     this.ydoc.on("update", this.handleDocumentUpdate.bind(this));
 
     this.connected = true;
-    console.log("Provider initialized successfully");
   }
 
   async syncDocumentAccess() {

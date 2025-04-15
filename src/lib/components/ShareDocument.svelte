@@ -28,7 +28,6 @@
 
     try {
       document = await getDocument(documentId);
-      console.log("Document data:", document);
 
       if (document) {
         isOwner = document.ownerId === auth.currentUser?.uid;
@@ -50,13 +49,10 @@
         }
 
         if (document.sharedWith && Array.isArray(document.sharedWith)) {
-          console.log("Shared with array:", document.sharedWith);
-
           const tempSharedUsers = [];
 
           for (const share of document.sharedWith) {
             try {
-              console.log("Processing share:", share);
               const userDoc = await getDoc(doc(db, "users", share.userId));
               if (userDoc.exists()) {
                 const userData = userDoc.data();
@@ -74,7 +70,6 @@
           }
 
           sharedUsers = tempSharedUsers;
-          console.log("Final shared users array:", sharedUsers);
         }
       }
     } catch (error) {

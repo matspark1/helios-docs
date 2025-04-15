@@ -13,7 +13,6 @@
   let isLoading = true;
 
   function handleMessagesUpdate(newMessages) {
-    console.log("Messages updated:", newMessages);
     messages = newMessages;
     isLoading = false;
     setTimeout(() => {
@@ -61,7 +60,7 @@
   <div class="chat-messages" bind:this={chatContainer}>
     {#if isLoading}
       <div class="loading-chat">
-        <p>Loading messages...</p>
+        <span class="loader"></span>
       </div>
     {:else if messages.length === 0}
       <div class="empty-chat">

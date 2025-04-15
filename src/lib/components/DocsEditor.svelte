@@ -43,6 +43,11 @@
   import * as Y from "yjs";
   import { IndexeddbPersistence } from "y-indexeddb";
   import toast from "svelte-5-french-toast";
+  import PaginationExtension, {
+    PageNode,
+    HeaderFooterNode,
+    BodyNode,
+  } from "tiptap-extension-pagination";
 
   export let documentId;
   let element;
@@ -70,8 +75,6 @@
       isLoading = false;
     }
   }
-
-  console.log("Editor initializing with document ID:", documentId);
 
   function handleInsertTable(event) {
     const { rows, cols } = event.detail;

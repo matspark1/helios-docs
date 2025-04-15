@@ -187,6 +187,25 @@ a {
   overflow: hidden;
 }
 
+.loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 3px solid var(--black);
+  border-right: 3px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .start-background {
   display: flex;
   align-items: center;
@@ -1614,7 +1633,6 @@ img[data-tooltip][data-position=bottom]:after {
   border-radius: 30px;
   width: 310px;
   height: 160px;
-  z-index: 1;
   position: relative;
   transition: ease 0.2s;
   border: 2px solid var(--light-black);
@@ -1762,13 +1780,11 @@ img[data-tooltip][data-position=bottom]:after {
 }
 
 .docs-boxes {
-  height: 300px;
   width: 100%;
-  display: inline-grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, auto));
+  justify-content: start;
   align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
   column-gap: 30px;
   row-gap: 30px;
   margin: 0 auto;
@@ -1862,8 +1878,23 @@ img[data-tooltip][data-position=bottom]:after {
   .docs-header .docs-search i {
     left: 36px;
   }
-  .doc-boxes-wrapper {
-    overflow: auto;
+  .docs-boxes-wrapper {
+    overflow: scroll;
+    height: calc(100vh - 190px);
+  }
+}
+@media screen and (max-width: 1165px) {
+  .docs-boxes {
+    height: 300px;
+    width: 100%;
+    display: inline-grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    column-gap: 30px;
+    row-gap: 30px;
+    margin: 0 auto;
   }
 }
 .doc-editor-wrapper {
@@ -2185,6 +2216,14 @@ img[data-tooltip][data-position=bottom]:after {
 .chat-input button:disabled {
   background-color: var(--light-grey2);
   cursor: not-allowed;
+}
+
+.loading-chat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 
 .modal-overlay {

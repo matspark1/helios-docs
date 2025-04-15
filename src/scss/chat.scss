@@ -190,3 +190,11 @@
   background-color: var(--light-grey2);
   cursor: not-allowed;
 }
+
+.loading-chat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}

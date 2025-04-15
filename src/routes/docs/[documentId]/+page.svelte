@@ -59,7 +59,7 @@
 
       {#if isLoading}
         <div class="loading-container">
-          <p>Loading document...</p>
+          <span class="loader"></span>
         </div>
       {:else if documentAccess.hasAccess}
         <div class="doc-editor-wrapper">
@@ -83,19 +83,5 @@
     align-items: center;
     height: calc(100vh - 64px);
     font-size: 18px;
-    color: #64748b;
-  }
-
-  @media (max-width: 768px) {
-    .doc-editor-wrapper {
-      flex-direction: column;
-    }
-
-    .chat-container {
-      width: 100%;
-      height: 300px;
-      border-left: none;
-      border-top: 1px solid #e2e8f0;
-    }
   }
 </style>

@@ -108,7 +108,7 @@
         <div class="docs-boxes-wrapper">
           {#if isLoading}
             <div class="loading-documents">
-              <p>Loading your documents...</p>
+              <span class="loader"></span>
             </div>
           {:else if userDocuments && userDocuments.length > 0}
             <div class="docs-boxes">
@@ -152,10 +152,11 @@
   }
 
   .loading-documents {
-    text-align: center;
-    color: var(--black);
-    font-size: 16px;
-    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    font-size: 18px;
   }
 
   .no-documents {
