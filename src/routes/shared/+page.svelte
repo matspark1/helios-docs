@@ -88,10 +88,11 @@
 
 <style>
   .loading-documents {
-    text-align: center;
-    color: var(--black);
-    font-size: 16px;
-    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    font-size: 18px;
   }
 
   .no-documents {
