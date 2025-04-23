@@ -12,6 +12,8 @@
 
   let currentUser;
 
+  export const prerender = true;
+
   user.subscribe((value) => {
     currentUser = value;
   });

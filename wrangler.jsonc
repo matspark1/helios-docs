@@ -1,0 +1,12 @@
+{
+    "name": "helios-docs",
+    "compatibility_date": "2025-04-23",
+    "build": {
+      "command": "npm run build"
+    },
+    "main": ".svelte-kit/cloudflare/_worker.js",
+    "assets": {
+      "directory": ".svelte-kit/cloudflare",
+      "binding": "ASSETS"
+    }
+  }
