@@ -28,7 +28,6 @@
 
     try {
       sharedDocuments = await getUserSharedDocuments();
-      console.log("Shared documents:", sharedDocuments);
     } catch (error) {
       console.error("Error loading shared documents:", error);
     } finally {

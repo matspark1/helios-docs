@@ -2,9 +2,16 @@
   import { fade, fly } from "svelte/transition";
   import { quintOut } from "svelte/easing";
   import { onMount, onDestroy } from "svelte";
+  import { getContext } from "svelte";
   import ShareDocument from "$lib/components/ShareDocument.svelte";
+  import DownloadDocument from "$lib/components/DownloadDocument.svelte";
+  import PrintDocument from "$lib/components/PrintDocument.svelte";
+  import DocumentDetails from "$lib/components/DocumentDetails.svelte";
+  import DeleteDocument from "$lib/components/DeleteDocument.svelte";
 
   export let documentId;
+
+  let editor = getContext("editor");
 
   let isOpen = false;
   let buttonElement;
@@ -24,6 +31,13 @@
 
     if (browser) {
       window.addEventListener("click", closeDropdown);
+    }
+
+    if (!editor) {
+      const editorElement = document.querySelector(".element");
+      if (editorElement && editorElement.__editor) {
+        editor = editorElement.__editor;
+      }
     }
   });
 
@@ -52,15 +66,7 @@
       transition:fly={{ y: -50, duration: 400, easing: quintOut }}
     >
       <div class="tooltip-container5">
-        <button class="file-btn-dwnld fileBtn" aria-label="file-btn-dwnld">
-          <i class="fa-regular fa-circle-down"></i>
-        </button>
-        <div class="tooltip3">Download</div>
-      </div>
-      <div class="tooltip-container5">
-        <button class="file-btn-rename fileBtn" aria-label="file-btn-rename">
-          <i class="fi fi-rr-print"></i>
-        </button>
+        <PrintDocument {documentId} {editor} />
         <div class="tooltip4">Print</div>
       </div>
       <div class="tooltip-container5">
@@ -68,15 +74,11 @@
         <div class="tooltip4">Share</div>
       </div>
       <div class="tooltip-container5">
-        <button class="file-btn-rename fileBtn" aria-label="file-btn-rename">
-          <i class="fi fi-br-interrogation"></i>
-        </button>
+        <DocumentDetails {documentId} />
         <div class="tooltip4">Details</div>
       </div>
       <div class="tooltip-container5">
-        <button class="file-btn-delete fileBtn" aria-label="file-btn-delete">
-          <i class="fa-solid fa-trash"></i>
-        </button>
+        <DeleteDocument {documentId} />
         <div class="tooltip5">Delete Document</div>
       </div>
     </div>

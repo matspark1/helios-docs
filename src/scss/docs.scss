@@ -10,14 +10,11 @@
 .docs-boxes {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, auto));
-  justify-content: start;
-  align-items: center;
-  column-gap: 30px;
-  row-gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 30px;
   margin: 0 auto;
+  justify-content: center;
 }
-
 .docs-header {
   display: flex;
   align-items: center;
@@ -93,28 +90,28 @@
 
 @media screen and (max-width: 900px) {
   .docs-header {
+    flex-direction: column;
+    margin-top: 10px;
     h2 {
       display: flex;
       column-gap: 8px;
+      position: static;
+      margin-bottom: 20px;
     }
     .new-docs-btn {
-      left: 30px;
-      top: 80px;
       display: none;
     }
     .docs-search {
-      margin-top: 63px;
-      padding: 0 20px;
-      max-width: 700px;
-      i {
-        left: 36px;
-      }
+      margin-top: 0;
+      width: 100%;
+      max-width: 600px;
     }
   }
-
+  .docs-wrapper {
+    overflow-y: scroll;
+  }
   .docs-boxes-wrapper {
-    overflow: scroll;
-    height: calc(100vh - 190px);
+    padding: 0 20px;
   }
 }
 

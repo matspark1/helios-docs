@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy } from "svelte";
+  import { onMount, onDestroy, setContext } from "svelte";
   import {
     updateDocumentTitle,
     getDocument,
@@ -43,11 +43,6 @@
   import * as Y from "yjs";
   import { IndexeddbPersistence } from "y-indexeddb";
   import toast from "svelte-5-french-toast";
-  import PaginationExtension, {
-    PageNode,
-    HeaderFooterNode,
-    BodyNode,
-  } from "tiptap-extension-pagination";
 
   export let documentId;
   let element;
@@ -60,6 +55,16 @@
   let indexDbProvider;
   let isLoading = true;
   let cleanupInterval;
+
+  const editorStore = {
+    subscribe: (callback) => {
+      callback(editor);
+      return () => {};
+    },
+    getHTML: () => editor?.getHTML() || "",
+  };
+
+  setContext("editor", editorStore);
 
   $: displayFontSize = currentFontSize.replace("px", "");
 
@@ -297,6 +302,15 @@
         updateSelectionFormat();
       },
     });
+
+    // Update the editorStore's methods to use the actual editor instance
+    Object.defineProperty(editorStore, "getHTML", {
+      value: () => editor?.getHTML() || "",
+    });
+
+    if (element) {
+      element.__editor = editor;
+    }
 
     editor.commands.setFontSize("16px");
     editor.commands.setFontFamily("Readex Pro");

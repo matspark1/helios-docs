@@ -1629,14 +1629,13 @@ img[data-tooltip][data-position=bottom]:after {
   align-items: center;
   justify-content: center;
   background-color: var(--light-black);
-  padding: 28px 28px 28px 28px;
+  padding: 28px;
   border-radius: 30px;
-  width: 310px;
+  width: 100%;
   height: 160px;
   position: relative;
   transition: ease 0.2s;
   border: 2px solid var(--light-black);
-  margin: auto;
 }
 .doc-preview-box:hover {
   box-shadow: 0px 4px 10px rgba(var(--black-rgb), 0.05);
@@ -1652,8 +1651,6 @@ img[data-tooltip][data-position=bottom]:after {
 }
 .doc-preview-box .doc-title {
   font-size: 20px;
-  max-height: 25px;
-  overflow-y: hidden;
   font-family: "Readex Pro", sans-serif;
   font-weight: 600;
   text-align: left;
@@ -1662,10 +1659,13 @@ img[data-tooltip][data-position=bottom]:after {
   border: none;
   cursor: pointer;
   transition: ease 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  width: 100%;
   color: var(--black);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .doc-preview-box .doc-title:hover {
   text-decoration: underline;
@@ -1729,9 +1729,10 @@ img[data-tooltip][data-position=bottom]:after {
   padding: 10px;
   border-radius: 16px;
   position: absolute;
-  right: -120px;
+  right: 14px;
   top: 44px;
   z-index: 200;
+  transform: translateX(-80%);
 }
 .doc-preview-box .doc-preview-options .doc-preview-delete {
   color: var(--red-font);
@@ -1763,9 +1764,25 @@ img[data-tooltip][data-position=bottom]:after {
   background-color: var(--white);
 }
 
+.doc-preview-options.right-pos {
+  right: 14px;
+  transform: translateX(80%);
+}
+
+.doc-preview-options.left-pos {
+  transform: translateX(0);
+}
+
 @media screen and (max-width: 900px) {
   .doc-preview-box .doc-preview-options {
     right: 0px;
+  }
+  .doc-preview-options.right-pos {
+    right: 0px;
+    transform: translateX(0);
+  }
+  .doc-preview-options.left-pos {
+    transform: translateX(0);
   }
 }
 .docs-wrapper {
@@ -1782,12 +1799,10 @@ img[data-tooltip][data-position=bottom]:after {
 .docs-boxes {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, auto));
-  justify-content: start;
-  align-items: center;
-  column-gap: 30px;
-  row-gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 30px;
   margin: 0 auto;
+  justify-content: center;
 }
 
 .docs-header {
@@ -1861,26 +1876,29 @@ img[data-tooltip][data-position=bottom]:after {
 }
 
 @media screen and (max-width: 900px) {
+  .docs-header {
+    flex-direction: column;
+    margin-top: 10px;
+  }
   .docs-header h2 {
     display: flex;
     column-gap: 8px;
+    position: static;
+    margin-bottom: 20px;
   }
   .docs-header .new-docs-btn {
-    left: 30px;
-    top: 80px;
     display: none;
   }
   .docs-header .docs-search {
-    margin-top: 63px;
-    padding: 0 20px;
-    max-width: 700px;
+    margin-top: 0;
+    width: 100%;
+    max-width: 600px;
   }
-  .docs-header .docs-search i {
-    left: 36px;
+  .docs-wrapper {
+    overflow-y: scroll;
   }
   .docs-boxes-wrapper {
-    overflow: scroll;
-    height: calc(100vh - 190px);
+    padding: 0 20px;
   }
 }
 @media screen and (max-width: 1165px) {
@@ -2465,13 +2483,13 @@ img[data-tooltip][data-position=bottom]:after {
 }
 
 .scroll-wrapper {
-  overflow-y: auto; /* Change to auto instead of scroll for better behavior */
-  position: absolute; /* Position it absolutely */
-  top: 110px; /* Position it directly below the fixed header */
+  overflow-y: auto;
+  position: absolute;
+  top: 110px;
   bottom: 0;
   width: calc(100vw - 442px);
-  padding: 0; /* Remove all padding */
-  margin: 0; /* Remove all margins */
+  padding: 0;
+  margin: 0;
 }
 
 .docseditor-container {
@@ -2480,8 +2498,8 @@ img[data-tooltip][data-position=bottom]:after {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin: 20px auto 40px auto; /* Keep some margin for spacing */
-  padding: 0; /* Remove the padding that's causing issues */
+  margin: 20px auto 40px auto;
+  padding: 0;
 }
 
 .editor-tools-wrapper {
@@ -2822,56 +2840,6 @@ img[data-tooltip][data-position=bottom]:after {
   color: var(--black);
   font-size: 0.85rem;
   padding: 0.25em 0.3em;
-}
-
-@media print {
-  /* Hide only the elements you do not want */
-  .editor-tools,
-  .chat-container,
-  .character-counter,
-  nav,
-  button,
-  .swapy-container > *:not([data-swapy-slot=a]) {
-    display: none !important;
-  }
-  /* Show the main HTML/body in normal block flow */
-  html,
-  body {
-    margin: 0 !important;
-    padding: 0 !important;
-    display: block !important;
-    width: auto !important;
-    height: auto !important;
-  }
-  /* Standard page margins (like Word) */
-  @page {
-    margin: 1in;
-  }
-  /* Make sure each parent of your editor remains visible and normal-sized */
-  /* Adjust these selectors to match your real layout! */
-  .content-wrapper,
-  .content-wrapper-v2,
-  .docseditor-container,
-  .editor-wrapper,
-  .element {
-    display: block !important;
-    position: static !important;
-    transform: none !important;
-    margin: 0 auto !important;
-    padding: 0 !important;
-    width: auto !important; /* Let it expand full width */
-    max-width: 100% !important; /* If any max-width was set, override */
-    border: none !important;
-    box-sizing: border-box !important;
-  }
-  /* Ensure the text inside .element flows as normal block elements */
-  .element * {
-    display: block !important;
-    visibility: visible !important;
-    margin: 0;
-    padding: 0;
-    width: 100vw !important;
-  }
 }
 
 /*# sourceMappingURL=styles.css.map */

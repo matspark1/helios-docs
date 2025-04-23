@@ -1,18 +1,15 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const puppeteer = require("puppeteer");
+
 admin.initializeApp();
 
-/**
- * Syncs document access permissions from Firestore to Realtime Database
- * This ensures our Realtime DB security rules can check document access
- */
 exports.syncDocumentAccess = functions.firestore
   .document("documents/{documentId}")
   .onWrite(async (change, context) => {
     const documentId = context.params.documentId;
     const rtdb = admin.database();
 
-    // If document was deleted, remove access in Realtime DB
     if (!change.after.exists) {
       await rtdb.ref(`document-access/${documentId}`).remove();
       return null;
@@ -21,26 +18,19 @@ exports.syncDocumentAccess = functions.firestore
     const documentData = change.after.data();
     const accessUpdates = {};
 
-    // Add document owner
     accessUpdates[documentData.ownerId] = true;
 
-    // Add users with shared access
     if (documentData.sharedWith && Array.isArray(documentData.sharedWith)) {
       documentData.sharedWith.forEach((share) => {
         accessUpdates[share.userId] = true;
       });
     }
 
-    // Update Realtime DB
     await rtdb.ref(`document-access/${documentId}`).set(accessUpdates);
 
     return null;
   });
 
-/**
- * Cleans up old data from Realtime Database
- * This is a scheduled function that runs daily
- */
 exports.cleanupCollaborationData = functions.pubsub
   .schedule("every 24 hours")
   .onRun(async (context) => {
@@ -96,12 +86,7 @@ exports.cleanupCollaborationData = functions.pubsub
     return null;
   });
 
-/**
- * Initialize document access when a document is created
- * This ensures Realtime DB permissions are set immediately
- */
 exports.initDocumentAccess = functions.https.onCall(async (data, context) => {
-  // Ensure user is authenticated
   if (!context.auth) {
     throw new functions.https.HttpsError(
       "unauthenticated",
@@ -119,7 +104,6 @@ exports.initDocumentAccess = functions.https.onCall(async (data, context) => {
   }
 
   try {
-    // Get document from Firestore
     const docRef = admin.firestore().collection("documents").doc(documentId);
     const docSnapshot = await docRef.get();
 
@@ -129,7 +113,6 @@ exports.initDocumentAccess = functions.https.onCall(async (data, context) => {
 
     const documentData = docSnapshot.data();
 
-    // Check if the user has access
     const hasAccess =
       documentData.ownerId === context.auth.uid ||
       documentData.sharedWith?.some(
@@ -143,20 +126,16 @@ exports.initDocumentAccess = functions.https.onCall(async (data, context) => {
       );
     }
 
-    // Manually sync access permissions
     const accessUpdates = {};
 
-    // Add document owner
     accessUpdates[documentData.ownerId] = true;
 
-    // Add users with shared access
     if (documentData.sharedWith && Array.isArray(documentData.sharedWith)) {
       documentData.sharedWith.forEach((share) => {
         accessUpdates[share.userId] = true;
       });
     }
 
-    // Update Realtime DB
     await admin
       .database()
       .ref(`document-access/${documentId}`)

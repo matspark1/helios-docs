@@ -3,6 +3,7 @@ import {
   getDoc,
   setDoc,
   updateDoc,
+  deleteDoc,
   collection,
   query,
   where,
@@ -12,7 +13,7 @@ import {
   serverTimestamp,
   onSnapshot,
 } from "firebase/firestore";
-import { ref, set, get } from "firebase/database";
+import { ref, set, get, remove } from "firebase/database";
 import { auth, db, rtdb } from "../FirebaseConfig";
 import toast from "svelte-5-french-toast";
 
@@ -74,6 +75,39 @@ export async function updateDocumentTitle(documentId, title) {
   }
 }
 
+export async function deleteDocument(documentId) {
+  try {
+    const user = auth.currentUser;
+    if (!user) throw new Error("You must be logged in to delete a document");
+
+    const docRef = doc(db, "documents", documentId);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      throw new Error("Document not found");
+    }
+
+    const docData = docSnap.data();
+
+    if (docData.ownerId !== user.uid) {
+      throw new Error("You don't have permission to delete this document");
+    }
+
+    await deleteDoc(docRef);
+
+    const accessRef = ref(rtdb, `document-access/${documentId}`);
+    await remove(accessRef);
+
+    const yjsRef = ref(rtdb, `yjs-docs/${documentId}`);
+    await remove(yjsRef);
+
+    return true;
+  } catch (error) {
+    console.error("Error deleting document:", error);
+    throw error;
+  }
+}
+
 export async function shareDocument(documentId, userEmail, role = "editor") {
   try {
     const usersRef = collection(db, "users");
@@ -116,6 +150,7 @@ export async function shareDocument(documentId, userEmail, role = "editor") {
     throw error;
   }
 }
+
 export async function removeSharedUser(documentId, userId) {
   try {
     const docRef = doc(db, "documents", documentId);
