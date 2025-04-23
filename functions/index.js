@@ -37,23 +37,19 @@ exports.cleanupCollaborationData = functions.pubsub
     const rtdb = admin.database();
     const firestore = admin.firestore();
 
-    // Get all documents with collaboration data
     const snapshot = await rtdb.ref("yjs-docs").once("value");
     const collaborationDocs = snapshot.val() || {};
 
     for (const docId in collaborationDocs) {
-      // Check if document still exists in Firestore
       const firestoreDoc = await firestore
         .collection("documents")
         .doc(docId)
         .get();
 
       if (!firestoreDoc.exists) {
-        // Document no longer exists, remove collaboration data
         await rtdb.ref(`yjs-docs/${docId}`).remove();
         await rtdb.ref(`document-access/${docId}`).remove();
       } else {
-        // Clean up inactive clients (older than 24 hours)
         const clients = collaborationDocs[docId]?.clients || {};
         const oneDayAgo = new Date();
         oneDayAgo.setDate(oneDayAgo.getDate() - 1);
@@ -68,11 +64,9 @@ exports.cleanupCollaborationData = functions.pubsub
           }
         }
 
-        // Limit updates history to prevent excessive data usage
         const updates = collaborationDocs[docId]?.updates || {};
         const updateIds = Object.keys(updates).sort();
 
-        // Keep only the last 100 updates
         if (updateIds.length > 100) {
           const updatesToRemove = updateIds.slice(0, updateIds.length - 100);
 

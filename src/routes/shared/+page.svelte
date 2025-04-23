@@ -5,6 +5,7 @@
   import Header from "$lib/components/Header.svelte";
   import Profile from "$lib/components/Profile.svelte";
   import DocumentPreview from "$lib/components/documentPreview.svelte";
+  import DocumentSearch from "$lib/components/DocumentSearch.svelte";
   import {
     profileModalVisible,
     closeProfileModal,
@@ -12,7 +13,9 @@
   import { getUserSharedDocuments } from "$lib/services/documentService";
 
   let currentUser;
-  let sharedDocuments = [];
+  let allSharedDocuments = [];
+  let filteredDocuments = [];
+  let searchQuery = "";
   let isLoading = true;
 
   $: user.subscribe((value) => {
@@ -22,17 +25,47 @@
     }
   });
 
+  $: {
+    if (allSharedDocuments && allSharedDocuments.length > 0) {
+      if (searchQuery) {
+        filteredDocuments = allSharedDocuments.filter((doc) =>
+          doc.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      } else {
+        filteredDocuments = [...allSharedDocuments].sort((a, b) => {
+          const aTime = a.lastOpenedAt
+            ? a.lastOpenedAt.toMillis()
+            : a.updatedAt
+              ? a.updatedAt.toMillis()
+              : 0;
+          const bTime = b.lastOpenedAt
+            ? b.lastOpenedAt.toMillis()
+            : b.updatedAt
+              ? b.updatedAt.toMillis()
+              : 0;
+          return bTime - aTime;
+        });
+      }
+    } else {
+      filteredDocuments = [];
+    }
+  }
+
   async function loadSharedDocuments() {
     if (!currentUser) return;
     isLoading = true;
 
     try {
-      sharedDocuments = await getUserSharedDocuments();
+      allSharedDocuments = await getUserSharedDocuments();
     } catch (error) {
       console.error("Error loading shared documents:", error);
     } finally {
       isLoading = false;
     }
+  }
+
+  function handleSearch(event) {
+    searchQuery = event.detail;
   }
 
   onMount(() => {
@@ -57,10 +90,11 @@
       <div class="docs-wrapper">
         <div class="docs-header">
           <h2>Shared <span>Documents</span></h2>
-          <div class="docs-search">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" class="docs-search-input" />
-          </div>
+          <DocumentSearch
+            value={searchQuery}
+            placeholder="Search shared documents..."
+            on:search={handleSearch}
+          />
         </div>
 
         <div class="docs-boxes-wrapper">
@@ -68,12 +102,16 @@
             <div class="loading-documents">
               <span class="loader"></span>
             </div>
-          {:else if sharedDocuments && sharedDocuments.length > 0}
+          {:else if filteredDocuments && filteredDocuments.length > 0}
             <div class="docs-boxes">
-              {#each sharedDocuments as document}
+              {#each filteredDocuments as document}
                 <DocumentPreview {document} />
               {/each}
             </div>
+          {:else if searchQuery && allSharedDocuments.length > 0}
+            <p class="no-documents">
+              No shared documents match your search for "{searchQuery}".
+            </p>
           {:else}
             <p class="no-documents">
               No documents have been shared with you yet.

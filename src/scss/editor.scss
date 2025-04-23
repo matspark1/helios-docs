@@ -96,6 +96,41 @@
   }
 }
 
+@media screen and (max-width: 900px) {
+  .chat-container {
+    display: none;
+  }
+  .editor-container {
+    width: 100vw !important;
+    .doc-file-container {
+      display: none;
+    }
+    .editor-wrapper {
+      width: 100vw !important;
+
+      .editor-tools-wrapper {
+        display: none;
+      }
+      .scroll-wrapper {
+        width: 100vw !important;
+        overflow-x: hidden;
+        top: 50px;
+        right: 10px;
+        .docseditor-container {
+          width: 100vw;
+          overflow-x: hidden;
+          margin: 0 auto;
+
+          .element {
+            width: 90vw;
+            margin: 0 auto;
+          }
+        }
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1490px) {
   .doc-file-container {
     .doc-file-btn {

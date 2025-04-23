@@ -5,6 +5,7 @@
   import Header from "$lib/components/Header.svelte";
   import Profile from "$lib/components/Profile.svelte";
   import DocumentPreview from "$lib/components/documentPreview.svelte";
+  import DocumentSearch from "$lib/components/DocumentSearch.svelte";
   import {
     profileModalVisible,
     closeProfileModal,
@@ -15,7 +16,9 @@
   } from "$lib/services/documentService";
 
   let currentUser;
-  let userDocuments = [];
+  let allUserDocuments = [];
+  let filteredDocuments = [];
+  let searchQuery = "";
   let isCreatingDocument = false;
   let isLoading = true;
   let hasSharedDocuments = false;
@@ -26,6 +29,32 @@
       loadUserDocuments();
     }
   });
+
+  $: {
+    if (allUserDocuments && allUserDocuments.length > 0) {
+      if (searchQuery) {
+        filteredDocuments = allUserDocuments.filter((doc) =>
+          doc.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      } else {
+        filteredDocuments = [...allUserDocuments].sort((a, b) => {
+          const aTime = a.lastOpenedAt
+            ? a.lastOpenedAt.toMillis()
+            : a.updatedAt
+              ? a.updatedAt.toMillis()
+              : 0;
+          const bTime = b.lastOpenedAt
+            ? b.lastOpenedAt.toMillis()
+            : b.updatedAt
+              ? b.updatedAt.toMillis()
+              : 0;
+          return bTime - aTime;
+        });
+      }
+    } else {
+      filteredDocuments = [];
+    }
+  }
 
   async function handleCreateDocument() {
     if (!currentUser) {
@@ -54,7 +83,9 @@
     try {
       const allDocs = await getUserDocuments();
 
-      userDocuments = allDocs.filter((doc) => doc.ownerId === currentUser.uid);
+      allUserDocuments = allDocs.filter(
+        (doc) => doc.ownerId === currentUser.uid
+      );
 
       hasSharedDocuments = allDocs.some(
         (doc) => doc.ownerId !== currentUser.uid
@@ -64,6 +95,10 @@
     } finally {
       isLoading = false;
     }
+  }
+
+  function handleSearch(event) {
+    searchQuery = event.detail;
   }
 
   onMount(() => {
@@ -99,10 +134,11 @@
             {/if}
           </button>
           <h2>Your <span>Documents</span></h2>
-          <div class="docs-search">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" class="docs-search-input" />
-          </div>
+          <DocumentSearch
+            value={searchQuery}
+            placeholder="Search your documents..."
+            on:search={handleSearch}
+          />
         </div>
 
         <div class="docs-boxes-wrapper">
@@ -110,12 +146,16 @@
             <div class="loading-documents">
               <span class="loader"></span>
             </div>
-          {:else if userDocuments && userDocuments.length > 0}
+          {:else if filteredDocuments && filteredDocuments.length > 0}
             <div class="docs-boxes">
-              {#each userDocuments as document}
+              {#each filteredDocuments as document}
                 <DocumentPreview {document} />
               {/each}
             </div>
+          {:else if searchQuery && allUserDocuments.length > 0}
+            <p class="no-documents">
+              No documents match your search for "{searchQuery}".
+            </p>
           {:else}
             <p class="no-documents">
               You don't have any documents yet. Click the + button to create

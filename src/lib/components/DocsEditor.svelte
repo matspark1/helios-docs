@@ -55,6 +55,7 @@
   let indexDbProvider;
   let isLoading = true;
   let cleanupInterval;
+  let isEditable = true;
 
   const editorStore = {
     subscribe: (callback) => {
@@ -110,6 +111,15 @@
     } catch (error) {
       console.error("Error saving title:", error);
       toast.error("Error saving document title.");
+    }
+  }
+
+  function checkScreenWidth() {
+    const isMobileWidth = window.innerWidth < 900;
+    isEditable = !isMobileWidth;
+
+    if (editor) {
+      editor.setEditable(isEditable);
     }
   }
 
@@ -186,6 +196,7 @@
           style: "padding: 20px 56px",
         },
       },
+      editable: isEditable,
       extensions: [
         StarterKit.configure({
           history: false,
@@ -315,6 +326,10 @@
     editor.commands.setFontSize("16px");
     editor.commands.setFontFamily("Readex Pro");
     currentFontFamily = "Readex Pro";
+
+    checkScreenWidth();
+
+    window.addEventListener("resize", checkScreenWidth);
   });
 
   onDestroy(() => {
@@ -364,6 +379,7 @@
 
     editor.chain().focus().setFontSize(newSize).run();
   }
+  window.removeEventListener("resize", checkScreenWidth);
 </script>
 
 <div class="editor-wrapper">

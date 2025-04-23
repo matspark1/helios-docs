@@ -17,12 +17,33 @@ import { ref, set, get, remove } from "firebase/database";
 import { auth, db, rtdb } from "../FirebaseConfig";
 import toast from "svelte-5-french-toast";
 
+// Function to update lastOpenedAt timestamp
+async function updateLastOpenedTimestamp(documentId) {
+  try {
+    const user = auth.currentUser;
+    if (!user) return; // Don't update if not logged in
+
+    const docRef = doc(db, "documents", documentId);
+    await updateDoc(docRef, {
+      lastOpenedAt: serverTimestamp(),
+    });
+
+    return true;
+  } catch (error) {
+    console.error("Error updating last opened timestamp:", error);
+    // Don't throw error here as this is a background operation
+    return false;
+  }
+}
+
 export async function getDocument(documentId) {
   try {
     const docRef = doc(db, "documents", documentId);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
+      // Update the lastOpenedAt timestamp when document is accessed
+      updateLastOpenedTimestamp(documentId);
       return { id: docSnap.id, ...docSnap.data() };
     } else {
       return null;
@@ -43,6 +64,7 @@ export async function createDocument(title = "Untitled Document") {
       title,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
+      lastOpenedAt: serverTimestamp(), // Add lastOpenedAt field when creating document
       ownerId: user.uid,
       sharedWith: [],
     });
@@ -66,6 +88,7 @@ export async function updateDocumentTitle(documentId, title) {
     await updateDoc(docRef, {
       title,
       updatedAt: serverTimestamp(),
+      lastOpenedAt: serverTimestamp(), // Update lastOpenedAt when title is changed
     });
 
     return true;
@@ -139,6 +162,7 @@ export async function shareDocument(documentId, userEmail, role = "editor") {
     await updateDoc(docRef, {
       sharedWith: arrayUnion({ userId, role }),
       updatedAt: serverTimestamp(),
+      lastOpenedAt: serverTimestamp(), // Update lastOpenedAt when document is shared
     });
 
     const accessRef = ref(rtdb, `document-access/${documentId}/${userId}`);
@@ -172,6 +196,7 @@ export async function removeSharedUser(documentId, userId) {
     await updateDoc(docRef, {
       sharedWith: arrayRemove(userShare),
       updatedAt: serverTimestamp(),
+      lastOpenedAt: serverTimestamp(), // Update lastOpenedAt when changing document sharing
     });
 
     const accessRef = ref(rtdb, `document-access/${documentId}/${userId}`);
@@ -201,6 +226,9 @@ export async function checkDocumentAccess(documentId) {
       const accessRef = ref(rtdb, `document-access/${documentId}/${user.uid}`);
       await set(accessRef, true);
 
+      // Update lastOpenedAt timestamp when checking access
+      updateLastOpenedTimestamp(documentId);
+
       return { hasAccess: true, role: "owner" };
     }
 
@@ -210,6 +238,9 @@ export async function checkDocumentAccess(documentId) {
     if (userShare) {
       const accessRef = ref(rtdb, `document-access/${documentId}/${user.uid}`);
       await set(accessRef, true);
+
+      // Update lastOpenedAt timestamp when checking access
+      updateLastOpenedTimestamp(documentId);
 
       return { hasAccess: true, role: userShare.role };
     }

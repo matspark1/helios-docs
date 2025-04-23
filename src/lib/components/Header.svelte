@@ -159,7 +159,7 @@
           </a>
         </div>
         <div class="link-wrap">
-          <a href="/shared" aria-label="Groups" class="groups">
+          <a href="/shared" aria-label="Shared with me" class="groups">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -175,7 +175,7 @@
               <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
               <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
-            Groups
+            Shared Docs
           </a>
         </div>
         <div class="link-wrap">

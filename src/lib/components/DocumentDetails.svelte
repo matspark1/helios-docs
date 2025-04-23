@@ -60,8 +60,7 @@
           console.error("Error fetching owner data:", error);
         }
 
-        // Get word/character count from editor if available
-        const editorElement = document.querySelector(
+        const editorElement = window.document.querySelector(
           ".docseditor-container .editor"
         );
         if (editorElement) {

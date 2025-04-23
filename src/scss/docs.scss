@@ -1,19 +1,26 @@
 .docs-wrapper {
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 .docs-boxes-wrapper {
   width: 100%;
   padding: 0 40px;
   margin: 50px auto 100px auto;
+  overflow: hidden;
 }
 .docs-boxes {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  grid-auto-rows: 170px;
   gap: 30px;
   margin: 0 auto;
   justify-content: center;
+  height: calc(100vh - 170px);
+  padding: 0 20px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 .docs-header {
   display: flex;
@@ -107,25 +114,10 @@
       max-width: 600px;
     }
   }
-  .docs-wrapper {
-    overflow-y: scroll;
-  }
   .docs-boxes-wrapper {
     padding: 0 20px;
-  }
-}
-
-@media screen and (max-width: 1165px) {
-  .docs-boxes {
-    height: 300px;
-    width: 100%;
-    display: inline-grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    column-gap: 30px;
-    row-gap: 30px;
-    margin: 0 auto;
+    .docs-boxes {
+      overflow-x: hidden;
+    }
   }
 }
