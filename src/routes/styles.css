@@ -2684,18 +2684,18 @@ img[data-tooltip][data-position=bottom]:after {
   padding: 3px 8px;
 }
 
-.chat-input {
+.chat-input2 {
   padding: 16px 24px;
   border-top: 2px solid var(--light-grey);
   background-color: var(--light-black);
 }
 
-.chat-input form {
+.chat-input2 form {
   display: flex;
   gap: 12px;
 }
 
-.chat-input input {
+.chat-input2 input {
   flex: 1;
   padding: 12px 16px;
   border: 1px solid var(--white);
@@ -2704,14 +2704,15 @@ img[data-tooltip][data-position=bottom]:after {
   font-size: 14px;
   background-color: var(--light-black2);
   color: var(--black);
+  font-family: "Readex Pro", sans-serif;
 }
 
-.chat-input input:focus {
+.chat-input2 input:focus {
   transition: ease 0.2s;
   border-color: var(--primary);
 }
 
-.chat-input button {
+.chat-input2 button {
   background-color: var(--primary);
   color: var(--btn-white-white);
   border: none;
@@ -2725,11 +2726,11 @@ img[data-tooltip][data-position=bottom]:after {
   transition: background-color 0.2s;
 }
 
-.chat-input button:hover {
+.chat-input2 button:hover {
   opacity: 0.9;
 }
 
-.chat-input button:disabled {
+.chat-input2 button:disabled {
   background-color: var(--light-grey2);
   cursor: not-allowed;
 }

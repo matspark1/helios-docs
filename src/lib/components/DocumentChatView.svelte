@@ -167,7 +167,7 @@
       {/if}
     </div>
 
-    <div class="chat-input">
+    <div class="chat-input2">
       <form on:submit|preventDefault={handleSendMessage}>
         <input
           type="text"
