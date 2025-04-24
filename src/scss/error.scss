@@ -1,0 +1,39 @@
+.error-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  margin-top: -100px;
+  h1 {
+    color: var(--red-font);
+    font-size: 50px;
+  }
+}
+
+.error-back {
+  border: 1px solid var(--btn-black);
+  padding: 14px;
+  width: 280px;
+  font-family: $readex;
+  font-weight: $reg;
+  border-radius: 40px;
+  position: relative;
+  background-color: var(--black);
+  box-shadow: inset 0 0 var(--primary-btn);
+  transition: all 0.3s ease-out;
+  margin-top: 30px;
+  color: var(--white);
+  text-decoration: none;
+  &:hover {
+    box-shadow: inset 30em 0 var(--white);
+    cursor: pointer;
+    color: var(--black);
+  }
+}
+
+@media (max-width: 900px) {
+  .error-wrapper {
+    margin-top: -200px;
+  }
+}

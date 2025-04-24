@@ -31,7 +31,7 @@
 
     if (!documentAccess.hasAccess) {
       // redirect if user doesn't have access
-      goto("/testing");
+      goto("/error");
     }
 
     isLoading = false;

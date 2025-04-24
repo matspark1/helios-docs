@@ -44,7 +44,7 @@
         }
       }
     } catch (e) {
-      console.log("Could not get editor from DOM:", e);
+      console.error("Could not get editor from DOM:", e);
     }
 
     try {
@@ -56,7 +56,7 @@
         return htmlContent;
       }
     } catch (e) {
-      console.log("Could not get content from editor element:", e);
+      console.error("Could not get content from editor element:", e);
     }
 
     return null;
@@ -443,7 +443,7 @@
     try {
       editor = getContext("editor");
     } catch (e) {
-      console.log("Could not get editor from context in onMount:", e);
+      console.error("Could not get editor from context in onMount:", e);
     }
 
     if (!editor) {
@@ -454,7 +454,7 @@
             editor = editorElement.__editor;
           }
         } catch (e) {
-          console.log("Could not get editor from DOM in onMount:", e);
+          console.error("Could not get editor from DOM in onMount:", e);
         }
       }, 500);
     }
