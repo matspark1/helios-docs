@@ -316,18 +316,31 @@ a {
   }
 }
 .login-wrapper {
-  height: 100%;
+  height: 114%;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--start-page-bg);
+  padding: 0 !important;
+  overflow-y: hidden;
+}
+
+.login-wrapper2 {
+  height: 114%;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--start-page-bg);
+  overflow: hidden;
 }
 
 .login {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  margin-top: -80px;
 }
 .login h1 {
   color: var(--white);
@@ -459,12 +472,30 @@ a {
   color: var(--black);
 }
 
+@media screen and (max-width: 900px) {
+  .login-wrapper2 .login {
+    margin-top: -50px;
+  }
+}
 @media screen and (max-width: 600px) {
   .user-login-input {
     width: 310px;
   }
   .login .loginbtn {
     width: 230px;
+  }
+  .login-wrapper {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 101%;
+  }
+  .login-wrapper2 {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 101%;
+  }
+  .login-wrapper2 .login {
+    margin-top: -40px;
   }
 }
 nav {
