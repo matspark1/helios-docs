@@ -33,9 +33,15 @@
     border-radius: 10px;
     transition: ease 0.12s;
     color: var(--btn-white-white);
+    i {
+      margin-top: -4px;
+    }
     &:hover {
       background-color: var(--btn-white-white);
-      color: var(--primary);
+      color: var(--primary) !important;
+      i {
+        color: var(--primary) !important;
+      }
     }
   }
 }

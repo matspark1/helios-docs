@@ -43,6 +43,8 @@
   import * as Y from "yjs";
   import { IndexeddbPersistence } from "y-indexeddb";
   import toast from "svelte-5-french-toast";
+  import ActiveUsers from "$lib/components/ActiveUsers.svelte";
+  import { extendFirebaseProvider } from "$lib/collaboration/FirebaseProviderExtension";
 
   export let documentId;
   let element;
@@ -56,6 +58,7 @@
   let isLoading = true;
   let cleanupInterval;
   let isEditable = true;
+  let activeUsersProvider;
 
   const editorStore = {
     subscribe: (callback) => {
@@ -134,6 +137,9 @@
     );
 
     firebaseProvider = new FirebaseProvider(documentId, ydoc);
+
+    const extendedProvider = extendFirebaseProvider(firebaseProvider);
+    activeUsersProvider = extendedProvider;
 
     cleanupInterval = setInterval(
       () => {
@@ -314,7 +320,6 @@
       },
     });
 
-    // Update the editorStore's methods to use the actual editor instance
     Object.defineProperty(editorStore, "getHTML", {
       value: () => editor?.getHTML() || "",
     });
@@ -396,7 +401,9 @@
         />
         <div class="tooltip2">Document Title</div>
       </div>
-
+      <div class="active-users-wrapper">
+        <ActiveUsers {documentId} provider={activeUsersProvider} />
+      </div>
       {#if editor?.storage?.characterCount}
         <div class="character-counter">
           <p>{editor.storage.characterCount.characters()} characters</p>
@@ -407,6 +414,26 @@
     <div class="editor-tools">
       <div class="tools">
         {#if editor}
+          <div class="tooltip-container">
+            <button
+              on:click={() => editor.chain().focus().undo().run()}
+              aria-label="Undo"
+              disabled={!editor?.can().undo()}
+            >
+              <i class="fa-solid fa-rotate-left"></i>
+            </button>
+            <div class="tooltip">Undo</div>
+          </div>
+          <div class="tooltip-container">
+            <button
+              on:click={() => editor.chain().focus().redo().run()}
+              aria-label="Redo"
+              disabled={!editor?.can().redo()}
+            >
+              <i class="fa-solid fa-rotate-right"></i>
+            </button>
+            <div class="tooltip">Redo</div>
+          </div>
           <div class="tooltip-container3">
             <label for="font-select" class="sr-only">Font Family</label>
             <select
@@ -492,8 +519,8 @@
           <div class="tooltip-container">
             <button
               on:click={() => editor.chain().focus().toggleItalic().run()}
-              class:active={editor.isActive("bold")}
-              aria-label="Bold"
+              class:active={editor.isActive("italic")}
+              aria-label="Italic"
             >
               <i class="fi fi-bs-italic"></i>
             </button>
@@ -566,6 +593,14 @@
             <div class="tooltip">Blockquote</div>
           </div>
           <div class="tooltip-container">
+            <InsertTable
+              on:insertTable={handleInsertTable}
+              maxRows={10}
+              maxCols={10}
+            />
+            <div class="tooltip">Insert Table</div>
+          </div>
+          <div class="tooltip-container">
             <button
               on:click={() => editor.chain().focus().toggleCode().run()}
               class:active={editor.isActive("code")}
@@ -604,30 +639,6 @@
               <i class="fi fi-bs-superscript" style="margin-bottom: 4px;"></i>
             </button>
             <div class="tooltip">Superscript</div>
-          </div>
-
-          <div class="tooltip-container">
-            <InsertTable
-              on:insertTable={handleInsertTable}
-              maxRows={10}
-              maxCols={10}
-            />
-            <div class="tooltip">Insert Table</div>
-          </div>
-
-          <div class="tooltip-container">
-            <button
-              on:click={() =>
-                editor
-                  .chain()
-                  .focus()
-                  .setImage({ src: "https://placehold.co/100x100" })
-                  .run()}
-              aria-label="Insert Image"
-            >
-              <i class="fa-solid fa-image"></i>
-            </button>
-            <div class="tooltip">Image</div>
           </div>
         {/if}
       </div>

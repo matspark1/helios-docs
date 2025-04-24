@@ -3,6 +3,7 @@ import { ref, onValue, set, onDisconnect, get } from "firebase/database";
 import { doc, getDoc } from "firebase/firestore";
 import { db, rtdb, auth } from "$lib/FirebaseConfig";
 import { v4 as uuidv4 } from "uuid";
+import pfp from "$lib/images/pfp.png";
 import toast from "svelte-5-french-toast";
 
 export class FirebaseProvider {
@@ -14,6 +15,7 @@ export class FirebaseProvider {
       clientID: this.clientId,
       name: auth.currentUser?.displayName || "Anonymous",
       color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      profilePic: auth.currentUser?.photoURL || pfp,
     };
     this._events = {};
     this.connected = false;
@@ -52,6 +54,10 @@ export class FirebaseProvider {
     this.ydoc.on("update", this.handleDocumentUpdate.bind(this));
 
     this.connected = true;
+
+    if (auth.currentUser) {
+      this.updateProfilePic();
+    }
   }
 
   async syncDocumentAccess() {
@@ -143,6 +149,22 @@ export class FirebaseProvider {
   }
 
   /**
+   * Update awareness data with user profile picture
+   */
+  async updateProfilePic() {
+    if (auth.currentUser?.photoURL) {
+      this.awareness.profilePic = auth.currentUser.photoURL;
+
+      set(
+        ref(rtdb, `yjs-docs/${this.documentId}/awareness/${this.clientId}`),
+        this.awareness
+      );
+
+      this.emit("change", { [this.clientId]: this.awareness });
+    }
+  }
+
+  /**
    * Update awareness data (cursor position)
    */
   updateAwareness(awarenessData) {
@@ -163,23 +185,56 @@ export class FirebaseProvider {
    * Set up document updates
    */
   setUpUpdates() {
+    this.lastProcessedTimestamp = 0;
+    let processingUpdates = false;
+
     const updatesListener = onValue(this.updatesRef, (snapshot) => {
-      if (!snapshot.exists()) return;
+      if (!snapshot.exists() || processingUpdates) return;
 
-      const data = snapshot.val();
+      processingUpdates = true;
+      try {
+        const data = snapshot.val();
 
-      Object.entries(data).forEach(([updateId, update]) => {
-        if (update.clientId !== this.clientId) {
-          try {
-            Y.applyUpdate(
-              this.ydoc,
-              new Uint8Array(Object.values(update.content))
-            );
-          } catch (err) {
-            console.error("Error applying Yjs update:", err);
+        // Get updates sorted by timestamp
+        const updates = Object.entries(data)
+          .map(([id, update]) => ({ id, ...update }))
+          .sort((a, b) => {
+            const aTime = new Date(a.timestamp).getTime();
+            const bTime = new Date(b.timestamp).getTime();
+            return aTime - bTime;
+          });
+
+        const newUpdates = updates.filter((update) => {
+          const updateTime = new Date(update.timestamp).getTime();
+          return (
+            updateTime > this.lastProcessedTimestamp &&
+            update.clientId !== this.clientId
+          );
+        });
+
+        if (newUpdates.length > 0) {
+          for (const update of newUpdates) {
+            try {
+              Y.applyUpdate(
+                this.ydoc,
+                new Uint8Array(Object.values(update.content))
+              );
+
+              const updateTime = new Date(update.timestamp).getTime();
+              this.lastProcessedTimestamp = Math.max(
+                this.lastProcessedTimestamp,
+                updateTime
+              );
+            } catch (err) {
+              console.error("Error applying Yjs update:", err);
+            }
           }
         }
-      });
+      } catch (err) {
+        console.error("Error processing updates:", err);
+      } finally {
+        processingUpdates = false;
+      }
     });
 
     this.listeners.push(updatesListener);
@@ -191,6 +246,29 @@ export class FirebaseProvider {
   handleDocumentUpdate(update, origin) {
     if (origin === this || !this.connected) return;
 
+    const now = Date.now();
+    if (this.lastUpdateTime && now - this.lastUpdateTime < 50) {
+      if (!this.pendingUpdate) {
+        this.updateTimeoutId = setTimeout(() => {
+          if (this.pendingUpdate) {
+            this._sendUpdate(this.pendingUpdate);
+            this.pendingUpdate = null;
+          }
+        }, 50);
+      }
+
+      this.pendingUpdate = update;
+      return;
+    }
+
+    this.lastUpdateTime = now;
+    this._sendUpdate(update);
+  }
+
+  /**
+   * Helper method to send updates to Firebase
+   */
+  _sendUpdate(update) {
     const updateId = new Date().getTime() + "-" + this.clientId;
     const updateRef = ref(
       rtdb,
@@ -215,26 +293,35 @@ export class FirebaseProvider {
    */
   async cleanupOldUpdates() {
     try {
-      const updates = (await get(this.updatesRef)).val() || {};
-      const updateIds = Object.keys(updates).sort();
+      const snapshot = await get(this.updatesRef);
+      if (!snapshot.exists()) return;
 
-      if (updateIds.length > 100) {
-        const updatesToRemove = updateIds.slice(0, updateIds.length - 100);
+      const updates = snapshot.val();
+      const updateIds = Object.keys(updates);
 
-        for (const updateId of updatesToRemove) {
-          await set(
-            ref(rtdb, `yjs-docs/${this.documentId}/updates/${updateId}`),
-            null
-          );
-        }
-      }
+      if (updateIds.length <= 100) return;
+
+      const sortedIds = updateIds.sort((a, b) => {
+        const aTime = new Date(updates[a].timestamp).getTime();
+        const bTime = new Date(updates[b].timestamp).getTime();
+        return aTime - bTime;
+      });
+
+      const idsToKeep = sortedIds.slice(-100);
+      const updatesToKeep = {};
+
+      idsToKeep.forEach((id) => {
+        updatesToKeep[id] = updates[id];
+      });
+
+      await set(this.updatesRef, updatesToKeep);
     } catch (error) {
       console.error("Error cleaning up old updates:", error);
     }
   }
 
   /**
-   * awareness interface for CollaborationCursor
+   * awareness for CollaborationCursor
    */
 
   setLocalStateField(field, state) {
@@ -271,5 +358,45 @@ export class FirebaseProvider {
     if (!this._events[event]) return this;
     this._events[event].forEach((callback) => callback(...args));
     return this;
+  }
+
+  async cleanupStaleAwareness() {
+    try {
+      const clientsSnapshot = await get(this.clientsRef);
+      const clientsData = clientsSnapshot.exists() ? clientsSnapshot.val() : {};
+
+      const awarenessSnapshot = await get(this.awarenessRef);
+      const awarenessData = awarenessSnapshot.exists()
+        ? awarenessSnapshot.val()
+        : {};
+
+      const currentTime = new Date().getTime();
+      const staleCutoff = currentTime - 3 * 60 * 1000;
+      const activeClientIds = new Set();
+
+      for (const [clientId, clientData] of Object.entries(clientsData)) {
+        if (clientData.isOnline === true && clientData.lastSeen) {
+          try {
+            const lastSeenTime = new Date(clientData.lastSeen).getTime();
+            if (lastSeenTime > staleCutoff) {
+              activeClientIds.add(clientId);
+            }
+          } catch (e) {
+            console.error("Error parsing lastSeen:", e);
+          }
+        }
+      }
+
+      for (const userId of Object.keys(awarenessData)) {
+        if (!activeClientIds.has(userId)) {
+          await set(
+            ref(rtdb, `yjs-docs/${this.documentId}/awareness/${userId}`),
+            null
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Error cleaning up stale awareness data:", error);
+    }
   }
 }

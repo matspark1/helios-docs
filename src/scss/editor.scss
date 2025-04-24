@@ -142,6 +142,28 @@
     }
   }
 }
+
+@media screen and (max-width: 1437px) {
+  .editor-tools-wrapper {
+    height: 148px !important;
+  }
+
+  .editor-tools {
+    height: 78px !important;
+    padding: 10px 10px;
+  }
+  .doc-file-container {
+    .doc-file-btn {
+      top: 160px;
+    }
+    .file-btn-options {
+      top: 220px;
+    }
+  }
+  .element {
+    margin-top: 40px;
+  }
+}
 // SWAPY STUFF
 // SWAPY STUFF
 // SWAPY STUFF
