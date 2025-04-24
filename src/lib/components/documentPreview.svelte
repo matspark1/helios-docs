@@ -41,6 +41,10 @@
   function toggleOptions(event) {
     event.stopPropagation();
     showOptions = !showOptions;
+
+    if (showOptions) {
+      positionMenu();
+    }
   }
 
   function closeOptions() {
