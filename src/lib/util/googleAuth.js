@@ -73,7 +73,6 @@ export const handleGoogleSignIn = async () => {
       error.code === "auth/popup-closed-by-user" ||
       error.code === "auth/cancelled-popup-request"
     ) {
-      console.log("Popup closed");
     } else {
       handleFirebaseAuthError(error);
     }

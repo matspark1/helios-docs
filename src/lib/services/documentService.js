@@ -364,7 +364,6 @@ export async function getUserSharedDocuments() {
     const sharedDocsSnapshot = await getDocs(sharedDocsQuery);
 
     if (sharedDocsSnapshot.empty) {
-      console.log("No shared documents found");
     } else {
       const sampleDoc = sharedDocsSnapshot.docs[0].data();
     }

@@ -10,7 +10,6 @@ export async function fetchUserProfilePic(uid) {
     const userData = userSnap.data();
     return userData.photoURL ? userData.photoURL : pfp;
   } else {
-    console.log("No user data found, using default profile picture.");
     return pfp;
   }
 }
