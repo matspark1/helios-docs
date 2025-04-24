@@ -38,7 +38,7 @@ nav {
   align-items: center;
   justify-content: center;
   border-top: 1px solid rgba($color: var(--black-rgb), $alpha: 0.3);
-
+  cursor: pointer;
   img {
     height: 30px;
     width: 30px;
@@ -396,6 +396,9 @@ img[data-tooltip][data-position="bottom"]:after {
 @media screen and (max-width: 900px) {
   .desktop-nav {
     display: none;
+  }
+  nav {
+    width: 0px;
   }
   .hamburger-menu {
     display: flex;

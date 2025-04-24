@@ -106,7 +106,7 @@
       <div class="nav-chat">
         <div class="link-wrap">
           <a
-            href="/"
+            href="/chats"
             aria-label="Chats"
             data-tooltip="Chats"
             data-position="right"
@@ -179,7 +179,7 @@
           </a>
         </div>
         <div class="link-wrap">
-          <a href="/" aria-label="Chats">
+          <a href="/chats" aria-label="Chats">
             <i class="fa-regular fa-comment"></i> Your Chats
           </a>
         </div>

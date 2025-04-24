@@ -159,6 +159,25 @@
   border: 1px solid #f1f1f1;
 }
 
+.tooltip6 {
+  position: absolute;
+  top: -10%;
+  left: -158%;
+  transform: translateX(-70%);
+  background-color: var(--btn-white-white);
+  color: #2c2a2a;
+  padding: 6px 10px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(var(--black-rgb), 0.1);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+  z-index: 10;
+  border: 1px solid #2c2a2a;
+}
+
 .tooltip-container:hover .tooltip {
   opacity: 1;
   transform: translateX(-50%) translateY(-4px);
@@ -188,6 +207,11 @@
 }
 
 .tooltip-container5:hover .tooltip5 {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0px);
+}
+
+.tooltip-container6:hover .tooltip6 {
   opacity: 1;
   transform: translateX(-50%) translateY(0px);
 }
@@ -385,6 +409,15 @@
   justify-content: center;
   height: 25px;
   margin: 4px auto;
+}
+
+.tooltip-container6 {
+  position: relative;
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 25px;
 }
 
 .link-dropdown {

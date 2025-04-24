@@ -67,6 +67,18 @@ h6 {
   border-radius: 10px;
 }
 
+.content-wrapper3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: var(--white);
+  border-radius: 10px;
+  margin-left: 4px;
+}
+
 .nothing {
   height: 100%;
   width: 100%;
