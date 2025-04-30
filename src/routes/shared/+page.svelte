@@ -11,6 +11,7 @@
     closeProfileModal,
   } from "$lib/util/profileModal.js";
   import { getUserSharedDocuments } from "$lib/services/documentService";
+  import meta from "$lib/images/meta.png";
 
   let currentUser;
   let allSharedDocuments = [];
@@ -77,7 +78,20 @@
 
 <svelte:head>
   <title>Shared Docs | Helios Docs</title>
-  <meta name="description" content="Shared Docs | Helios Docs" />
+  <meta
+    name="description"
+    content="Access documents shared with you on Helios Docs. Collaborate and edit shared files in real-time."
+  />
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:description"
+    content="Modernize your team's workflow with Helios Docs. View and edit documents shared with you for seamless collaboration."
+  />
+  <meta property="og:image" content={meta} />
+  <meta
+    name="keywords"
+    content="shared documents, collaborative editing, document sharing, team collaboration, helios docs"
+  />
 </svelte:head>
 
 <div class="app-container">

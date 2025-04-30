@@ -9,6 +9,7 @@
     profileModalVisible,
     closeProfileModal,
   } from "$lib/util/profileModal.js";
+  import meta from "$lib/images/meta.png";
 
   let currentUser;
   let selectedDocumentId = null;
@@ -41,12 +42,39 @@
   }
 
   onMount(() => {
+    let mobileMenu = document.querySelector(".hamburger-menu");
     if (currentUser) {
       isLoading = false;
     }
 
     checkScreenWidth();
     window.addEventListener("resize", checkScreenWidth);
+
+    function updateMobileMenuClass() {
+      if (isMobileView && showMobileChat) {
+        mobileMenu?.classList.add("chat-white");
+      } else {
+        mobileMenu?.classList.remove("chat-white");
+      }
+    }
+
+    updateMobileMenuClass();
+
+    const unsubscribe = (() => {
+      let prevIsMobileView = isMobileView;
+      let prevShowMobileChat = showMobileChat;
+
+      return setInterval(() => {
+        if (
+          prevIsMobileView !== isMobileView ||
+          prevShowMobileChat !== showMobileChat
+        ) {
+          updateMobileMenuClass();
+          prevIsMobileView = isMobileView;
+          prevShowMobileChat = showMobileChat;
+        }
+      }, 100);
+    })();
 
     return () => {
       window.removeEventListener("resize", checkScreenWidth);
@@ -56,7 +84,20 @@
 
 <svelte:head>
   <title>Chats | Helios Docs</title>
-  <meta name="description" content="Chat | Helios Docs" />
+  <meta
+    name="description"
+    content="Access document-related chats and discussions in Helios Docs. Communicate with team members about your shared documents."
+  />
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:description"
+    content="Modernize your team's workflow with Helios Docs. Discuss documents and collaborate through integrated chat functionality."
+  />
+  <meta property="og:image" content={meta} />
+  <meta
+    name="keywords"
+    content="document chat, team discussions, document collaboration, messaging, helios docs"
+  />
 </svelte:head>
 
 <div class="app-container">

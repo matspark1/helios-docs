@@ -12,6 +12,7 @@
   import { handleFirebaseAuthError } from "$lib/util/firebaseAuthErrors";
   import toast from "svelte-5-french-toast";
   import { handleGoogleSignIn } from "$lib/util/googleAuth";
+  import meta from "$lib/images/meta.png";
 
   let firstName = "";
   let lastName = "";
@@ -235,7 +236,20 @@
 
 <svelte:head>
   <title>Sign Up | Helios Docs</title>
-  <meta name="description" content="Sign Up Helios Docs" />
+  <meta
+    name="description"
+    content="Create your Helios Docs account. Sign up to access our online document editor and collaboration tool for teams."
+  />
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:description"
+    content="Join Helios Docs today. Create your account to start editing and collaborating on documents in real-time with your team."
+  />
+  <meta property="og:image" content={meta} />
+  <meta
+    name="keywords"
+    content="helios docs signup, create account, register, document collaboration, team workspace"
+  />
 </svelte:head>
 
 <a href="/signin" class="backbtn" aria-label="Back">
@@ -312,7 +326,6 @@
       {/if}
     </div>
 
-    <!-- Password requirements section -->
     <div class="password-requirements">
       <p>Password must have:</p>
       <ul>
@@ -439,7 +452,6 @@
     color: #888;
   }
 
-  /* Dark theme adjustments for the password requirements */
   .login.light .password-requirements .invalid {
     color: #aaa;
   }

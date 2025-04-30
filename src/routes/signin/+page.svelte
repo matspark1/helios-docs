@@ -10,6 +10,7 @@
   import { handleFirebaseAuthError } from "$lib/util/firebaseAuthErrors";
   import toast from "svelte-5-french-toast";
   import { handleGoogleSignIn } from "$lib/util/googleAuth";
+  import meta from "$lib/images/meta.png";
 
   let email = "";
   let password = "";
@@ -67,7 +68,20 @@
 
 <svelte:head>
   <title>Sign In | Helios Docs</title>
-  <meta name="description" content="Sign in Helios Docs" />
+  <meta
+    name="description"
+    content="Sign in to Helios Docs to access your documents. Our secure online document editor helps teams collaborate efficiently."
+  />
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:description"
+    content="Access your Helios Docs workspace. Sign in to edit and collaborate on documents in real-time with your team."
+  />
+  <meta property="og:image" content={meta} />
+  <meta
+    name="keywords"
+    content="helios docs login, sign in, account access, document collaboration, team workspace"
+  />
 </svelte:head>
 
 <a href="/onboarding" class="backbtn" aria-label="Back"

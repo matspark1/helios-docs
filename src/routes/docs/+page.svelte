@@ -14,6 +14,7 @@
     createDocument,
     getUserDocuments,
   } from "$lib/services/documentService";
+  import meta from "$lib/images/meta.png";
 
   let currentUser;
   let allUserDocuments = [];
@@ -110,7 +111,20 @@
 
 <svelte:head>
   <title>Docs | Helios Docs</title>
-  <meta name="description" content="Docs | Helios Docs" />
+  <meta
+    name="description"
+    content="Browse and manage your documents on Helios Docs. Create, search, and organize your files in one place."
+  />
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:description"
+    content="Modernize your team's workflow with Helios Docs. Manage your document library with powerful search and organization tools."
+  />
+  <meta property="og:image" content={meta} />
+  <meta
+    name="keywords"
+    content="document library, document management, create documents, search documents, helios docs"
+  />
 </svelte:head>
 
 <div class="app-container">

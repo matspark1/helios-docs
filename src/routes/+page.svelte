@@ -12,6 +12,8 @@
     profileModalVisible,
     closeProfileModal,
   } from "$lib/util/profileModal.js";
+  import meta from "$lib/images/meta.png";
+
   let currentUser;
 
   $: user.subscribe((value) => {
@@ -44,6 +46,15 @@
     content="Helios Docs: Online Document Editor and Collaboration Tool for Teams."
   />
   <meta property="og:type" content="website" />
+  <meta
+    property="og:description"
+    content="Modernize your team's workflow with Helios Docs. Edit and collaborate on documents in real-time, track changes, and share securely."
+  />
+  <meta property="og:image" content={meta} />
+  <meta
+    name="keywords"
+    content="document editor, team collaboration, online docs, real-time editing, document management"
+  />
 </svelte:head>
 
 {#if $page.url.pathname === "/onboarding" || $page.url.pathname === "/signup" || $page.url.pathname === "/signin"}

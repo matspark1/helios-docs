@@ -13,6 +13,7 @@
   } from "$lib/util/profileModal.js";
   import { checkDocumentAccess } from "$lib/services/documentService.js";
   import { goto } from "$app/navigation";
+  import meta from "$lib/images/meta.png";
 
   let currentUser;
   let documentAccess = { hasAccess: false, role: null };
@@ -47,6 +48,7 @@
 <svelte:head>
   <title>Editor | Helios Docs</title>
   <meta name="description" content="Docs | Helios Docs" />
+  <meta property="og:image" content={meta} />
 </svelte:head>
 
 <div class="app-container">

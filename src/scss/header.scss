@@ -359,6 +359,18 @@ img[data-tooltip][data-position="bottom"]:after {
   }
 }
 
+.hamburger-menu.chat-white.open {
+  span {
+    background-color: var(--black);
+  }
+}
+
+.hamburger-menu.chat-white {
+  span {
+    background-color: var(--btn-white-white);
+  }
+}
+
 @keyframes slide-left {
   0% {
     transform: translate(218px, -12px);

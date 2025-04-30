@@ -6,6 +6,8 @@
     profileModalVisible,
     closeProfileModal,
   } from "$lib/util/profileModal.js";
+  import meta from "$lib/images/meta.png";
+
   let currentUser;
 
   $: user.subscribe((value) => {
@@ -14,8 +16,9 @@
 </script>
 
 <svelte:head>
-  <title>Error | Helios Docs</title>
+  <title>Error</title>
   <meta name="description" content="Error | Helios Docs" />
+  <meta property="og:image" content={meta} />
 </svelte:head>
 
 <div class="app-container">
