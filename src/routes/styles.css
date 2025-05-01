@@ -3026,12 +3026,12 @@ img[data-tooltip][data-position=bottom]:after {
 
 .delete-message-btn {
   position: absolute;
-  top: 0;
+  top: -25px;
   right: 5px;
   background: none;
   border: none;
   color: var(--grey);
-  font-size: 14px;
+  font-size: 12px;
   padding: 6px 8px;
   cursor: pointer;
   opacity: 0;

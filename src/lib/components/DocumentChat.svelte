@@ -114,6 +114,7 @@
                   class="delete-message-btn"
                   on:click={() => handleDeleteMessage(message.id)}
                   aria-label="Delete message"
+                  title="Remove Message"
                 >
                   <i class="fa-solid fa-trash-can"></i>
                 </button>
