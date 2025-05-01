@@ -47,16 +47,93 @@ export class FirebaseProvider {
       }
     }
 
+    const gotInitialState = await this.getInitialState();
+
+    if (!gotInitialState) {
+      await this.reconstructFromUpdates();
+    }
+
     this.setUpAwareness();
     this.setUpUpdates();
     this.setClientStatus(true);
 
-    this.ydoc.on("update", this.handleDocumentUpdate.bind(this));
+    this.updateStateVector();
 
+    this.ydoc.on("update", this.handleDocumentUpdate.bind(this));
     this.connected = true;
 
     if (auth.currentUser) {
       this.updateProfilePic();
+    }
+  }
+
+  async getInitialState() {
+    try {
+      const stateVectorRef = ref(
+        rtdb,
+        `yjs-docs/${this.documentId}/state-vector`
+      );
+      const snapshot = await get(stateVectorRef);
+
+      if (snapshot.exists()) {
+        const stateVector = snapshot.val();
+        const update = Y.encodeStateAsUpdate(
+          this.ydoc,
+          new Uint8Array(Object.values(stateVector))
+        );
+        Y.applyUpdate(this.ydoc, update);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Error getting initial state:", error);
+      return false;
+    }
+  }
+
+  updateStateVector() {
+    const stateVector = Y.encodeStateVector(this.ydoc);
+    const stateVectorArray = Array.from(stateVector);
+    const stateVectorObj = {};
+
+    stateVectorArray.forEach((value, index) => {
+      stateVectorObj[index] = value;
+    });
+
+    set(ref(rtdb, `yjs-docs/${this.documentId}/state-vector`), stateVectorObj);
+  }
+
+  async reconstructFromUpdates() {
+    try {
+      const snapshot = await get(this.updatesRef);
+      if (!snapshot.exists()) return;
+
+      const updates = snapshot.val();
+      const sortedUpdates = Object.entries(updates)
+        .map(([id, update]) => ({ id, ...update }))
+        .sort((a, b) => {
+          const aTime = new Date(a.timestamp).getTime();
+          const bTime = new Date(b.timestamp).getTime();
+          return aTime - bTime;
+        });
+
+      for (const update of sortedUpdates) {
+        try {
+          Y.applyUpdate(
+            this.ydoc,
+            new Uint8Array(Object.values(update.content))
+          );
+          const updateTime = new Date(update.timestamp).getTime();
+          this.lastProcessedTimestamp = Math.max(
+            this.lastProcessedTimestamp,
+            updateTime
+          );
+        } catch (err) {
+          console.error("Error applying update during reconstruction:", err);
+        }
+      }
+    } catch (error) {
+      console.error("Error reconstructing from updates:", error);
     }
   }
 
@@ -253,6 +330,8 @@ export class FirebaseProvider {
           if (this.pendingUpdate) {
             this._sendUpdate(this.pendingUpdate);
             this.pendingUpdate = null;
+            // Update state vector after sending update
+            this.updateStateVector();
           }
         }, 50);
       }
@@ -263,6 +342,7 @@ export class FirebaseProvider {
 
     this.lastUpdateTime = now;
     this._sendUpdate(update);
+    this.updateStateVector();
   }
 
   /**

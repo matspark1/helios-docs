@@ -171,12 +171,6 @@
                 <div class="empty-state">
                   <i class="fa-regular fa-file-lines empty-icon"></i>
                   <p>You don't have any documents yet</p>
-                  <button
-                    class="create-first-doc-btn"
-                    on:click={handleCreateDocument}
-                  >
-                    Create your first document
-                  </button>
                 </div>
               {/if}
             </div>

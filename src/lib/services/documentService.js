@@ -162,11 +162,25 @@ export async function shareDocument(documentId, userEmail, role = "editor") {
     await updateDoc(docRef, {
       sharedWith: arrayUnion({ userId, role }),
       updatedAt: serverTimestamp(),
-      lastOpenedAt: serverTimestamp(), // Update lastOpenedAt when document is shared
+      lastOpenedAt: serverTimestamp(), 
     });
 
     const accessRef = ref(rtdb, `document-access/${documentId}/${userId}`);
     await set(accessRef, true);
+
+        try {
+          const functions = getFunctions();
+          const ensureDocumentSync = httpsCallable(
+            functions,
+            "ensureDocumentSync"
+          );
+          await ensureDocumentSync({ documentId });
+        } catch (syncError) {
+          console.warn(
+            "Document sync operation failed, but access was granted:",
+            syncError
+          );
+        }
 
     return true;
   } catch (error) {
@@ -196,7 +210,7 @@ export async function removeSharedUser(documentId, userId) {
     await updateDoc(docRef, {
       sharedWith: arrayRemove(userShare),
       updatedAt: serverTimestamp(),
-      lastOpenedAt: serverTimestamp(), // Update lastOpenedAt when changing document sharing
+      lastOpenedAt: serverTimestamp(), 
     });
 
     const accessRef = ref(rtdb, `document-access/${documentId}/${userId}`);
@@ -226,7 +240,6 @@ export async function checkDocumentAccess(documentId) {
       const accessRef = ref(rtdb, `document-access/${documentId}/${user.uid}`);
       await set(accessRef, true);
 
-      // Update lastOpenedAt timestamp when checking access
       updateLastOpenedTimestamp(documentId);
 
       return { hasAccess: true, role: "owner" };
@@ -239,7 +252,6 @@ export async function checkDocumentAccess(documentId) {
       const accessRef = ref(rtdb, `document-access/${documentId}/${user.uid}`);
       await set(accessRef, true);
 
-      // Update lastOpenedAt timestamp when checking access
       updateLastOpenedTimestamp(documentId);
 
       return { hasAccess: true, role: userShare.role };

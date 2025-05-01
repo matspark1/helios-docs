@@ -133,12 +133,34 @@
 
     ydoc = new Y.Doc();
 
+    await clearIndexedDBState(`helios-docs-${documentId}`);
+
     indexDbProvider = new IndexeddbPersistence(
       `helios-docs-${documentId}`,
       ydoc
     );
 
+    await new Promise((resolve) => {
+      indexDbProvider.on("synced", () => {
+        resolve();
+      });
+
+      setTimeout(resolve, 5000);
+    });
+
     firebaseProvider = new FirebaseProvider(documentId, ydoc);
+
+    async function clearIndexedDBState(dbName) {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.deleteDatabase(dbName);
+        req.onsuccess = () => resolve();
+        req.onerror = () => reject();
+        req.onblocked = () => {
+          console.warn("IndexedDB deletion was blocked");
+          resolve();
+        };
+      });
+    }
 
     const extendedProvider = extendFirebaseProvider(firebaseProvider);
     activeUsersProvider = extendedProvider;

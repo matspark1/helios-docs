@@ -145,7 +145,7 @@
               />
             </div>
             <div class="message-content">
-              <div class="message-header">
+              <div class="message-header2">
                 <span class="sender-name"
                   >{message.senderName || "Anonymous"}</span
                 >
