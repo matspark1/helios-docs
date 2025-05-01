@@ -138,32 +138,7 @@
       ydoc
     );
 
-    await new Promise((resolve) => {
-      const synced = () => {
-        indexDbProvider.off("synced", synced);
-        resolve();
-      };
-
-      indexDbProvider.on("synced", synced);
-
-      setTimeout(() => {
-        resolve();
-      }, 3000);
-    });
-
     firebaseProvider = new FirebaseProvider(documentId, ydoc);
-
-    async function clearIndexedDBState(dbName) {
-      return new Promise((resolve, reject) => {
-        const req = indexedDB.deleteDatabase(dbName);
-        req.onsuccess = () => resolve();
-        req.onerror = () => reject();
-        req.onblocked = () => {
-          console.warn("IndexedDB deletion was blocked");
-          resolve();
-        };
-      });
-    }
 
     const extendedProvider = extendFirebaseProvider(firebaseProvider);
     activeUsersProvider = extendedProvider;
