@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from "svelte";
   import { auth } from "$lib/FirebaseConfig";
   import { subscribeToChat, sendChatMessage } from "$lib/services/chatService";
+  import { deleteChatMessage } from "$lib/services/chatDeleteService";
   import ShareDocChat from "$lib/components/ShareDocChat.svelte";
 
   export let documentId;
@@ -31,6 +32,18 @@
     } catch (error) {
       console.error("Error sending message:", error);
     }
+  }
+
+  async function handleDeleteMessage(messageId) {
+    try {
+      await deleteChatMessage(messageId);
+    } catch (error) {
+      console.error("Error deleting message:", error);
+    }
+  }
+
+  function isMessageOwner(message) {
+    return message.senderId === auth.currentUser?.uid;
   }
 
   onMount(() => {
@@ -94,7 +107,18 @@
                 {/if}
               </span>
             </div>
-            <div class="message-text">{message.message}</div>
+            <div class="message-text">
+              {message.message}
+              {#if isMessageOwner(message)}
+                <button
+                  class="delete-message-btn"
+                  on:click={() => handleDeleteMessage(message.id)}
+                  aria-label="Delete message"
+                >
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              {/if}
+            </div>
           </div>
         </div>
       {/each}

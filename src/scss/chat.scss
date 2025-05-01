@@ -135,6 +135,7 @@
     padding: 3px 8px;
     border-radius: 12px;
     width: 100%;
+    position: relative;
   }
 }
 
@@ -144,6 +145,7 @@
   word-break: break-word;
   margin-top: 12px;
   padding: 3px 8px;
+  position: relative;
 }
 
 .chat-input {

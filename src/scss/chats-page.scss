@@ -189,6 +189,35 @@
   word-break: break-word;
   margin-top: 12px;
   padding: 3px 8px;
+  position: relative;
+}
+
+.delete-message-btn {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  background: none;
+  border: none;
+  color: var(--grey);
+  font-size: 14px;
+  padding: 6px 8px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  border-radius: 50%;
+}
+
+.message-text:hover .delete-message-btn {
+  opacity: 1;
+}
+
+.delete-message-btn:hover {
+  color: var(--red-font);
+  background-color: rgba(var(--black-rgb2), 0.2);
+}
+
+.chat-messages2 .message-text:hover .delete-message-btn {
+  opacity: 1;
 }
 
 .chat-input2 {
