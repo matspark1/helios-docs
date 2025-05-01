@@ -45,6 +45,8 @@
   import toast from "svelte-5-french-toast";
   import ActiveUsers from "$lib/components/ActiveUsers.svelte";
   import { extendFirebaseProvider } from "$lib/collaboration/FirebaseProviderExtension";
+  import TextWeight from "$lib/util/TextWeight.js";
+  import BoldButton from "$lib/components/BoldButton.svelte";
 
   export let documentId;
   let element;
@@ -213,6 +215,7 @@
         Color,
         TabIndent,
         LineSpacing,
+        TextWeight,
         CustomTextStyle,
         TextAlign.configure({
           types: ["heading", "paragraph"],
@@ -506,16 +509,7 @@
             </button>
             <div class="tooltip">Increase Font Size</div>
           </div>
-          <div class="tooltip-container">
-            <button
-              on:click={() => editor.chain().focus().toggleBold().run()}
-              class:active={editor.isActive("bold")}
-              aria-label="Bold"
-            >
-              <i class="fi fi-rs-bold"></i>
-            </button>
-            <div class="tooltip">Bold</div>
-          </div>
+          <BoldButton {editor} />
           <div class="tooltip-container">
             <button
               on:click={() => editor.chain().focus().toggleItalic().run()}

@@ -72,16 +72,31 @@
     name="description"
     content="Sign in to Helios Docs to access your documents. Our secure online document editor helps teams collaborate efficiently."
   />
+  <meta
+    name="keywords"
+    content="helios docs login, sign in, account access, document collaboration, team workspace"
+  />
+
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://heliosdocs.com/signin" />
+  <meta property="og:title" content="Sign In | Helios Docs" />
   <meta
     property="og:description"
     content="Access your Helios Docs workspace. Sign in to edit and collaborate on documents in real-time with your team."
   />
   <meta property="og:image" content={meta} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Helios Docs" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://heliosdocs.com/signin" />
+  <meta name="twitter:title" content="Sign In | Helios Docs" />
   <meta
-    name="keywords"
-    content="helios docs login, sign in, account access, document collaboration, team workspace"
+    name="twitter:description"
+    content="Access your Helios Docs workspace. Sign in to edit and collaborate on documents in real-time with your team."
   />
+  <meta name="twitter:image" content={meta} />
 </svelte:head>
 
 <a href="/onboarding" class="backbtn" aria-label="Back"

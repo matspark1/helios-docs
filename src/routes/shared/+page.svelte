@@ -82,16 +82,31 @@
     name="description"
     content="Access documents shared with you on Helios Docs. Collaborate and edit shared files in real-time."
   />
-  <meta property="og:type" content="website" />
-  <meta
-    property="og:description"
-    content="Modernize your team's workflow with Helios Docs. View and edit documents shared with you for seamless collaboration."
-  />
-  <meta property="og:image" content={meta} />
   <meta
     name="keywords"
     content="shared documents, collaborative editing, document sharing, team collaboration, helios docs"
   />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://heliosdocs.com/shared" />
+  <meta property="og:title" content="Shared Docs | Helios Docs" />
+  <meta
+    property="og:description"
+    content="View and edit documents shared with you for seamless collaboration."
+  />
+  <meta property="og:image" content={meta} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Helios Docs" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://heliosdocs.com/shared" />
+  <meta name="twitter:title" content="Shared Docs | Helios Docs" />
+  <meta
+    name="twitter:description"
+    content="View and edit documents shared with you for seamless collaboration."
+  />
+  <meta name="twitter:image" content={meta} />
 </svelte:head>
 
 <div class="app-container">

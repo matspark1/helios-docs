@@ -17,14 +17,21 @@
   let showOptions = false;
   let showRenameModal = false;
   let showDeleteModal = false;
+  let showMobileModal = false;
   let docOptionsBtn;
   let docOptions;
   let menuPosition = "right";
   let newTitle = "";
   let isLoading = false;
-  let confirmText = "";
+  let isMobileView = false;
+  let countdownTime = 2;
+  let countdownInterval;
 
   let ownerUID = false;
+
+  function checkScreenWidth() {
+    isMobileView = window.innerWidth < 900;
+  }
 
   function positionMenu() {
     if (!docOptionsBtn) return;
@@ -117,28 +124,39 @@
   }
 
   function openDocument() {
-    if (document && document.id) {
+    if (isMobileView) {
+      showMobileModal = true;
+    } else if (document && document.id) {
       goto(`/docs/${document.id}`);
     }
   }
 
-  // DELETE Document functionality - similar to DeleteDocument.svelte
+  function closeMobileModal() {
+    showMobileModal = false;
+  }
+
   function openDeleteModal(e) {
     e.stopPropagation();
     showDeleteModal = true;
     showOptions = false;
-    confirmText = "";
+
+    countdownTime = 2;
+    clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+      countdownTime--;
+      if (countdownTime <= 0) {
+        clearInterval(countdownInterval);
+      }
+    }, 1000);
   }
 
   function closeDeleteModal() {
     showDeleteModal = false;
-    confirmText = "";
+    clearInterval(countdownInterval);
   }
 
   async function handleDeleteDocument() {
-    if (confirmText !== (document?.title || "Untitled Document")) {
-      return;
-    }
+    if (countdownTime > 0) return;
 
     isLoading = true;
 
@@ -156,7 +174,6 @@
     }
   }
 
-  // RENAME Document functionality
   function openRenameModal(e) {
     e.stopPropagation();
     newTitle = document.title || "Untitled Document";
@@ -207,14 +224,20 @@
     }
 
     window.addEventListener("click", handleClickOutside);
-
     window.addEventListener("resize", positionMenu);
+
+    // Add this for mobile detection
+    checkScreenWidth();
+    window.addEventListener("resize", checkScreenWidth);
+
     positionMenu();
   });
 
   onDestroy(() => {
     window.removeEventListener("click", handleClickOutside);
     window.removeEventListener("resize", positionMenu);
+    window.removeEventListener("resize", checkScreenWidth);
+    clearInterval(countdownInterval);
   });
 </script>
 
@@ -280,6 +303,36 @@
     {/if}
   {/if}
 </div>
+
+<!-- Mobile Restriction Modal -->
+{#if showMobileModal}
+  <div class="modal-overlay" on:click={closeMobileModal}>
+    <div class="modal-content" on:click|stopPropagation>
+      <div class="modal-header">
+        <h2>Mobile View Restriction</h2>
+        <button class="close-button" on:click={closeMobileModal}>
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="mobile-warning">
+          <i class="fa-solid fa-mobile-screen"></i>
+          <p>
+            Documents cannot be opened on mobile devices. Please use a device
+            with a screen width of at least 900px to open and edit documents.
+          </p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="cancel-button" on:click={closeMobileModal}>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+{/if}
 
 <!-- Rename Modal -->
 {#if showRenameModal}
@@ -350,17 +403,14 @@
           </p>
         </div>
 
-        <div class="confirm-delete">
-          <p>
-            Please type <strong>{document?.title || "Untitled Document"}</strong
-            > to confirm.
-          </p>
-          <input
-            type="text"
-            placeholder="Type document title to confirm"
-            bind:value={confirmText}
-            disabled={isLoading}
-          />
+        <div class="timer-message">
+          {#if countdownTime > 0}
+            <p>
+              Please wait {countdownTime} seconds before confirming deletion.
+            </p>
+          {:else}
+            <p>You can now confirm the deletion.</p>
+          {/if}
         </div>
       </div>
 
@@ -370,18 +420,17 @@
           on:click={closeDeleteModal}
           disabled={isLoading}
         >
-          Cancel
+          No, Cancel
         </button>
         <button
           class="delete-button"
           on:click={handleDeleteDocument}
-          disabled={isLoading ||
-            confirmText !== (document?.title || "Untitled Document")}
+          disabled={isLoading || countdownTime > 0}
         >
           {#if isLoading}
             Deleting...
           {:else}
-            Delete
+            Yes, Delete
           {/if}
         </button>
       </div>
@@ -495,7 +544,8 @@
     cursor: not-allowed;
   }
 
-  .delete-warning {
+  .delete-warning,
+  .mobile-warning {
     display: flex;
     gap: 12px;
     align-items: flex-start;
@@ -503,12 +553,13 @@
     background-color: var(--light-black);
     padding: 16px;
     border-radius: 8px;
-    color: var(--primary);
+    color: var(--red-font);
   }
 
-  .delete-warning i {
+  .delete-warning i,
+  .mobile-warning i {
     font-size: 24px;
-    color: var(--primary);
+    color: var(--red-font);
   }
 
   .confirm-delete {
@@ -520,5 +571,18 @@
   }
   .confirm-delete input {
     font-family: "Readex Pro";
+  }
+
+  .timer-message {
+    margin: 16px 0;
+    padding: 12px;
+    background-color: var(--light-black);
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .timer-message p {
+    margin: 0;
+    font-weight: 500;
   }
 </style>

@@ -45,16 +45,31 @@
     name="description"
     content="Helios Docs: Online Document Editor and Collaboration Tool for Teams."
   />
-  <meta property="og:type" content="website" />
-  <meta
-    property="og:description"
-    content="Modernize your team's workflow with Helios Docs. Edit and collaborate on documents in real-time, track changes, and share securely."
-  />
-  <meta property="og:image" content={meta} />
   <meta
     name="keywords"
     content="document editor, team collaboration, online docs, real-time editing, document management"
   />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://heliosdocs.com/" />
+  <meta property="og:title" content="Helios Docs" />
+  <meta
+    property="og:description"
+    content="Edit and collaborate on documents in real-time, track changes, and share securely."
+  />
+  <meta property="og:image" content={meta} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Helios Docs" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://heliosdocs.com/" />
+  <meta name="twitter:title" content="Helios Docs" />
+  <meta
+    name="twitter:description"
+    content="Edit and collaborate on documents in real-time, track changes, and share securely."
+  />
+  <meta name="twitter:image" content={meta} />
 </svelte:head>
 
 {#if $page.url.pathname === "/onboarding" || $page.url.pathname === "/signup" || $page.url.pathname === "/signin"}

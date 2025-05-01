@@ -238,18 +238,33 @@
   <title>Sign Up | Helios Docs</title>
   <meta
     name="description"
-    content="Create your Helios Docs account. Sign up to access our online document editor and collaboration tool for teams."
+    content="Create your account to start editing and collaborating on documents in real-time with your team."
   />
+  <meta
+    name="keywords"
+    content="document library, document management, create documents, search documents, helios docs"
+  />
+
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://heliosdocs.com/signup" />
+  <meta property="og:title" content="Sign Up | Helios Docs" />
   <meta
     property="og:description"
     content="Join Helios Docs today. Create your account to start editing and collaborating on documents in real-time with your team."
   />
   <meta property="og:image" content={meta} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Helios Docs" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://heliosdocs.com/signup" />
+  <meta name="twitter:title" content="Sign Up | Helios Docs" />
   <meta
-    name="keywords"
-    content="helios docs signup, create account, register, document collaboration, team workspace"
+    name="twitter:description"
+    content="Join Helios Docs today. Create your account to start editing and collaborating on documents in real-time with your team."
   />
+  <meta name="twitter:image" content={meta} />
 </svelte:head>
 
 <a href="/signin" class="backbtn" aria-label="Back">

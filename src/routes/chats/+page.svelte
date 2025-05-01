@@ -88,16 +88,31 @@
     name="description"
     content="Access document-related chats and discussions in Helios Docs. Communicate with team members about your shared documents."
   />
-  <meta property="og:type" content="website" />
-  <meta
-    property="og:description"
-    content="Modernize your team's workflow with Helios Docs. Discuss documents and collaborate through integrated chat functionality."
-  />
-  <meta property="og:image" content={meta} />
   <meta
     name="keywords"
     content="document chat, team discussions, document collaboration, messaging, helios docs"
   />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://heliosdocs.com/chats" />
+  <meta property="og:title" content="Chats | Helios Docs" />
+  <meta
+    property="og:description"
+    content="Discuss documents and collaborate through chatting with your team members."
+  />
+  <meta property="og:image" content={meta} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Helios Docs" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://heliosdocs.com/chats" />
+  <meta name="twitter:title" content="Chats | Helios Docs" />
+  <meta
+    name="twitter:description"
+    content="Discuss documents and collaborate through chatting with your team members."
+  />
+  <meta name="twitter:image" content={meta} />
 </svelte:head>
 
 <div class="app-container">

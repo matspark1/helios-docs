@@ -67,7 +67,28 @@
     name="description"
     content="Error {statusCode} - {errorDetails.title}"
   />
+  <meta
+    name="keywords"
+    content="document editor, team collaboration, online docs, real-time editing, document management"
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Error | Helios Docs" />
+  <meta
+    property="og:description"
+    content="Error {statusCode} - {errorDetails.title}"
+  />
   <meta property="og:image" content={meta} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Helios Docs" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Error | Helios Docs" />
+  <meta
+    name="twitter:description"
+    content="Error {statusCode} - {errorDetails.title}"
+  />
+  <meta name="twitter:image" content={meta} />
 </svelte:head>
 
 <div class="app-container">

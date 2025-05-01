@@ -19,6 +19,8 @@
   let documentAccess = { hasAccess: false, role: null };
   let isLoading = true;
 
+  $: documentUrl = `https://heliosdocs.com/docs/${data.documentId}`;
+
   $: user.subscribe((value) => {
     currentUser = value;
     if (currentUser && data.documentId) {
@@ -47,8 +49,35 @@
 
 <svelte:head>
   <title>Editor | Helios Docs</title>
-  <meta name="description" content="Docs | Helios Docs" />
+  <meta
+    name="description"
+    content="Edit and collaborate on documents in real-time, track changes, and share securely."
+  />
+  <meta
+    name="keywords"
+    content="document editor, collaborative editing, real-time collaboration, online text editor, team collaboration, helios docs"
+  />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={documentUrl} />
+  <meta property="og:title" content="Editor | Helios Docs" />
+  <meta
+    property="og:description"
+    content="Edit and collaborate on documents in real-time, track changes, and share securely."
+  />
   <meta property="og:image" content={meta} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Helios Docs" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content={documentUrl} />
+  <meta name="twitter:title" content="Editor | Helios Docs" />
+  <meta
+    name="twitter:description"
+    content="Edit and collaborate on documents in real-time, track changes, and share securely."
+  />
+  <meta name="twitter:image" content={meta} />
 </svelte:head>
 
 <div class="app-container">

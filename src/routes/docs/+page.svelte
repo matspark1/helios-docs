@@ -115,16 +115,31 @@
     name="description"
     content="Browse and manage your documents on Helios Docs. Create, search, and organize your files in one place."
   />
-  <meta property="og:type" content="website" />
-  <meta
-    property="og:description"
-    content="Modernize your team's workflow with Helios Docs. Manage your document library with powerful search and organization tools."
-  />
-  <meta property="og:image" content={meta} />
   <meta
     name="keywords"
     content="document library, document management, create documents, search documents, helios docs"
   />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://heliosdocs.com/docs" />
+  <meta property="og:title" content="Docs | Helios Docs" />
+  <meta
+    property="og:description"
+    content="Manage your document library with powerful search and organization tools."
+  />
+  <meta property="og:image" content={meta} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Helios Docs" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://heliosdocs.com/docs" />
+  <meta name="twitter:title" content="Docs | Helios Docs" />
+  <meta
+    name="twitter:description"
+    content="Manage your document library with powerful search and organization tools."
+  />
+  <meta name="twitter:image" content={meta} />
 </svelte:head>
 
 <div class="app-container">

@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import { getDocument, deleteDocument } from "$lib/services/documentService";
   import { goto } from "$app/navigation";
   import toast from "svelte-5-french-toast";
@@ -9,7 +9,8 @@
   let showModal = false;
   let isLoading = false;
   let document = null;
-  let confirmText = "";
+  let countdownTime = 2;
+  let countdownInterval;
 
   async function loadDocumentData() {
     try {
@@ -22,18 +23,24 @@
   function openDeleteModal() {
     loadDocumentData();
     showModal = true;
-    confirmText = "";
+
+    countdownTime = 2;
+    clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+      countdownTime--;
+      if (countdownTime <= 0) {
+        clearInterval(countdownInterval);
+      }
+    }, 1000);
   }
 
   function closeModal() {
     showModal = false;
-    confirmText = "";
+    clearInterval(countdownInterval);
   }
 
   async function handleDeleteDocument() {
-    if (confirmText !== (document?.title || "Untitled Document")) {
-      return;
-    }
+    if (countdownTime > 0) return;
 
     isLoading = true;
 
@@ -55,6 +62,10 @@
     if (documentId) {
       loadDocumentData();
     }
+  });
+
+  onDestroy(() => {
+    clearInterval(countdownInterval);
   });
 </script>
 
@@ -86,17 +97,14 @@
           </p>
         </div>
 
-        <div class="confirm-delete">
-          <p>
-            Please type <strong>{document?.title || "Untitled Document"}</strong
-            > to confirm.
-          </p>
-          <input
-            type="text"
-            placeholder="Type document title to confirm"
-            bind:value={confirmText}
-            disabled={isLoading}
-          />
+        <div class="timer-message">
+          {#if countdownTime > 0}
+            <p>
+              Please wait {countdownTime} seconds before confirming deletion.
+            </p>
+          {:else}
+            <p>You can now confirm the deletion.</p>
+          {/if}
         </div>
       </div>
 
@@ -106,18 +114,17 @@
           on:click={closeModal}
           disabled={isLoading}
         >
-          Cancel
+          No, Cancel
         </button>
         <button
           class="delete-button"
           on:click={handleDeleteDocument}
-          disabled={isLoading ||
-            confirmText !== (document?.title || "Untitled Document")}
+          disabled={isLoading || countdownTime > 0}
         >
           {#if isLoading}
             Deleting...
           {:else}
-            Delete
+            Yes, Delete
           {/if}
         </button>
       </div>
@@ -134,27 +141,25 @@
     background-color: var(--light-black);
     padding: 16px;
     border-radius: 8px;
-    color: var(--primary);
+    color: var(--red-font);
   }
 
   .delete-warning i {
     font-size: 24px;
-    color: var(--primary);
+    color: var(--red-font);
   }
 
-  .confirm-delete {
-    margin-bottom: 16px;
+  .timer-message {
+    margin: 16px 0;
+    padding: 12px;
+    background-color: var(--light-black);
+    border-radius: 8px;
+    text-align: center;
   }
 
-  .confirm-delete input {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--black);
-    border-radius: 20px;
-    font-size: 14px;
-    background-color: var(--white);
-    color: var(--black);
-    margin-top: 8px;
+  .timer-message p {
+    margin: 0;
+    font-weight: 500;
   }
 
   .modal-footer {

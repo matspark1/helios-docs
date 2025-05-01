@@ -106,16 +106,31 @@
     name="description"
     content="Your Helios Docs dashboard. Access recent documents, create new files, and manage your document workspace."
   />
-  <meta property="og:type" content="website" />
-  <meta
-    property="og:description"
-    content="Modernize your team's workflow with Helios Docs. Access your dashboard to manage documents and collaboration."
-  />
-  <meta property="og:image" content={meta} />
   <meta
     name="keywords"
     content="document dashboard, document management, create documents, helios docs workspace, document collaboration"
   />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://heliosdocs.com/home" />
+  <meta property="og:title" content="Home | Helios Docs" />
+  <meta
+    property="og:description"
+    content="Access your dashboard to manage documents and collaboration."
+  />
+  <meta property="og:image" content={meta} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Helios Docs" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://heliosdocs.com/home" />
+  <meta name="twitter:title" content="Home | Helios Docs" />
+  <meta
+    name="twitter:description"
+    content="Access your dashboard to manage documents and collaboration."
+  />
+  <meta name="twitter:image" content={meta} />
 </svelte:head>
 
 <div class="app-container">
