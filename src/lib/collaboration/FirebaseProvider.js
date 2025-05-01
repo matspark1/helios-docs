@@ -47,19 +47,23 @@ export class FirebaseProvider {
       }
     }
 
+    // IMPORTANT: Set up updates first so we don't miss anything
+    this.setUpUpdates();
+
+    // Then try to get initial state
     const gotInitialState = await this.getInitialState();
 
+    // If we couldn't get the state vector, try to reconstruct from updates
     if (!gotInitialState) {
       await this.reconstructFromUpdates();
     }
 
     this.setUpAwareness();
-    this.setUpUpdates();
     this.setClientStatus(true);
 
-    this.updateStateVector();
-
+    // CRITICAL: Make sure we hook up the update event AFTER loading initial state
     this.ydoc.on("update", this.handleDocumentUpdate.bind(this));
+
     this.connected = true;
 
     if (auth.currentUser) {
@@ -92,15 +96,26 @@ export class FirebaseProvider {
   }
 
   updateStateVector() {
-    const stateVector = Y.encodeStateVector(this.ydoc);
-    const stateVectorArray = Array.from(stateVector);
-    const stateVectorObj = {};
+    try {
+      if (Math.random() > 0.1) return;
 
-    stateVectorArray.forEach((value, index) => {
-      stateVectorObj[index] = value;
-    });
+      const stateVector = Y.encodeStateVector(this.ydoc);
+      const stateVectorArray = Array.from(stateVector);
+      const stateVectorObj = {};
 
-    set(ref(rtdb, `yjs-docs/${this.documentId}/state-vector`), stateVectorObj);
+      stateVectorArray.forEach((value, index) => {
+        stateVectorObj[index] = value;
+      });
+
+      set(
+        ref(rtdb, `yjs-docs/${this.documentId}/state-vector`),
+        stateVectorObj
+      ).catch((error) => {
+        console.error("Error updating state vector:", error);
+      });
+    } catch (error) {
+      console.error("Error generating state vector:", error);
+    }
   }
 
   async reconstructFromUpdates() {
@@ -321,7 +336,9 @@ export class FirebaseProvider {
    * Handle document updates from Yjs
    */
   handleDocumentUpdate(update, origin) {
-    if (origin === this || !this.connected) return;
+    if (origin === this || !this.connected){
+      return
+    }
 
     const now = Date.now();
     if (this.lastUpdateTime && now - this.lastUpdateTime < 50) {
@@ -330,7 +347,6 @@ export class FirebaseProvider {
           if (this.pendingUpdate) {
             this._sendUpdate(this.pendingUpdate);
             this.pendingUpdate = null;
-            // Update state vector after sending update
             this.updateStateVector();
           }
         }, 50);
@@ -349,6 +365,7 @@ export class FirebaseProvider {
    * Helper method to send updates to Firebase
    */
   _sendUpdate(update) {
+
     const updateId = new Date().getTime() + "-" + this.clientId;
     const updateRef = ref(
       rtdb,
@@ -365,7 +382,13 @@ export class FirebaseProvider {
       clientId: this.clientId,
       timestamp: new Date().toISOString(),
       content: updateObj,
-    });
+    })
+      .then(() => {
+        console.log("Update sent successfully");
+      })
+      .catch((error) => {
+        console.error("Error sending update to Firebase:", error);
+      });
   }
 
   /**

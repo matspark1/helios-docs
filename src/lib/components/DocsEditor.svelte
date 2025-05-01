@@ -133,19 +133,22 @@
 
     ydoc = new Y.Doc();
 
-    await clearIndexedDBState(`helios-docs-${documentId}`);
-
     indexDbProvider = new IndexeddbPersistence(
       `helios-docs-${documentId}`,
       ydoc
     );
 
     await new Promise((resolve) => {
-      indexDbProvider.on("synced", () => {
+      const synced = () => {
+        indexDbProvider.off("synced", synced);
         resolve();
-      });
+      };
 
-      setTimeout(resolve, 5000);
+      indexDbProvider.on("synced", synced);
+
+      setTimeout(() => {
+        resolve();
+      }, 3000);
     });
 
     firebaseProvider = new FirebaseProvider(documentId, ydoc);
